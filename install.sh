@@ -5,18 +5,24 @@ CWD=$(pwd)
 #
 # $1 — shell configuraton file path
 function register_path {
-  PATH_LINE='export PATH=$PATH:'$CWD':$PATH'
   PATH_BRANCHES='export PATH=$PATH:'$CWD/branches':$PATH'
   PATH_COMMITS='export PATH=$PATH:'$CWD/commits':$PATH'
-  PATH_SUGAR='export PATH=$PATH:'$CWD/sugar':$PATH'
+  PATH_MANAGEMENT='export PATH=$PATH:'$CWD/management':$PATH'
 
   if [ -f $1 ]; then
-    if ! grep -Fxq "$PATH_LINE" $1; then
-      echo "Adding path to $1"
-      echo $PATH_LINE >>$1
+    if ! grep -Fxq "$PATH_BRANCHES" $1; then
+      echo "Adding branches path to $1"
       echo $PATH_BRANCHES >>$1
+      source $1
+    fi
+    if ! grep -Fxq "$PATH_COMMITS" $1; then
+      echo "Adding commits path to $1"
       echo $PATH_COMMITS >>$1
-      echo $PATH_SUGAR >>$1
+      source $1
+    fi
+    if ! grep -Fxq "$PATH_MANAGEMENT" $1; then
+      echo "Adding management path to $1"
+      echo $PATH_MANAGEMENT >>$1
       source $1
     fi
   fi
