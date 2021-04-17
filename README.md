@@ -22,17 +22,21 @@ Syntactic sugar for git, respecting semantics and modern conventions.
 
 ### Sugar Management
 
-| Command [optional] \<required>                         | Description                                                  |
-| ------------------------------------------------------ | ------------------------------------------------------------ |
-| git ls                                                 | List all branches                                            |
-| git mkdir [\<from_branch>] \<new_branch>               | Create new branch                                            |
-| git cd [\<branch>]                                     | Change the current working branch                            |
-| git mv [\<old_branch>] \<new_branch>                   | Rename current branch                                        |
-| git rm [\<branch>]                                     | Remove (delete) current branch                               |
-| git wipe                                               | Wipe the working branch as per the remote branch             |
-| git rollback [\<commit_id>]<br />git rb [\<commit_id>] | Back the commit history, but it preserves the file contents  |
-| git get [\<branch>]                                    | Fetch and merge changes from remote branch to working branch |
-| git put [\<branch>]                                    | Send committed changes from working branch to the respective remote branch |
+| Command [optional] \<required>                           | Description                                                                |
+| -------------------------------------------------------- | -------------------------------------------------------------------------- |
+| git ls                                                   | List all branches                                                          |
+| git mkdir [\<from_branch>] \<new_branch>                 | Create new branch                                                          |
+| git cd [\<branch>]                                       | Change the current working branch                                          |
+| git mv [-ns \| --no-sugar] [\<old_branch>] \<new_branch> | Rename current branch                                                      |
+| git rm [-ns \| --no-sugar] [\<branch>]                   | Remove (delete) current branch                                             |
+| git wipe                                                 | Wipe the working branch as per the remote branch                           |
+| git rollback [\<commit_id>]<br />git rb [\<commit_id>]   | Back the commit history, but it preserves the file contents                |
+| git get [-f \| --force] [\<branch>]                      | Fetch and merge changes from remote branch to working branch               |
+| git put [-f \| --force] [\<branch>]                      | Send committed changes from working branch to the respective remote branch |
+
+To use original command add `-ns` argument (no sugar), as example `git rm -ns Documentation/\*.txt`.
+
+Only `mv`, `rm` and `merge` could be used with `--no-sugar` argument, no other commands are overlaid.
 
 Examples:
 
@@ -47,26 +51,60 @@ Examples:
 
 ## Semantic Branches
 
+All commands create the branches from the current branch you are in.
+
 ### Fixed Branches
 
 | Command     | Description                                                         |
 | ----------- | ------------------------------------------------------------------- |
 | git main    | The production branch                                               |
 | git staging | Demo branch and decisions about release features                    |
-| git test    | Contains all codes ready for QA testing                             |
+| git testing | Contains all codes ready for QA testing                             |
 | git dev     | All new features and bug fixes; codes conflicts should be done here |
 
 ### Temporary Branches
 
 | Command [optional]          | Description                                                                                                                                 |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| git feature ["\<msg>"]      | Any code changes for a new module or use case; **created based on the current development branch**                                          |
+| git feature ["\<msg>"]      | Any code changes for a new module or use case; created based on the current development branch                                              |
 | git bugfix ["\<msg>"]       | If the code changes made from the feature branch were rejected after a release, sprint or demo                                              |
 | git hotfix "\<msg>"         | If there is a need to fix something that should be handled immediately; could be merged directly to the production branch                   |
 | git experimental ["\<msg>"] | Any new feature or idea that is not part of a release or a sprint; a branch for playing around                                              |
 | git build ["\<msg>"]        | A branch specifically for creating specific build artifacts or for doing code coverage runs                                                 |
 | git release ["\<msg>"]      | A branch for tagging a specific release version                                                                                             |
 | git merge ["\<msg>"]        | Resolving merge conflicts, usually between the latest development and a feature or hotfix branch; also to merge two branches of one feature |
+
+To use original command add `-ns` argument (no sugar), as this silly history example:
+
+```bash 
+# create some feature
+git cd dev
+git feature "awesome button" # create new branch from dev branch
+# this command will already throw you into this branch (is not really necessary "git cd")
+
+# so you do some code, commit and put
+git cd feature/awesome-button
+git feat "add awesome button" # feat: add awesome button
+git put
+
+# after, you makes pull request, but... the button has some bug
+git cd feature/awesome-button
+git bugfix "button behavior"
+
+# then, you fix the code, commit and put
+git cd bugfix/button-behavior
+git fix "update bad button behavior" # fix: update bad button behavior
+git put
+
+# now we start to play
+git cd feature/awesome-button
+git merge "awesome button"
+
+# and legit merge using -ns
+git cd merge/awesome-button
+git merge -ns merge/awesome-button bugfix/button-behavior
+git put
+```
 
 Examples:
 
@@ -88,20 +126,20 @@ Examples:
 
 ### Semantic Commits
 
-| Command [optional]                             | Description                                                  |
-| ---------------------------------------------- | ------------------------------------------------------------ |
-| git feat ["\<msg>"]                            | A new feature                                                |
-| git fix ["\<msg>"]                             | A bug fix                                                    |
-| git chore ["\<msg>"]<br />git ch ["\<msg>"]    | A code change that external **user won't see** (eg: change to .gitignore file or .prettierrc file) |
-| git style ["\<msg>"]                           | Changes that do **not affect the meaning of the code** (white-space, formatting, missing semi-colons, etc) |
-| git docs ["\<msg>"]                            | Documentation only changes                                   |
+| Command [optional]                             | Description                                                                                                     |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| git feat ["\<msg>"]                            | A new feature                                                                                                   |
+| git fix ["\<msg>"]                             | A bug fix                                                                                                       |
+| git chore ["\<msg>"]<br />git ch ["\<msg>"]    | A code change that external **user won't see** (eg: change to .gitignore file or .prettierrc file)              |
+| git style ["\<msg>"]                           | Changes that do **not affect the meaning of the code** (white-space, formatting, missing semi-colons, etc)      |
+| git docs ["\<msg>"]                            | Documentation only changes                                                                                      |
 | git refactor ["\<msg>"]<br />git rf ["\<msg>"] | A code change that neither fixes a bug nor adds a feature; refactoring production code, eg. renaming a variable |
-| git perf ["\<msg>"]                            | A code change that improves performance                      |
-| git revert ["\<msg>"]                          | Reverts a previous commit                                    |
-| git localize ["\<msg>"]                        | A translations update                                        |
-| git build ["\<msg>"]                           | Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm) |
-| git test ["\<msg>"]                            | Adding missing tests or correcting existing tests            |
-| git ci ["\<msg>"]                              | Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs) |
+| git perf ["\<msg>"]                            | A code change that improves performance                                                                         |
+| git revert ["\<msg>"]                          | Reverts a previous commit                                                                                       |
+| git localize ["\<msg>"]                        | A translations update                                                                                           |
+| git build ["\<msg>"]                           | Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)             |
+| git test ["\<msg>"]                            | Adding missing tests or correcting existing tests                                                               |
+| git ci ["\<msg>"]                              | Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)     |
 
 If you would like to add an **optional scope**, as described [here](https://conventionalcommits.org/), use the '-s' flag and quote the scope message:
 
