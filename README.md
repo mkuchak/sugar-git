@@ -64,14 +64,14 @@ All commands create the branches from the current branch you are in.
 
 ### Temporary Branches
 
-| Command [optional]          | Description                                                                                                                                 |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| git feature ["\<msg>"]      | Any code changes for a new module or use case; created based on the current development branch                                              |
-| git bugfix ["\<msg>"]       | If the code changes made from the feature branch were rejected after a release, sprint or demo                                              |
-| git hotfix "\<msg>"         | If there is a need to fix something that should be handled immediately; could be merged directly to the production branch                   |
-| git experimental ["\<msg>"] | Any new feature or idea that is not part of a release or a sprint; a branch for playing around                                              |
-| git build ["\<msg>"]        | A branch specifically for creating specific build artifacts or for doing code coverage runs                                                 |
-| git release ["\<msg>"]      | A branch for tagging a specific release version                                                                                             |
+| Command [optional]          | Description                                                  |
+| --------------------------- | ------------------------------------------------------------ |
+| git feature ["\<msg>"]      | Any code changes for a new module or use case; created based on the current development branch |
+| git bugfix ["\<msg>"]       | If the code changes made from the feature branch were rejected after a release, sprint or demo |
+| git hotfix ["\<msg>"]       | If there is a need to fix something that should be handled immediately; could be merged directly to the production branch |
+| git experimental ["\<msg>"] | Any new feature or idea that is not part of a release or a sprint; a branch for playing around |
+| git build ["\<msg>"]        | A branch specifically for creating specific build artifacts or for doing code coverage runs |
+| git release ["\<msg>"]      | A branch for tagging a specific release version              |
 | git merge ["\<msg>"]        | Resolving merge conflicts, usually between the latest development and a feature or hotfix branch; also to merge two branches of one feature |
 
 To use original command add `-ns` argument (no sugar), as this silly history example:
