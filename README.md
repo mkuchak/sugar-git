@@ -1,0 +1,217 @@
+# Sugar Git
+
+Syntactic sugar for git, respecting semantics and modern conventions.
+
+## Installation
+
+1. Clone this repo, preferably in your $HOME directory.
+
+   `git clone https://github.com/mkuchak/sugar-git ~/.sugar-git`
+
+     Tip: If you're using Cygwin, open it and type 'echo $USERPROFILE'. This will show you the location of the $HOME directory.
+
+2. Install it as a set of bash scripts:
+
+   `cd ~/.sugar-git && ./install.sh`
+
+     Tip: Installation script is idempotent and could be harmlessly executed multiple times. It adds bash scripts to the PATH in your `~/.bashrc` or `~/.zshrc` files (without any duplication).
+
+3. Commit away!
+
+## Git Manage Branches
+
+### Sugar Management
+
+| Command [optional] \<required>                         | Description                                                  |
+| ------------------------------------------------------ | ------------------------------------------------------------ |
+| git ls                                                 | List all branches                                            |
+| git mkdir [\<from_branch>] \<new_branch>               | Create new branch                                            |
+| git cd [\<branch>]                                     | Change the current working branch                            |
+| git mv [\<old_branch>] \<new_branch>                   | Rename current branch                                        |
+| git rm [\<branch>]                                     | Remove (delete) current branch                               |
+| git wipe                                               | Wipe the working branch as per the remote branch             |
+| git rollback [\<commit_id>]<br />git rb [\<commit_id>] | Back the commit history, but it preserves the file contents  |
+| git get [\<branch>]                                    | Fetch and merge changes from remote branch to working branch |
+| git put [\<branch>]                                    | Send committed changes from working branch to the respective remote branch |
+
+Examples:
+
+* **git mkdir feature/hello-world**: this command will creates the "feature/hello-world" branch from current branch **(use semantic branches commands instead!!!)**
+* **git mv feature/hello-world feature/goodbye-cruel-world**: renames your newly created branch
+* **git cd feature/hello-world && git rm**: throws you to "main" branch and deletes "feature/hello-world" branch
+* **git rm feature/hello-world**: just deletes "feature/hello-world" branch
+* **git rb**: rollback the last commit; so simple, now you can rewrite it without pain! :D
+* **git rollback 135889dcc8c34ca9541766fabe7d2fc90a024e32**: rollback to determined history commited id point
+* **git cd feature/hello-world && git put**: sends your last commits to the remote branch (if not exists, creates the remote branch)
+* **git get feature/hello-world**: updates the local branch commits as per the remote repository (if not exists, creates the local branch)
+
+## Semantic Branches
+
+### Fixed Branches
+
+| Command     | Description                                                         |
+| ----------- | ------------------------------------------------------------------- |
+| git main    | The production branch                                               |
+| git staging | Demo branch and decisions about release features                    |
+| git test    | Contains all codes ready for QA testing                             |
+| git dev     | All new features and bug fixes; codes conflicts should be done here |
+
+### Temporary Branches
+
+| Command [optional]          | Description                                                                                                                                 |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| git feature ["\<msg>"]      | Any code changes for a new module or use case; **created based on the current development branch**                                          |
+| git bugfix ["\<msg>"]       | If the code changes made from the feature branch were rejected after a release, sprint or demo                                              |
+| git hotfix "\<msg>"         | If there is a need to fix something that should be handled immediately; could be merged directly to the production branch                   |
+| git experimental ["\<msg>"] | Any new feature or idea that is not part of a release or a sprint; a branch for playing around                                              |
+| git build ["\<msg>"]        | A branch specifically for creating specific build artifacts or for doing code coverage runs                                                 |
+| git release ["\<msg>"]      | A branch for tagging a specific release version                                                                                             |
+| git merge ["\<msg>"]        | Resolving merge conflicts, usually between the latest development and a feature or hotfix branch; also to merge two branches of one feature |
+
+Examples:
+
+* **git dev**: dev (fixed branch)
+* **git feature "integrate swagger"**: feature/integrate-swagger
+* **git feature "JIRA 1234"**: feature/JIRA-1234
+* **git feature "JIRA 1234_support dark theme"**: feature/JIRA-1234_support-dark-theme
+* **git bugfix "more gray shades"**: bugfix/more-gray-shades
+* **git bugfix "JIRA 1444_gray on blur fix"**: bugfix/JIRA-1444_gray-on-blur-fix
+* **git hotfix "disable endpoint zero day exploit"**: hotfix/disable-endpoint-zero-day-exploit
+* **git hotfix "increase scaling threshold"**: hotfix/increase-scaling-threshold
+* **git experimental "dark theme support"**: experimental/dark-theme-support
+* **git build "jacoco metric"**: build/jacoco-metric
+* **git release "myapp 1.01.123"**: release/myapp-1.01.123
+* **git merge "dev_lombok refactoring"**: merge/dev_lombok-refactoring
+* **git merge "combined device support"**: merge/combined-device-support
+
+## Git Manage Commits
+
+### Semantic Commits
+
+| Command [optional]                             | Description                                                  |
+| ---------------------------------------------- | ------------------------------------------------------------ |
+| git feat ["\<msg>"]                            | A new feature                                                |
+| git fix ["\<msg>"]                             | A bug fix                                                    |
+| git chore ["\<msg>"]<br />git ch ["\<msg>"]    | A code change that external **user won't see** (eg: change to .gitignore file or .prettierrc file) |
+| git style ["\<msg>"]                           | Changes that do **not affect the meaning of the code** (white-space, formatting, missing semi-colons, etc) |
+| git docs ["\<msg>"]                            | Documentation only changes                                   |
+| git refactor ["\<msg>"]<br />git rf ["\<msg>"] | A code change that neither fixes a bug nor adds a feature; refactoring production code, eg. renaming a variable |
+| git perf ["\<msg>"]                            | A code change that improves performance                      |
+| git revert ["\<msg>"]                          | Reverts a previous commit                                    |
+| git localize ["\<msg>"]                        | A translations update                                        |
+| git build ["\<msg>"]                           | Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm) |
+| git test ["\<msg>"]                            | Adding missing tests or correcting existing tests            |
+| git ci ["\<msg>"]                              | Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs) |
+
+If you would like to add an **optional scope**, as described [here](https://conventionalcommits.org/), use the '-s' flag and quote the scope message:
+
+* `git docs -s "scope here" "commit message here"` -> `git commit -m 'docs(scope here): commit message here'`
+
+If you would still like to use your **text editor** for your commit messages you can omit the message, and do your commit message in your editor.
+
+* `git feat` -> `git commit -m 'feat: ' -e`
+
+Examples:
+
+* **git feat "add beta sequence"**: feat: add beta sequence
+* **git fix -s "release" "need to depend on latest rxjs and zone.js"**: fix(release): need to depend on latest rxjs and zone.js
+* **git fix "remove broken confirmation message"**: fix: remove broken confirmation message
+* **git chore "add Oyster build script"**: chore: add Oyster build script
+* **git style "convert tabs to spaces"**: style: convert tabs to spaces
+* **git style "add missing semicolons"**: style: add missing semicolons
+* **git docs "explain hat wobble"**: docs: explain hat wobble
+* **git docs -s "changelog" "update changelog to beta.5"**: docs(changelog): update changelog to beta.5
+* **git rf "share logic between 4d3d3d3 and flarhgunnstow"**: refactor: share logic between 4d3d3d3 and flarhgunnstow
+* **git test "ensure Tayne retains clothing"**: test: ensure Tayne retains clothing
+
+##  The reasons for these conventions: [#](http://karma-runner.github.io/6.3/dev/git-commit-msg.html#the-reasons-for-these-conventions)
+
+* Automatic generating of the changelog
+* Simple navigation through git history (e.g. ignoring style changes)
+
+## Format of the commit message: [#](http://karma-runner.github.io/6.3/dev/git-commit-msg.html#format-of-the-commit-message)
+
+```bash
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+## Explanation
+
+**"type" is required and must be one of the semantic command**
+
+**"scope" is optional**
+
+* Scope must be noun and it represents the section of the section of the codebase
+* [Refer this link for example related to scope](http://karma-runner.github.io/1.0/dev/git-commit-msg.html)
+* E.g.: init, runner, watcher, config, web-server, proxy
+
+**"subject" is required**
+
+* Use imperative, present tense (eg: use "add" instead of "added" or "adds")
+* Don't use dot (.) at end
+* Don't capitalize first letter
+
+**"body" is optional**
+
+* Uses the imperative, present tense: “change” not “changed” nor “changes”
+* Includes motivation for the change and contrasts with previous behavior
+
+For more info about message body, see:
+* http://365git.tumblr.com/post/3308646748/writing-git-commit-messages
+* http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
+
+**"footer" is optional**
+
+* Referencing issues:
+Closed issues should be listed on a separate line in the footer prefixed with "Closes" keyword like this:
+
+```bash
+Closes #234
+```
+or in the case of multiple issues:
+
+```bash
+Closes #123, #245, #992
+```
+
+* Breaking changes:
+All breaking changes have to be mentioned in footer with the description of the change, justification and migration notes.
+
+```bash
+BREAKING CHANGE:
+
+`port-runner` command line option has changed to `runner-port`, so that it is
+consistent with the configuration file syntax.
+
+To migrate your project, change all the commands, where you use `--port-runner`
+to `--runner-port`.
+```
+
+## Example commit message: [#](http://karma-runner.github.io/6.3/dev/git-commit-msg.html#example-commit-message)
+
+```bash
+fix(middleware): ensure Range headers adhere more closely to RFC 2616
+
+Add one new dependency, use `range-parser` (Express dependency) to compute
+range. It is more well-tested in the wild.
+
+Fixes #2310
+```
+
+## How to contribute
+
+Open a pull request/issue or fork this repo and submit your changes via a pull request.
+
+## References
+
+This project was a compilation of ideas and standards already established. Credit remains for each article or project.
+
+https://dev.to/couchcamote/git-branching-name-convention-cch
+
+https://dev.to/i5han3/git-commit-message-convention-that-you-can-follow-1709
+
+https://github.com/fteem/git-semantic-commits
