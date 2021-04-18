@@ -1,6 +1,12 @@
 #!/bin/bash
-if
-  [ -z "$1" ]
-then
-  echo "git bugfix executed"
+if [ "$1" == "-o" -o "$1" == "--origin" ]; then
+  shift
+  BRANCH_NAME=${@}
+  BRANCH_NAME=${BRANCH_NAME// /-}
+  git checkout -b bugfix/${BRANCH_NAME}
+  git push -u origin bugfix/${BRANCH_NAME}
+else
+  BRANCH_NAME=${@}
+  BRANCH_NAME=${BRANCH_NAME// /-}
+  git checkout -b bugfix/${BRANCH_NAME}
 fi

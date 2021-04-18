@@ -1,6 +1,2 @@
 #!/bin/bash
-if
-  [ -z "$1" ]
-then
-  echo "git mv executed"
-fi
+git branch -m $1 $2

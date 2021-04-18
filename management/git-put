@@ -1,6 +1,14 @@
 #!/bin/bash
-if
-  [ -z "$1" ]
-then
-  echo "git put executed"
+if [ "$1" == "-f" -o "$1" == "--force" ]; then
+  if [ "$2" == "" ]; then
+    git push -f origin $(git rev-parse --abbrev-ref HEAD)
+  else
+    git push -f origin $2
+  fi
+else
+  if [ $# -eq 0 ]; then
+    git push origin $(git rev-parse --abbrev-ref HEAD)
+  else
+    git push origin $1
+  fi
 fi

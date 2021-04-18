@@ -1,6 +1,10 @@
 #!/bin/bash
-if
-  [ -z "$1" ]
-then
-  echo "git rm executed"
+if [ "$1" == "-o" -o "$1" == "--origin" ]; then
+  git push origin --delete $2
+else
+  CURRENT_BRANCH=$(git branch --show-current)
+  if [ "$1" == "$CURRENT_BRANCH" ]; then
+    git checkout main
+  fi
+  git branch -D $1
 fi

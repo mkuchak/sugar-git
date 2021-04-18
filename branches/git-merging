@@ -3,10 +3,10 @@ if [ "$1" == "-o" -o "$1" == "--origin" ]; then
   shift
   BRANCH_NAME=${@}
   BRANCH_NAME=${BRANCH_NAME// /-}
-  git checkout -b build/${BRANCH_NAME}
-  git push -u origin build/${BRANCH_NAME}
+  git checkout -b merge/${BRANCH_NAME}
+  git push -u origin merge/${BRANCH_NAME}
 else
   BRANCH_NAME=${@}
   BRANCH_NAME=${BRANCH_NAME// /-}
-  git checkout -b build/${BRANCH_NAME}
+  git checkout -b merge/${BRANCH_NAME}
 fi

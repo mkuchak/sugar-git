@@ -1,6 +1,8 @@
 #!/bin/bash
-if
-  [ -z "$1" ]
-then
-  echo "git testing executed"
+if [ "$1" == "-o" -o "$1" == "--origin" ]; then
+  shift
+  git checkout -b test
+  git push -u origin test
+else
+  git checkout -b test
 fi

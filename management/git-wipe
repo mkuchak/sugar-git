@@ -1,6 +1,11 @@
 #!/bin/bash
-if
-  [ -z "$1" ]
-then
-  echo "git wipe executed"
+RED='\033[0;31m'
+echo "Are you sure you want to wipe (hard reset) ${RED}\"$(git rev-parse --abbrev-ref HEAD)\"${NC} branch? (y/N)"
+read REPLY
+if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+  if [ $# -eq 0 ]; then
+    git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
+  else
+    git reset --hard origin/$1
+  fi
 fi

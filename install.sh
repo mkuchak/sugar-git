@@ -31,13 +31,13 @@ function register_path {
 # Needs to create an auto register for this function
 # Some cheating to override 'mv', 'rm' and 'merge' commands
 function git {
-  if [[ "$1" == "mv" && "$@" != *"--help"* ]]; then
+  if [[ "$1" == "mv" && "$@" != *"-ns"* && "$@" != *"--no-sugar"* && "$@" != *"--help"* ]]; then
     shift 1
     command git move "$@"
-  elif [[ "$1" == "rm" && "$@" != *"--help"* ]]; then
+  elif [[ "$1" == "rm" && "$@" != *"-ns"* && "$@" != *"--no-sugar"* && "$@" != *"--help"* ]]; then
     shift 1
     command git remove "$@"
-  elif [[ "$1" == "merge" && "$@" != *"--help"* ]]; then
+  elif [[ "$1" == "merge" && "$@" != *"-ns"* && "$@" != *"--no-sugar"* && "$@" != *"--help"* ]]; then
     shift 1
     command git merging "$@"
   else
@@ -49,6 +49,9 @@ echo 'Installing scripts…'
 echo
 register_path ~/.bashrc
 register_path ~/.zshrc
+if ! git config --global --get-all alias.cd &>/dev/null; then
+  git config --global alias.cd checkout
+fi
 echo
 echo 'Done! Now you can use sugar git.'
 echo 'See: https://github.com/mkuchak/sugar-git for more information.'

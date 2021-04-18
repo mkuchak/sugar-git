@@ -1,6 +1,8 @@
 #!/bin/bash
-if
-  [ -z "$1" ]
-then
-  echo "git main executed"
+if [ "$1" == "-o" -o "$1" == "--origin" ]; then
+  shift
+  git checkout -b main
+  git push -u origin main
+else
+  git checkout -b main
 fi

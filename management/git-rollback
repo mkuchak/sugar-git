@@ -2,5 +2,5 @@
 if
   [ -z "$1" ]
 then
-  echo "git rollback executed"
+  git reset --soft HEAD~1
 fi

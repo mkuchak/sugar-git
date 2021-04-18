@@ -1,6 +1,14 @@
 #!/bin/bash
-if
-  [ -z "$1" ]
-then
-  echo "git get executed"
+if [ "$1" == "-f" -o "$1" == "--force" ]; then
+  if [ "$2" == "" ]; then
+    git pull -f origin $(git rev-parse --abbrev-ref HEAD)
+  else
+    git pull -f origin $2
+  fi
+else
+  if [ $# -eq 0 ]; then
+    git pull origin $(git rev-parse --abbrev-ref HEAD)
+  else
+    git pull origin $1
+  fi
 fi

@@ -1,6 +1,12 @@
 #!/bin/bash
-if
-  [ -z "$1" ]
-then
-  echo "git experimental executed"
+if [ "$1" == "-o" -o "$1" == "--origin" ]; then
+  shift
+  BRANCH_NAME=${@}
+  BRANCH_NAME=${BRANCH_NAME// /-}
+  git checkout -b experimental/${BRANCH_NAME}
+  git push -u origin experimental/${BRANCH_NAME}
+else
+  BRANCH_NAME=${@}
+  BRANCH_NAME=${BRANCH_NAME// /-}
+  git checkout -b experimental/${BRANCH_NAME}
 fi
