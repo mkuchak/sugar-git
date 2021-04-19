@@ -1,16 +1,17 @@
 # Sugar Git
+<center><img src="https://user-images.githubusercontent.com/3791148/115295377-118eb780-a130-11eb-9889-eafcf2c3be46.png" alt="Sugar Git" height="160" /></center>
+<center>Syntactic sugar for git, respecting semantics and modern conventions.</center>
 
-Syntactic sugar for git, respecting semantics and modern conventions.
 
-## Installation
+## 1. Installation
 
-### Quick install
+### \# Quick install
 
 Paste this line in your terminal and be happy!
 
 `git clone https://github.com/mkuchak/sugar-git ~/.sugar-git && ~/.sugar-git/./install.sh && source ~/.zshrc && source ~/.bashrc`
 
-### Detailed Installation
+### \# Detailed Installation
 
 
 1. Clone this repo, preferably in your $HOME directory.
@@ -27,9 +28,9 @@ Paste this line in your terminal and be happy!
 
 3. Commit away!
 
-## Git Manage Branches
+## 2. Sugar Management
 
-### Sugar Management
+### \# Git Manager
 
 | Command [optional] \<required>                           | Description                                                                |
 | -------------------------------------------------------- | -------------------------------------------------------------------------- |
@@ -58,11 +59,11 @@ Examples:
 * **git cd feature/hello-world && git put**: sends your last commits to the remote branch (if not exists, creates the remote branch)
 * **git get feature/hello-world**: updates the local branch commits as per the remote repository (if not exists, creates the local branch)
 
-## Semantic Branches
+## 3. Semantic Branches
 
 All commands create the branches from the current branch you are in.
 
-### Fixed Branches
+### \# Fixed Branches
 
 | Command     | Description                                                         |
 | ----------- | ------------------------------------------------------------------- |
@@ -71,7 +72,7 @@ All commands create the branches from the current branch you are in.
 | git testing | Contains all codes ready for QA testing                             |
 | git dev     | All new features and bug fixes; codes conflicts should be done here |
 
-### Temporary Branches
+### \# Temporary Branches
 
 | Command [optional]          | Description                                                                                                                                 |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -133,9 +134,9 @@ Examples:
 * **git merge "dev_lombok refactoring"**: merge/dev_lombok-refactoring
 * **git merge "combined device support"**: merge/combined-device-support
 
-## Git Manage Commits
+## 4. Git Manage Commits
 
-### Semantic Commits
+### \# Semantic Commits
 
 | Command [optional]      | Description                                                                                                     |
 | ----------------------- | --------------------------------------------------------------------------------------------------------------- |
@@ -173,12 +174,12 @@ Examples:
 * **git rf "share logic between 4d3d3d3 and flarhgunnstow"**: refactor: share logic between 4d3d3d3 and flarhgunnstow
 * **git test "ensure Tayne retains clothing"**: test: ensure Tayne retains clothing
 
-##  The reasons for these conventions: [#](http://karma-runner.github.io/6.3/dev/git-commit-msg.html#the-reasons-for-these-conventions)
+##  5. The reasons for these conventions
 
 * Automatic generating of the changelog
 * Simple navigation through git history (e.g. ignoring style changes)
 
-## Format of the commit message: [#](http://karma-runner.github.io/6.3/dev/git-commit-msg.html#format-of-the-commit-message)
+## 6. Format of the commit message
 
 ```bash
 <type>(<scope>): <subject>
@@ -188,7 +189,7 @@ Examples:
 <footer>
 ```
 
-## Explanation
+## 7. Explanation
 
 **"type" is required and must be one of the semantic command**
 
@@ -240,7 +241,7 @@ To migrate your project, change all the commands, where you use `--port-runner`
 to `--runner-port`.
 ```
 
-## Example commit message: [#](http://karma-runner.github.io/6.3/dev/git-commit-msg.html#example-commit-message)
+## 8. Example commit message
 
 ```bash
 fix(middleware): ensure Range headers adhere more closely to RFC 2616
@@ -251,11 +252,11 @@ range. It is more well-tested in the wild.
 Fixes #2310
 ```
 
-## How to contribute
+## 9. How to contribute
 
 Open a pull request/issue or fork this repo and submit your changes via a pull request.
 
-## References
+## 10. References
 
 This project was a compilation of ideas and standards already established. Credit remains for each article or project.
 
