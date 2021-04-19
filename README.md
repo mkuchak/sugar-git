@@ -1,7 +1,6 @@
 # Sugar Git
-<center><img src="https://user-images.githubusercontent.com/3791148/115295377-118eb780-a130-11eb-9889-eafcf2c3be46.png" alt="Sugar Git" height="160" /></center>
-<center>Syntactic sugar for git, respecting semantics and modern conventions.</center>
-
+<img src="https://user-images.githubusercontent.com/3791148/115315966-cafc8580-a14e-11eb-910d-452851ad87af.png" alt="Sugar Git" height="160" />
+Syntactic sugar for git, respecting semantics and modern conventions.
 
 ## 1. Installation
 
