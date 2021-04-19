@@ -1,6 +1,5 @@
 #!/bin/bash
-RED='\033[0;31m'
-echo "Are you sure you want to wipe (hard reset) ${RED}\"$(git rev-parse --abbrev-ref HEAD)\"${NC} branch? (y/N)"
+echo "Are you sure you want to wipe (hard reset) \"$(git rev-parse --abbrev-ref HEAD)\" branch? (y/N)"
 read REPLY
 if [[ "$REPLY" =~ ^[Yy]$ ]]; then
   if [ $# -eq 0 ]; then
