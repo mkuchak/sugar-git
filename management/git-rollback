@@ -3,4 +3,5 @@ if
   [ -z "$1" ]
 then
   git reset --soft HEAD~1
+  git reset
 fi
