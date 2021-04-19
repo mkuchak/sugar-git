@@ -32,17 +32,17 @@ Paste this line in your terminal and be happy!
 
 ### \# Git Manager
 
-| Command [optional] \<required>                           | Description                                                                |
-| -------------------------------------------------------- | -------------------------------------------------------------------------- |
-| git ls                                                   | List all branches                                                          |
-| git mkdir [-o \| --origin] \<new_branch>                 | Create new branch                                                          |
-| git cd [\<branch>]                                       | Change the current working branch                                          |
-| git mv [-ns \| --no-sugar] [\<old_branch>] \<new_branch> | Rename current branch                                                      |
-| git rm [-o \| --origin] [-ns \| --no-sugar] [\<branch>]  | Remove (delete) current branch                                             |
-| git wipe                                                 | Wipe the working branch as per the remote branch                           |
-| git rollback [\<commit_id>]                              | Back the commit history, but it preserves the file contents                |
-| git get [-f \| --force] [\<branch>]                      | Fetch and merge changes from remote branch to working branch               |
-| git put [-f \| --force] [\<branch>]                      | Send committed changes from working branch to the respective remote branch |
+| Command [optional] \<required>                         | Description                                                  |
+| ------------------------------------------------------ | ------------------------------------------------------------ |
+| git ls                                                 | List all branches                                            |
+| git mkdir [-o \| --origin] \<new_branch>               | Create new branch                                            |
+| git cd \<branch>                                       | Change the current working branch                            |
+| git mv [-ns \| --no-sugar] \<old_branch> \<new_branch> | Rename current branch                                        |
+| git rm [-o \| --origin] [-ns \| --no-sugar] \<branch>  | Remove (delete) current branch                               |
+| git wipe                                               | Wipe the working branch as per the remote branch             |
+| git rollback [\<commit_id>]                            | Back the commit history, but it preserves the file contents  |
+| git get [-f \| --force] [\<branch>]                    | Fetch and merge changes from remote branch to working branch |
+| git put [-f \| --force] [\<branch>]                    | Send committed changes from working branch to the respective remote branch |
 
 To use original command add `-ns` argument (no sugar), as example `git rm -ns Documentation/\*.txt`.
 
@@ -114,7 +114,7 @@ git merge "awesome button"
 
 # and legit merge using -ns
 git cd merge/awesome-button
-git merge -ns bugfix/button-behavior merge/awesome-button
+git merge -ns merge/awesome-button bugfix/button-behavior
 git put
 ```
 
@@ -153,11 +153,16 @@ Examples:
 | git test ["\<msg>"]     | Adding missing tests or correcting existing tests                                                               |
 | git ci ["\<msg>"]       | Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)     |
 
-If you would like to add an **optional scope**, as described [here](https://conventionalcommits.org/), use the '-s' flag and quote the scope message:
+If you would like to add an **optional scope**, as described [here](https://conventionalcommits.org/), use the `-s` flag and quote the scope message:
 
 * `git docs -s "scope here" "commit message here"` -> `git commit -m 'docs(scope here): commit message here'`
 
-If you would still like to use your **text editor** for your commit messages you can omit the message, and do your commit message in your editor.
+To add all files without type `git add .` can be used the flag `-a` to add all modificated files:
+
+* `git feat -a "commit msg"` -> `git add . && git commit -am 'feat: commit msg'`
+* `git fix -s "middleware" "add new auth flow" -a` -> `git add . && git commit -am 'fix(middleware): add new auth flow'`
+
+In case you would still like to use your **text editor** for your commit messages you can omit the message, and do your commit message in your editor.
 
 * `git feat` -> `git commit -m 'feat: ' -e`
 
