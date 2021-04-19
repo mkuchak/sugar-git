@@ -1,9 +1,38 @@
 #!/bin/bash
-git add .
 if [ -z "$1" ]; then
-  git commit -am "style: " -e
+  if [[ "$@" == *"-a"* ]]; then
+    git add .
+    for param; do
+      [[ ! $param == '-a' ]] && newparams+=("$param")
+    done
+    set -- "${newparams[@]}"
+    unset newparams
+    git commit -am "style: " -e
+  else
+    git commit -m "style: " -e
+  fi
 elif [ "$1" == "-s" ]; then
-  git commit -am "style(${2}): ${@:3}"
+  if [[ "$@" == *"-a"* ]]; then
+    git add .
+    for param; do
+      [[ ! $param == '-a' ]] && newparams+=("$param")
+    done
+    set -- "${newparams[@]}"
+    unset newparams
+    git commit -am "style(${2}): ${@:3}"
+  else
+    git commit -m "style(${2}): ${@:3}"
+  fi
 else
-  git commit -am "style: ${@}"
+  if [[ "$@" == *"-a"* ]]; then
+    git add .
+    for param; do
+      [[ ! $param == '-a' ]] && newparams+=("$param")
+    done
+    set -- "${newparams[@]}"
+    unset newparams
+    git commit -am "style: ${@}"
+  else
+    git commit -m "style: ${@}"
+  fi
 fi

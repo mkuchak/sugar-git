@@ -1,9 +1,38 @@
 #!/bin/bash
-git add .
 if [ -z "$1" ]; then
-  git commit -am "feat: " -e
+  if [[ "$@" == *"-a"* ]]; then
+    git add .
+    for param; do
+      [[ ! $param == '-a' ]] && newparams+=("$param")
+    done
+    set -- "${newparams[@]}"
+    unset newparams
+    git commit -am "feat: " -e
+  else
+    git commit -m "feat: " -e
+  fi
 elif [ "$1" == "-s" ]; then
-  git commit -am "feat(${2}): ${@:3}"
+  if [[ "$@" == *"-a"* ]]; then
+    git add .
+    for param; do
+      [[ ! $param == '-a' ]] && newparams+=("$param")
+    done
+    set -- "${newparams[@]}"
+    unset newparams
+    git commit -am "feat(${2}): ${@:3}"
+  else
+    git commit -m "feat(${2}): ${@:3}"
+  fi
 else
-  git commit -am "feat: ${@}"
+  if [[ "$@" == *"-a"* ]]; then
+    git add .
+    for param; do
+      [[ ! $param == '-a' ]] && newparams+=("$param")
+    done
+    set -- "${newparams[@]}"
+    unset newparams
+    git commit -am "feat: ${@}"
+  else
+    git commit -m "feat: ${@}"
+  fi
 fi
