@@ -4,27 +4,30 @@ CWD=$(pwd)
 # Register semantic commits scripts execution path
 #
 # $1 — shell configuraton file path
-function register_path {
-  PATH_BRANCHES='export PATH=$PATH:'$CWD/branches':$PATH'
-  PATH_COMMITS='export PATH=$PATH:'$CWD/commits':$PATH'
-  PATH_MANAGEMENT='export PATH=$PATH:'$CWD/management':$PATH'
-
-  if [ -f $1 ]; then
-    if ! grep -Fxq "$PATH_BRANCHES" $1; then
-      echo "Adding branches path to $1"
-      echo $PATH_BRANCHES >>$1
-      source $1
+function git {
+  if [[ "$1" == "mv" && "$@" != *"-ns"* && "$@" != *"--no-sugar"* && "$@" != *"--help"* ]]; then
+    shift 1
+    command git move "$@"
+  elif [[ "$1" == "rm" && "$@" != *"-ns"* && "$@" != *"--no-sugar"* && "$@" != *"--help"* ]]; then
+    shift 1
+    command git remove "$@"
+  elif [[ "$1" == "merge" && "$@" != *"-ns"* && "$@" != *"--no-sugar"* && "$@" != *"--help"* ]]; then
+    shift 1
+    command git merging "$@"
+  else
+    if [[ "$@" == *"-ns"* ]]; then
+      for param; do
+        [[ ! $param == '-ns' ]] && newparams+=("$param")
+      done
+      set -- "${newparams[@]}"
+    elif [[ "$@" == *"--no-sugar"* ]]; then
+      for param; do
+        [[ ! $param == '--no-sugar' ]] && newparams+=("$param")
+      done
+      set -- "${newparams[@]}"
     fi
-    if ! grep -Fxq "$PATH_COMMITS" $1; then
-      echo "Adding commits path to $1"
-      echo $PATH_COMMITS >>$1
-      source $1
-    fi
-    if ! grep -Fxq "$PATH_MANAGEMENT" $1; then
-      echo "Adding management path to $1"
-      echo $PATH_MANAGEMENT >>$1
-      source $1
-    fi
+    unset newparams
+    command git "$@"
   fi
 }
 
