@@ -1,4 +1,5 @@
 # Sugar Git
+
 <img src="https://user-images.githubusercontent.com/3791148/115315966-cafc8580-a14e-11eb-910d-452851ad87af.png" alt="Sugar Git" height="160" />
 Syntactic sugar for git, respecting semantics and modern conventions.
 
@@ -31,16 +32,17 @@ Paste this line in your terminal and be happy!
 
 ### \# Git Manager
 
-| Command [optional] \<required>                         | Description                                                  |
-| ------------------------------------------------------ | ------------------------------------------------------------ |
-| git ls                                                 | List all branches                                            |
-| git mkdir [-o \| --origin] \<new_branch>               | Create new branch                                            |
-| git cd \<branch>                                       | Change the current working branch                            |
-| git mv [-ns \| --no-sugar] \<old_branch> \<new_branch> | Rename current branch                                        |
-| git rm [-o \| --origin] [-ns \| --no-sugar] \<branch>  | Remove (delete) current branch                               |
-| git wipe                                               | Wipe the working branch as per the remote branch             |
-| git rollback [\<commit_id>]                            | Back the commit history, but it preserves the file contents  |
-| git get [-f \| --force] [\<branch>]                    | Fetch and merge changes from remote branch to working branch |
+| Command [optional] \<required>                         | Description                                                                |
+| ------------------------------------------------------ | -------------------------------------------------------------------------- |
+| git ls                                                 | List all branches                                                          |
+| git mkdir [-o \| --origin] \<new_branch>               | Create new branch                                                          |
+| git cd \<branch>                                       | Change the current working branch                                          |
+| git mv [-ns \| --no-sugar] \<old_branch> \<new_branch> | Rename current branch                                                      |
+| git rm [-o \| --origin] [-ns \| --no-sugar] \<branch>  | Remove current branch                                                      |
+| git wipe                                               | Wipe the working branch as per the remote branch                           |
+| git rollback [\<commit_id>]                            | Back the commit history, but it preserves the file contents                |
+| git edit                                               | Edit the most recent commit message                                        |
+| git get [-f \| --force] [\<branch>]                    | Fetch and merge changes from remote branch to working branch               |
 | git put [-f \| --force] [\<branch>]                    | Send committed changes from working branch to the respective remote branch |
 
 To use original command add `-ns` argument (no sugar), as example `git rm -ns Documentation/\*.txt`.
