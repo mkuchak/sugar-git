@@ -11,7 +11,7 @@ Paste this line in your terminal and be happy!
 
 `git clone https://github.com/mkuchak/sugar-git ~/.sugar-git && ~/.sugar-git/./install.sh && source ~/.zshrc && source ~/.bashrc`
 
-### \# Detailed Installation
+### \# Detailed installation
 
 
 1. Clone this repo, preferably in your $HOME directory.
@@ -27,6 +27,14 @@ Paste this line in your terminal and be happy!
      Tip: Installation script is idempotent and could be harmlessly executed multiple times. It adds bash scripts to the PATH in your `~/.bashrc` or `~/.zshrc` files (without any duplication).
 
 3. Commit away!
+
+### \# Edit your default git editor
+
+```
+git config --global core.editor "code --wait"
+git config --global core.editor "nano --wait"
+git config --global core.editor "vim --wait"
+```
 
 ## 2. Sugar Management
 
