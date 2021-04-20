@@ -158,10 +158,10 @@ If you would like to add an **optional scope**, as described [here](https://conv
 
 * `git docs -s "scope here" "commit message here"` -> `git commit -m 'docs(scope here): commit message here'`
 
-To add all files without type `git add .` can be used the flag `-a` to add all modificated files:
+To add all files without type `git add .` can be used the flag `-a`, and the flag `-p` to automatic commit to origin repo (use `-ap` or `-pa` to to combine flags):
 
-* `git feat -a "commit msg"` -> `git add . && git commit -am 'feat: commit msg'`
-* `git fix -s "middleware" "add new auth flow" -a` -> `git add . && git commit -am 'fix(middleware): add new auth flow'`
+* `git feat "commit msg" -ap` -> `git add . && git commit -am 'feat: commit msg' && git push origin <current_branch>`
+* `git fix -a -s "middleware" "add new auth flow"` -> `git add . && git commit -am 'fix(middleware): add new auth flow'`
 
 In case you would still like to use your **text editor** for your commit messages you can omit the message, and do your commit message in your editor.
 
