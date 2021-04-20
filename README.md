@@ -260,6 +260,10 @@ Fixes #2310
 
 ## 9. How to contribute
 
+This project was created to help follow the best standards and conventions for using git in a simple and effective way.
+
+I don't master shell script and I had to write these help commands quickly, so much of the shell code SHOULD really be refactored. Feel free to help with this.
+
 Open a pull request/issue or fork this repo and submit your changes via a pull request.
 
 ## 10. References
