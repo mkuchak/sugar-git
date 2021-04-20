@@ -1,38 +1,74 @@
 #!/bin/bash
-if [ -z "$1" ] || [[ "$@" == *"-a"* && -z "$2" ]]; then
-  if [[ "$@" == *"-a"* ]]; then
+HAS_TO_ADD=false
+HAS_TO_PUT=false
+
+if [[ "$@" == *"-a"* ]]; then
+  HAS_TO_ADD=true
+  for param; do
+    [[ ! $param == '-a' ]] && newparams+=("$param")
+  done
+  set -- "${newparams[@]}"
+  unset newparams
+fi
+
+if [[ "$@" == *"-p"* ]]; then
+  HAS_TO_PUT=true
+  for param; do
+    [[ ! $param == '-p' ]] && newparams+=("$param")
+  done
+  set -- "${newparams[@]}"
+  unset newparams
+fi
+
+if [[ "$@" == *"-ap"* ]]; then
+  HAS_TO_PUT=true
+  HAS_TO_ADD=true
+  for param; do
+    [[ ! $param == '-ap' ]] && newparams+=("$param")
+  done
+  set -- "${newparams[@]}"
+  unset newparams
+fi
+
+if [[ "$@" == *"-pa"* ]]; then
+  HAS_TO_PUT=true
+  HAS_TO_ADD=true
+  for param; do
+    [[ ! $param == '-pa' ]] && newparams+=("$param")
+  done
+  set -- "${newparams[@]}"
+  unset newparams
+fi
+
+if [ -z "$1" ]; then
+  if [ $HAS_TO_ADD = true ]; then
+    echo "1"
     git add .
-    for param; do
-      [[ ! $param == '-a' ]] && newparams+=("$param")
-    done
-    set -- "${newparams[@]}"
-    unset newparams
     git commit -am "localize: " -e
   else
+    echo "2"
     git commit -m "localize: " -e
   fi
 elif [ "$1" == "-s" ]; then
-  if [[ "$@" == *"-a"* ]]; then
+  if [ $HAS_TO_ADD = true ]; then
+    echo "3"
     git add .
-    for param; do
-      [[ ! $param == '-a' ]] && newparams+=("$param")
-    done
-    set -- "${newparams[@]}"
-    unset newparams
     git commit -am "localize(${2}): ${@:3}"
   else
+    echo "4"
     git commit -m "localize(${2}): ${@:3}"
   fi
 else
-  if [[ "$@" == *"-a"* ]]; then
+  if [ $HAS_TO_ADD = true ]; then
+    echo "5"
     git add .
-    for param; do
-      [[ ! $param == '-a' ]] && newparams+=("$param")
-    done
-    set -- "${newparams[@]}"
-    unset newparams
     git commit -am "localize: ${@}"
   else
+    echo "6"
     git commit -m "localize: ${@}"
   fi
+fi
+
+if [ $HAS_TO_PUT = true ]; then
+  git push origin $(git rev-parse --abbrev-ref HEAD)
 fi
