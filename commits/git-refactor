@@ -42,29 +42,23 @@ fi
 
 if [ -z "$1" ]; then
   if [ $HAS_TO_ADD = true ]; then
-    echo "1"
     git add .
     git commit -am "refactor: " -e
   else
-    echo "2"
     git commit -m "refactor: " -e
   fi
 elif [ "$1" == "-s" ]; then
   if [ $HAS_TO_ADD = true ]; then
-    echo "3"
     git add .
     git commit -am "refactor(${2}): ${@:3}"
   else
-    echo "4"
     git commit -m "refactor(${2}): ${@:3}"
   fi
 else
   if [ $HAS_TO_ADD = true ]; then
-    echo "5"
     git add .
     git commit -am "refactor: ${@}"
   else
-    echo "6"
     git commit -m "refactor: ${@}"
   fi
 fi

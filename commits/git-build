@@ -42,29 +42,23 @@ fi
 
 if [ -z "$1" ]; then
   if [ $HAS_TO_ADD = true ]; then
-    echo "1"
     git add .
     git commit -am "build: " -e
   else
-    echo "2"
     git commit -m "build: " -e
   fi
 elif [ "$1" == "-s" ]; then
   if [ $HAS_TO_ADD = true ]; then
-    echo "3"
     git add .
     git commit -am "build(${2}): ${@:3}"
   else
-    echo "4"
     git commit -m "build(${2}): ${@:3}"
   fi
 else
   if [ $HAS_TO_ADD = true ]; then
-    echo "5"
     git add .
     git commit -am "build: ${@}"
   else
-    echo "6"
     git commit -m "build: ${@}"
   fi
 fi
