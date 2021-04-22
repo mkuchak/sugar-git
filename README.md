@@ -40,22 +40,23 @@ git config --global core.editor "vim --wait"
 
 ### \# Git Manager
 
-| Command [optional] \<required>                         | Description                                                  |
-| ------------------------------------------------------ | ------------------------------------------------------------ |
-| git ls [-r \| -l]                                      | List all branches, only remote or only local                 |
-| git mkdir [-o \| --origin] \<new_branch>               | Create new branch                                            |
-| git cd \<branch>                                       | Change the current working branch                            |
-| git mv [-ns \| --no-sugar] \<old_branch> \<new_branch> | Rename some branch                                           |
-| git rm [-o \| --origin] [-ns \| --no-sugar] \<branch>  | Remove some branch                                           |
-| git wipe [-y \| --yes] [\<branch>]                     | Wipe the working branch as per the remote branch             |
-| git rollback [\<commit_id>]                            | Back the commit history, but it preserves the file contents  |
-| git edit [\<commit_id>]                                | Edit the most recent commit message                          |
-| git get [-f \| --force] [\<branch>]                    | Fetch and merge changes from remote branch to working branch |
-| git put [-f \| --force] [\<branch>]                    | Send committed changes from working branch to the respective remote branch |
+| Command [optional] \<required>                               | Description                                                  |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| git ls [-r \| -l]                                            | List all branches, only remote or only local                 |
+| git mkdir [-o \| --origin] \<new_branch>                     | Create new branch                                            |
+| git cd \<branch>                                             | Change the current working branch                            |
+| git mv [-ns \| --no-sugar] \<old_branch> \<new_branch>       | Rename some branch                                           |
+| git rm [-o \| --origin] [-ns \| --no-sugar] \<branch>        | Remove some branch                                           |
+| git wipe [-y \| --yes] [\<branch>]                           | Wipe the working branch as per the remote branch             |
+| git rollback [\<commit_id>]                                  | Back the commit history, but it preserves the file contents  |
+| git edit [\<commit_id>]                                      | Edit the most recent commit message                          |
+| git get [-f \| --force] [\<branch>]                          | Fetch and merge changes from remote branch to working branch |
+| git put [-f \| --force] [\<branch>]                          | Send committed changes from working branch to the respective remote branch |
+| git log [ -a \| --author ] [ -s \| --since ] [ -u \| --until ] [-e \| --exclude] [-ns \| --no-sugar] [ "\<search_terms>" ] | Search in the history of commit by applying some filters     |
 
 To use original command add `-ns` argument (no sugar), as example `git rm -ns Documentation/\*.txt`.
 
-Only `mv`, `rm` and `merge` could be used with `--no-sugar` argument, no other commands are overlaid.
+Only `mv`, `rm`, `log` and `merge` could be used with `--no-sugar` argument, no other commands are overlaid.
 
 Examples:
 
@@ -64,7 +65,7 @@ Examples:
 * **git cd feature/hello-world && git rm**: throws you to "main" branch and deletes "feature/hello-world" branch
 * **git rm feature/hello-world**: just deletes "feature/hello-world" branch
 * **git rb**: rollback the last commit; so simple, now you can rewrite it without pain! :D
-* **git rollback 135889dcc8c34ca9541766fabe7d2fc90a024e32**: rollback to determined history commited id point
+* **git rollback 135889d**: rollback to determined history commited id point
 * **git cd feature/hello-world && git put**: sends your last commits to the remote branch (if not exists, creates the remote branch)
 * **git get feature/hello-world**: updates the local branch commits as per the remote repository (if not exists, creates the local branch)
 
