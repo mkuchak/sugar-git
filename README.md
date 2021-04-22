@@ -28,7 +28,7 @@ Paste this line in your terminal and be happy!
 
 3. Commit away!
 
-### \# Edit your default git editor
+### \# Tip: edit your default git editor (optional)
 
 ```
 git config --global core.editor "code --wait"
@@ -52,7 +52,7 @@ git config --global core.editor "vim --wait"
 | git edit [\<commit_id>]                                      | Edit the most recent commit message                          |
 | git get [-f \| --force] [\<branch>]                          | Fetch and merge changes from remote branch to working branch |
 | git put [-f \| --force] [\<branch>]                          | Send committed changes from working branch to the respective remote branch |
-| git log [ -a \| --author ] [ -s \| --since ] [ -u \| --until ] [-e \| --exclude] [-ns \| --no-sugar] [ "\<search_terms>" ] | Search in the history of commit by applying some filters     |
+| git log [ -a \| --author ] [ -s \| --since ] [ -u \| --until ] [-e \| --exclude] [-ns \| --no-sugar] ["\<search_terms>"] | Search in the history of commit by applying some filters     |
 
 To use original command add `-ns` argument (no sugar), as example `git rm -ns Documentation/\*.txt`.
 
