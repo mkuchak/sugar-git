@@ -40,17 +40,17 @@ git config --global core.editor "vim --wait"
 
 ### \# Git Manager
 
-| Command [optional] \<required>                         | Description                                                                |
-| ------------------------------------------------------ | -------------------------------------------------------------------------- |
-| git ls [-r \| -l]                                      | List all branches                                                          |
-| git mkdir [-o \| --origin] \<new_branch>               | Create new branch                                                          |
-| git cd \<branch>                                       | Change the current working branch                                          |
-| git mv [-ns \| --no-sugar] \<old_branch> \<new_branch> | Rename current branch                                                      |
-| git rm [-o \| --origin] [-ns \| --no-sugar] \<branch>  | Remove current branch                                                      |
-| git wipe                                               | Wipe the working branch as per the remote branch                           |
-| git rollback [\<commit_id>]                            | Back the commit history, but it preserves the file contents                |
-| git edit                                               | Edit the most recent commit message                                        |
-| git get [-f \| --force] [\<branch>]                    | Fetch and merge changes from remote branch to working branch               |
+| Command [optional] \<required>                         | Description                                                  |
+| ------------------------------------------------------ | ------------------------------------------------------------ |
+| git ls [-r \| -l]                                      | List all branches, only remote or only local                 |
+| git mkdir [-o \| --origin] \<new_branch>               | Create new branch                                            |
+| git cd \<branch>                                       | Change the current working branch                            |
+| git mv [-ns \| --no-sugar] \<old_branch> \<new_branch> | Rename some branch                                           |
+| git rm [-o \| --origin] [-ns \| --no-sugar] \<branch>  | Remove some branch                                           |
+| git wipe [-y \| --yes] [\<branch>]                     | Wipe the working branch as per the remote branch             |
+| git rollback [\<commit_id>]                            | Back the commit history, but it preserves the file contents  |
+| git edit                                               | Edit the most recent commit message                          |
+| git get [-f \| --force] [\<branch>]                    | Fetch and merge changes from remote branch to working branch |
 | git put [-f \| --force] [\<branch>]                    | Send committed changes from working branch to the respective remote branch |
 
 To use original command add `-ns` argument (no sugar), as example `git rm -ns Documentation/\*.txt`.
