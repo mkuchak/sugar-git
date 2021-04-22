@@ -40,6 +40,9 @@ function git {
   elif [[ "$1" == "merge" && "$@" != *"-ns"* && "$@" != *"--no-sugar"* && "$@" != *"--help"* ]]; then
     shift 1
     command git merging "$@"
+  elif [[ "$1" == "log" && "$@" != *"-ns"* && "$@" != *"--no-sugar"* && "$@" != *"--help"* ]]; then
+    shift 1
+    command git lg "$@"
   else
     if [[ "$@" == *"-ns"* ]]; then
       for param; do
