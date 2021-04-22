@@ -1,2 +1,2 @@
 #!/bin/bash
-git status $1
+git status $@
