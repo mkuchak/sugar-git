@@ -1,7 +1,7 @@
 #!/bin/bash
 CWD=$(pwd)
 
-# Register semantic commits scripts execution path
+# Register sugar git scripts execution path
 #
 # $1 — shell configuraton file path
 function register_path {
@@ -62,7 +62,9 @@ function register_path {
       cat <<<"" >>$1
       echo "$MAIN_FUNC" >>$1
     fi
-    source $1
+
+    # commented because is causing console errors with .zshrc
+    # source $1
   fi
 }
 
@@ -75,5 +77,5 @@ if ! git config --global --get-all alias.cd &>/dev/null; then
   git config --global alias.cd checkout
 fi
 echo
-echo 'Done! Now you can use sugar git.'
+echo 'Done! Close and open again your terminal, and you will can use Sugar Git.'
 echo 'See: https://github.com/mkuchak/sugar-git for more information.'
