@@ -9,7 +9,7 @@ Syntactic sugar for git, respecting semantics and modern conventions.
 
 Paste this line in your terminal and done!
 
-`git clone https://github.com/mkuchak/sugar-git ~/.sugar-git && ~/.sugar-git/./install.sh && source ~/.bashrc && source ~/.zshrc`
+`git clone https://github.com/mkuchak/sugar-git ~/.sugar-git && cd ~/.sugar-git && ./install.sh && source ~/.bashrc && source ~/.zshrc`
 
 ### \# Detailed installation
 
