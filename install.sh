@@ -5,32 +5,13 @@ CWD=$(pwd)
 #
 # $1 — shell configuraton file path
 function register_path {
+  # Paths to call git sugar commands
   PATH_BRANCHES='export PATH=$PATH:'$CWD/branches':$PATH'
   PATH_COMMITS='export PATH=$PATH:'$CWD/commits':$PATH'
   PATH_MANAGEMENT='export PATH=$PATH:'$CWD/management':$PATH'
 
-  if [ -f $1 ]; then
-    if ! grep -Fxq "$PATH_BRANCHES" $1; then
-      echo "Adding branches path to $1"
-      echo $PATH_BRANCHES >>$1
-      source $1
-    fi
-    if ! grep -Fxq "$PATH_COMMITS" $1; then
-      echo "Adding commits path to $1"
-      echo $PATH_COMMITS >>$1
-      source $1
-    fi
-    if ! grep -Fxq "$PATH_MANAGEMENT" $1; then
-      echo "Adding management path to $1"
-      echo $PATH_MANAGEMENT >>$1
-      source $1
-    fi
-  fi
-}
-
-# Needs to create an auto register for this function
-# Some cheating to override 'mv', 'rm' and 'merge' commands
-function git {
+  # Some cheating to override 'mv', 'rm', 'log' and 'merge' commands
+  MAIN_FUNC='function git {
   if [[ "$1" == "mv" && "$@" != *"-ns"* && "$@" != *"--no-sugar"* && "$@" != *"--help"* ]]; then
     shift 1
     command git move "$@"
@@ -46,23 +27,49 @@ function git {
   else
     if [[ "$@" == *"-ns"* ]]; then
       for param; do
-        [[ ! $param == '-ns' ]] && newparams+=("$param")
+        [[ ! $param == "-ns" ]] && newparams+=("$param")
       done
       set -- "${newparams[@]}"
     elif [[ "$@" == *"--no-sugar"* ]]; then
       for param; do
-        [[ ! $param == '--no-sugar' ]] && newparams+=("$param")
+        [[ ! $param == "--no-sugar" ]] && newparams+=("$param")
       done
       set -- "${newparams[@]}"
     fi
     unset newparams
     command git "$@"
   fi
+}'
+
+  if [ -f $1 ]; then
+    if ! grep -Fxq "$PATH_BRANCHES" $1; then
+      echo "Adding branches path to $1"
+      cat <<<"" >>$1
+      echo $PATH_BRANCHES >>$1
+    fi
+    if ! grep -Fxq "$PATH_COMMITS" $1; then
+      echo "Adding commits path to $1"
+      cat <<<"" >>$1
+      echo $PATH_COMMITS >>$1
+    fi
+    if ! grep -Fxq "$PATH_MANAGEMENT" $1; then
+      echo "Adding management path to $1"
+      cat <<<"" >>$1
+      echo $PATH_MANAGEMENT >>$1
+    fi
+    if ! grep -Fxq "function git {" $1; then
+      echo "Adding main function path to $1"
+      cat <<<"" >>$1
+      echo "$MAIN_FUNC" >>$1
+    fi
+    source $1
+  fi
 }
 
 echo 'Installing scripts…'
 echo
 register_path ~/.bashrc
+echo
 register_path ~/.zshrc
 if ! git config --global --get-all alias.cd &>/dev/null; then
   git config --global alias.cd checkout
