@@ -7,9 +7,9 @@ Syntactic sugar for git, respecting semantics and modern conventions.
 
 ### \# Quick install
 
-Paste this line in your terminal and be happy!
+Paste this line in your terminal and done!
 
-`git clone https://github.com/mkuchak/sugar-git ~/.sugar-git && ~/.sugar-git/./install.sh && source ~/.zshrc && source ~/.bashrc`
+`git clone https://github.com/mkuchak/sugar-git ~/.sugar-git && ~/.sugar-git/./install.sh && source ~/.bashrc && source ~/.zshrc`
 
 ### \# Detailed installation
 
@@ -26,7 +26,11 @@ Paste this line in your terminal and be happy!
 
      Tip: Installation script is idempotent and could be harmlessly executed multiple times. It adds bash scripts to the PATH in your `~/.bashrc` or `~/.zshrc` files (without any duplication).
 
-3. Commit away!
+3. Source your shell or close and open the terminal again:
+
+   `source ~/.bashrc && source ~/.zshrc`
+
+4. Commit away!
 
 ### \# Tip: edit your default git editor (optional)
 
