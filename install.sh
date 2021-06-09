@@ -74,8 +74,12 @@ register_path ~/.bashrc
 echo
 register_path ~/.zshrc
 if ! git config --global --get-all alias.cd &>/dev/null; then
-  git config --global alias.cd checkout
-  git config --global alias.undo "restore --staged"
+  git config --global alias.cd "\!git checkout"
+  git config --global alias.sub "\!git restore --staged"
+  git config --global alias.t "\!sh -c 'git tag -a \$1 -m \$1'"
+  git config --global alias.amend "\!git add --all && git commit --amend --no-edit"
+  # ensures the sending of tags to the repository via push
+  git config --global push.followTags true
 fi
 echo
 echo 'Done! Close and open again your terminal, and you will can use Sugar Git.'
