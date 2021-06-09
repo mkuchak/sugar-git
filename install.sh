@@ -23,7 +23,7 @@ function register_path {
     command git merging "$@"
   elif [[ "$1" == "log" && "$@" != *"-ns"* && "$@" != *"--no-sugar"* && "$@" != *"--help"* ]]; then
     shift 1
-    command git lg "$@"
+    command git l "$@"
   else
     if [[ "$@" == *"-ns"* ]]; then
       for param; do
