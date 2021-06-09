@@ -75,6 +75,7 @@ echo
 register_path ~/.zshrc
 if ! git config --global --get-all alias.cd &>/dev/null; then
   git config --global alias.cd checkout
+  git config --global alias.undo "restore --staged"
 fi
 echo
 echo 'Done! Close and open again your terminal, and you will can use Sugar Git.'
