@@ -1,7 +1,7 @@
-# Sugar Git
-
-<img src="https://user-images.githubusercontent.com/3791148/115315966-cafc8580-a14e-11eb-910d-452851ad87af.png" alt="Sugar Git" height="160" />
-Syntactic sugar for git, respecting semantics and modern conventions.
+<div align="center">
+   <img src="https://user-images.githubusercontent.com/3791148/115315966-cafc8580-a14e-11eb-910d-452851ad87af.png" alt="Sugar Git" height="160" />
+</div>
+<div align="center">Syntactic sugar for Git, respecting semantics and modern conventions</div>
 
 ## 1. Installation
 
@@ -44,19 +44,19 @@ git config --global core.editor "vim --wait"
 
 ### \# Git Manager
 
-| Command [optional] \<required>                               | Description                                                  |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| git ls [-r \| -l]                                            | List all branches, only remote or only local                 |
-| git mkdir [-o \| --origin] \<new_branch>                     | Create new branch                                            |
-| git cd \<branch>                                             | Change the current working branch                            |
-| git mv [-ns \| --no-sugar] \<old_branch> \<new_branch>       | Rename some branch                                           |
-| git rm [-o \| --origin] [-ns \| --no-sugar] \<branch>        | Remove some branch                                           |
-| git wipe [-y \| --yes] [\<branch>]                           | Wipe the working branch as per the remote branch             |
-| git rollback [\<commit_id>]                                  | Back the commit history, but it preserves the file contents  |
-| git edit [\<commit_id>]                                      | Edit the most recent commit message                          |
-| git get [-f \| --force] [\<branch>]                          | Fetch and merge changes from remote branch to working branch |
-| git put [-f \| --force] [\<branch>]                          | Send committed changes from working branch to the respective remote branch |
-| git log [ -a \| --author ] [ -s \| --since ] [ -u \| --until ] [-e \| --exclude] [-ns \| --no-sugar] ["\<search_terms>"] | Search in the history of commit by applying some filters     |
+| Command [optional] \<required>                                                                                           | Description                                                                |
+| ------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| git ls [-r \| -l]                                                                                                        | List all branches, only remote or only local                               |
+| git mkdir [-o \| --origin] \<new_branch>                                                                                 | Create new branch                                                          |
+| git cd \<branch>                                                                                                         | Change the current working branch                                          |
+| git mv [-ns \| --no-sugar] \<old_branch> \<new_branch>                                                                   | Rename some branch                                                         |
+| git rm [-o \| --origin] [-ns \| --no-sugar] \<branch>                                                                    | Remove some branch                                                         |
+| git wipe [-y \| --yes] [\<branch>]                                                                                       | Wipe the working branch as per the remote branch                           |
+| git rollback [\<commit_id>]                                                                                              | Back the commit history, but it preserves the file contents                |
+| git edit [\<commit_id>]                                                                                                  | Edit the most recent commit message                                        |
+| git get [-f \| --force] [\<branch>]                                                                                      | Fetch and merge changes from remote branch to working branch               |
+| git put [-f \| --force] [\<branch>]                                                                                      | Send committed changes from working branch to the respective remote branch |
+| git log [ -a \| --author ] [ -s \| --since ] [ -u \| --until ] [-e \| --exclude] [-ns \| --no-sugar] ["\<search_terms>"] | Search in the history of commit by applying some filters                   |
 
 To use original command add `-ns` argument (no sugar), as example `git rm -ns Documentation/\*.txt`.
 
