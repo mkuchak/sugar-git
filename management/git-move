@@ -1,2 +1,0 @@
-#!/bin/bash
-git branch -m $1 $2

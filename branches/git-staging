@@ -1,8 +1,0 @@
-#!/bin/bash
-if [ "$1" == "-o" -o "$1" == "--origin" ]; then
-  shift
-  git checkout -b staging
-  git push -u origin staging
-else
-  git checkout -b staging
-fi

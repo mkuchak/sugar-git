@@ -1,7 +1,0 @@
-#!/bin/bash
-if [ "$1" == "-o" -o "$1" == "--origin" ]; then
-  git checkout -b $2
-  git push -u origin $2
-else
-  git checkout -b $1
-fi
