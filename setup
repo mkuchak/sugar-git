@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# Figure out if we need sudo or not
+sudo=''
+if [[ $EUID -ne 0 ]]; then
+  sudo='sudo'
+fi
+
+# Download script from Github
+echo "=== Saving executable to /usr/local/bin/op"
+curl_command="curl -s https://raw.githubusercontent.com/mkuchak/sugar-git/main/sgit > /usr/local/bin/sgit"
+$sudo bash -c "$curl_command"
+$sudo chmod a+x /usr/local/bin/sgit
+
+# Install completions
+if [[ -d "/usr/share/bash-completion/completions" ]]; then
+  compdir="/usr/share/bash-completion/completions"
+elif [[ -d "/usr/local/etc/bash_completion.d" ]]; then
+  compdir="/usr/local/etc/bash_completion.d"
+else
+  compdir=''
+fi
+
+if [[ -n $compdir ]]; then
+  echo "=== Installing autocompletions to $compdir"
+  echo "eval \"\$(sgit completions)\"" | $sudo tee "${compdir}/sgit" > /dev/null
+else
+  echo "=== Completion script was not installed"
+  echo "    To install it manually add this to your startup script:"
+  echo "    eval \"\$(sgit completions)\""
+fi
+
+# Verify
+if type sgit > /dev/null; then
+  echo "=== Done. Type 'sgit --help' for more info."
+else
+  echo "=== Setup failed."
+  exit 1
+fi
