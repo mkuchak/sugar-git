@@ -2145,7 +2145,7 @@ sgit_build_command() {
 
   git commit -m "$message" $edit
 
-  if [ ! -z ${args[--push]} ]; then
+  if [ ! -z ${args[--put]} ]; then
     git push $force origin $(git rev-parse --abbrev-ref HEAD)
   fi
 }
@@ -2168,7 +2168,7 @@ sgit_chore_command() {
 
   git commit -m "$message" $edit
 
-  if [ ! -z ${args[--push]} ]; then
+  if [ ! -z ${args[--put]} ]; then
     git push $force origin $(git rev-parse --abbrev-ref HEAD)
   fi
 }
@@ -2191,7 +2191,7 @@ sgit_ci_command() {
 
   git commit -m "$message" $edit
 
-  if [ ! -z ${args[--push]} ]; then
+  if [ ! -z ${args[--put]} ]; then
     git push $force origin $(git rev-parse --abbrev-ref HEAD)
   fi
 }
@@ -2214,7 +2214,7 @@ sgit_docs_command() {
 
   git commit -m "$message" $edit
 
-  if [ ! -z ${args[--push]} ]; then
+  if [ ! -z ${args[--put]} ]; then
     git push $force origin $(git rev-parse --abbrev-ref HEAD)
   fi
 }
@@ -2237,7 +2237,7 @@ sgit_feat_command() {
 
   git commit -m "$message" $edit
 
-  if [ ! -z ${args[--push]} ]; then
+  if [ ! -z ${args[--put]} ]; then
     git push $force origin $(git rev-parse --abbrev-ref HEAD)
   fi
 }
@@ -2260,7 +2260,7 @@ sgit_fix_command() {
 
   git commit -m "$message" $edit
 
-  if [ ! -z ${args[--push]} ]; then
+  if [ ! -z ${args[--put]} ]; then
     git push $force origin $(git rev-parse --abbrev-ref HEAD)
   fi
 }
@@ -2283,7 +2283,7 @@ sgit_localize_command() {
 
   git commit -m "$message" $edit
 
-  if [ ! -z ${args[--push]} ]; then
+  if [ ! -z ${args[--put]} ]; then
     git push $force origin $(git rev-parse --abbrev-ref HEAD)
   fi
 }
@@ -2306,7 +2306,7 @@ sgit_perf_command() {
 
   git commit -m "$message" $edit
 
-  if [ ! -z ${args[--push]} ]; then
+  if [ ! -z ${args[--put]} ]; then
     git push $force origin $(git rev-parse --abbrev-ref HEAD)
   fi
 }
@@ -2329,7 +2329,7 @@ sgit_refactor_command() {
 
   git commit -m "$message" $edit
 
-  if [ ! -z ${args[--push]} ]; then
+  if [ ! -z ${args[--put]} ]; then
     git push $force origin $(git rev-parse --abbrev-ref HEAD)
   fi
 }
@@ -2352,7 +2352,7 @@ sgit_revert_command() {
 
   git commit -m "$message" $edit
 
-  if [ ! -z ${args[--push]} ]; then
+  if [ ! -z ${args[--put]} ]; then
     git push $force origin $(git rev-parse --abbrev-ref HEAD)
   fi
 }
@@ -2375,7 +2375,7 @@ sgit_style_command() {
 
   git commit -m "$message" $edit
 
-  if [ ! -z ${args[--push]} ]; then
+  if [ ! -z ${args[--put]} ]; then
     git push $force origin $(git rev-parse --abbrev-ref HEAD)
   fi
 }
@@ -2398,7 +2398,7 @@ sgit_test_command() {
 
   git commit -m "$message" $edit
 
-  if [ ! -z ${args[--push]} ]; then
+  if [ ! -z ${args[--put]} ]; then
     git push $force origin $(git rev-parse --abbrev-ref HEAD)
   fi
 }

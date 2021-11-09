@@ -13,6 +13,6 @@ fi
 
 git commit -m "$message" $edit
 
-if [ ! -z ${args[--push]} ]; then
+if [ ! -z ${args[--put]} ]; then
   git push $force origin $(git rev-parse --abbrev-ref HEAD)
 fi
