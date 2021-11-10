@@ -5,6 +5,10 @@
 
 <p align="center">Syntactic sugar for Git, respecting semantics and modern conventions</p>
 
+<div align="center">
+   <video src="https://user-images.githubusercontent.com/3791148/141038463-a3af79ac-c87a-493b-b6d7-af1a6e80f6d0.mp4" / >
+</div>
+
 ## Prerequisites
 
 - Bash 4.0 or higher (`brew install bash` on mac).
