@@ -51,7 +51,7 @@ $ git config --global user.email "youremail@yourdomain.com"
 $ git init
 
 # Create a new feature branch
-sgit mkdir -f "my awesome feature"
+$ sgit take -f "my awesome feature"
 
 # Result:
 # git checkout -b "feature/my-awesome-feature"
@@ -124,7 +124,7 @@ Usage:
 
 Branches Commands:
   ls            List all branches, only remote or only local
-  mkdir         Create new branch
+  take         Create new branch
   cd            Change the current working branch
   mv            Rename some branch
   rm            Delete some branch
@@ -175,12 +175,12 @@ Options:
 ### Convention branch commands
 
 ```
-$ sgit mkdir -h
-sgit mkdir - Create new branch
+$ sgit take -h
+sgit take - Create new branch
 
 Usage:
-  sgit mkdir [DESCRIPTION] [options]
-  sgit mkdir --help | -h
+  sgit take [DESCRIPTION] [options]
+  sgit take --help | -h
 
 Options:
   --help, -h
@@ -237,7 +237,7 @@ Arguments:
 
 Examples:
   [Command]
-  - sgit mkdir -f "my really awesome feature" -o
+  - sgit take -f "my really awesome feature" -o
   [Result]
   - git checkout -b "feature/my-really-awesome-feature"
   - git push origin feature/my-really-awesome-feature
