@@ -1,4 +1,4 @@
-if [ ! -z ${args[--only-origin]}]; then
+if [ ! -z ${args[--only-origin]} ]; then
   git push origin --delete ${args[branch]}
 else
   if [ ${args[branch]} == "$(git branch --show-current)" ]; then
@@ -10,7 +10,7 @@ else
     git checkout $jump_branch
   fi
   git branch -D ${args[branch]}
-  if [ ! -z ${args[--origin]}]; then
+  if [ ! -z ${args[--origin]} ]; then
     git push origin --delete ${args[branch]}
   fi
 fi
