@@ -14,7 +14,8 @@ commands:
     short: -l
     help: List only local branches
 
-- name: mkdir
+- name: take
+  short: mkdir
   help: "Create new branch"
   args:
   - name: description
@@ -67,7 +68,7 @@ commands:
     help: "Resolving merge conflicts, usually between the latest development and a feature or hotfix branch; also to merge two branches of one feature"
   examples:
   - "[Command]"
-  - " - sgit mkdir -f \"my really awesome feature\" -o"
+  - " - sgit take -f \"my really awesome feature\" -o"
   - "[Result]"
   - " - git checkout -b \"feature/my-really-awesome-feature\""
   - " - git push origin \"feature/my-really-awesome-feature\""
@@ -313,7 +314,7 @@ commands:
   - " - sgit chore -s \"router\" \"allow to extend other configs\" -A"
   - "[Result]"
   - " - git add ."
-  - " - git commit -m \"chore(router): update publicapi\""
+  - " - git commit -m \"chore(router): update public api\""
 
 - name: ci
   help: "Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)"

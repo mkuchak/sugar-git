@@ -7,7 +7,7 @@ elif [ ! -z "${args['--staging']}" ]; then
 elif [ ! -z "${args['--test']}" ]; then
   branch=test
 elif [ ! -z "${args['--dev']}" ]; then
-  branch=dev
+  branch=develop
 elif [ ! -z "${args['--feature']}" ]; then
   branch=feature/${args['--feature']}
 elif [ ! -z "${args['--bugfix']}" ]; then
