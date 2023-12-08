@@ -63,7 +63,7 @@ $ echo "Hello, world!" > README.MD
 $ sgit feat "initial commit" -Ap
 
 # Result:
-# git add .
+# git add --all
 # git commit -m "feat: initial commit"
 # git push origin feature/my-awesome-feature
 
@@ -82,24 +82,19 @@ $ sgit feat -s core "add welcome message" -a index.js
 $ sgit build "npm init" -Ap
 
 # Result:
-# git add .
+# git add --all
 # git commit -m "build: npm init"
 # git push origin feature/my-awesome-feature
 
 # Update same feature
 $ echo "console.log('Hello, folks! 👯')" >> index.js
 
-# Alter last commit with current changes
-$ sgit amend
+# Alter last commit with current changes and push to remote repository
+$ sgit amend -Apf
 
 # Result:
-# git add . --all
+# git add --all
 # git commit --amend --no-edit
-
-# Push to remote repository
-$ sgit put -f
-
-# Result:
 # git push origin feature/my-awesome-feature --force
 
 # Add an annotated tag
@@ -107,6 +102,12 @@ $ sgit tag v0.1.0
 
 # Result:
 # git tag -a v0.1.0 -m 0.1.0
+
+# Push tag to remote repository (if you have configured `git config --global push.followTags true`)
+$ sgit put
+
+# Result:
+# git push origin feature/my-awesome-feature
 ```
 
 ## Usage
@@ -118,19 +119,20 @@ $ sgit -h
 sgit - Syntactic sugar for Git, respecting semantics and modern conventions
 
 Usage:
-  sgit [command]
-  sgit [command] --help | -h
+  sgit COMMAND
+  sgit [COMMAND] --help | -h
   sgit --version | -v
 
 Branches Commands:
   ls            List all branches, only remote or only local
-  take         Create new branch
+  take          Create new branch
   cd            Change the current working branch
   mv            Rename some branch
   rm            Delete some branch
 
 State Commands:
   save          Save credentials storage in git repository
+  remote        Show the current remote repository
   wipe          Wipe the working branch as per the remote branch
   rollback      Back the commit history, but it preserves the file contents
   edit          Edit some commit message
@@ -140,11 +142,15 @@ State Commands:
 Consult Commands:
   log           Search in the history commit by applying some filters
   status        Show the current state of git working directory and staging area
+  incoming      Show the incoming commits from remote branch that is not in the working branch
+  outgoing      Show the outgoing commits from working branch that is not in the remote branch
+  committers    Show the committers of the current branch
 
 Staging Commands:
   add           Add files or directories to staging area
   sub           Remove files or directories from staging area
   amend         Add all untracked, modified and deleted files to the last commit without edit the message
+  resolve       Resolve conflicts in the working branch
   tag           Add an annotated tag with the description same as the message
 
 Commit Commands:
@@ -178,14 +184,13 @@ Options:
 $ sgit take -h
 sgit take - Create new branch
 
+Alias: mkdir
+
 Usage:
-  sgit take [DESCRIPTION] [options]
+  sgit take [DESCRIPTION] [OPTIONS]
   sgit take --help | -h
 
 Options:
-  --help, -h
-    Show this help
-
   --origin, -o
     Defines if the branch should also be created in the origin
 
@@ -220,7 +225,7 @@ Options:
     Any new feature or idea that is not part of a release or a sprint; a branch
     for playing around
 
-  --build, -b DESCRIPTION
+  --build, -u DESCRIPTION
     A branch specifically for creating specific build artifacts or for doing
     code coverage runs
 
@@ -231,6 +236,9 @@ Options:
     Resolving merge conflicts, usually between the latest development and a
     feature or hotfix branch; also to merge two branches of one feature
 
+  --help, -h
+    Show this help
+
 Arguments:
   DESCRIPTION
     The description is a brief explanation about the branch purpose
@@ -240,7 +248,7 @@ Examples:
   - sgit take -f "my really awesome feature" -o
   [Result]
   - git checkout -b "feature/my-really-awesome-feature"
-  - git push origin feature/my-really-awesome-feature
+  - git push origin "feature/my-really-awesome-feature"
 ```
 
 ## Contributing / Support

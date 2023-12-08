@@ -3,724 +3,800 @@ help: Syntactic sugar for Git, respecting semantics and modern conventions
 version: 0.2.0
 
 commands:
-- name: ls
-  help: "List all branches, only remote or only local"
-  group: Branches
-  flags:
-  - long: --remote
-    short: -r
-    help: List only remote branches
-  - long: --local
-    short: -l
-    help: List only local branches
+  - name: ls
+    help: "List all branches, only remote or only local"
+    group: Branches
+    flags:
+      - long: --remote
+        short: -r
+        help: List only remote branches
+      - long: --local
+        short: -l
+        help: List only local branches
 
-- name: take
-  short: mkdir
-  help: "Create new branch"
-  args:
-  - name: description
-    help: "The description is a brief explanation about the branch purpose"
-  flags:
-  - long: --origin
-    short: -o
-    help: "Defines if the branch should also be created in the origin"
-  - long: --only-origin
-    short: -O
-    help: "Defines if the branch should be only created in the origin"
-  - long: --main
-    help: "The production branch"
-  - long: --staging
-    short: -s
-    help: "Demo branch and decisions about release features"
-  - long: --test
-    short: -t
-    help: "Contains all codes ready for QA testing"
-  - long: --dev
-    short: -d
-    help: "All new features and bug fixes; codes conflicts should be done here"
-  - long: --feature
-    short: -f
-    arg: description
-    help: "Any code changes for a new module or use case; should be created based on the current development branch"
-  - long: --bugfix
-    short: -b
-    arg: description
-    help: "If the code changes made from the feature branch were rejected after a release, sprint or demo"
-  - long: --hotfix
-    short: -H
-    arg: description
-    help: "If there is a need to fix something that should be handled immediately; could be merged directly to the production branch"
-  - long: --experimental
-    short: -e
-    arg: description
-    help: "Any new feature or idea that is not part of a release or a sprint; a branch for playing around"
-  - long: --build
-    short: -b
-    arg: description
-    help: "A branch specifically for creating specific build artifacts or for doing code coverage runs"
-  - long: --release
-    short: -r
-    arg: description
-    help: "A branch for tagging a specific release version"
-  - long: --merge
-    short: -m
-    arg: description
-    help: "Resolving merge conflicts, usually between the latest development and a feature or hotfix branch; also to merge two branches of one feature"
-  examples:
-  - "[Command]"
-  - " - sgit take -f \"my really awesome feature\" -o"
-  - "[Result]"
-  - " - git checkout -b \"feature/my-really-awesome-feature\""
-  - " - git push origin \"feature/my-really-awesome-feature\""
+  - name: take
+    alias: mkdir
+    help: "Create new branch"
+    group: Branches
+    args:
+      - name: description
+        help: "The description is a brief explanation about the branch purpose"
+    flags:
+      - long: --origin
+        short: -o
+        help: "Defines if the branch should also be created in the origin"
+      - long: --only-origin
+        short: -O
+        help: "Defines if the branch should be only created in the origin"
+      - long: --main
+        help: "The production branch"
+      - long: --staging
+        short: -s
+        help: "Demo branch and decisions about release features"
+      - long: --test
+        short: -t
+        help: "Contains all codes ready for QA testing"
+      - long: --dev
+        short: -d
+        help: "All new features and bug fixes; codes conflicts should be done here"
+      - long: --feature
+        short: -f
+        arg: description
+        help: "Any code changes for a new module or use case; should be created based on the current development branch"
+      - long: --bugfix
+        short: -b
+        arg: description
+        help: "If the code changes made from the feature branch were rejected after a release, sprint or demo"
+      - long: --hotfix
+        short: -H
+        arg: description
+        help: "If there is a need to fix something that should be handled immediately; could be merged directly to the production branch"
+      - long: --experimental
+        short: -e
+        arg: description
+        help: "Any new feature or idea that is not part of a release or a sprint; a branch for playing around"
+      - long: --build
+        short: -u
+        arg: description
+        help: "A branch specifically for creating specific build artifacts or for doing code coverage runs"
+      - long: --release
+        short: -r
+        arg: description
+        help: "A branch for tagging a specific release version"
+      - long: --merge
+        short: -m
+        arg: description
+        help: "Resolving merge conflicts, usually between the latest development and a feature or hotfix branch; also to merge two branches of one feature"
+    examples:
+      - "[Command]"
+      - ' - sgit take -f "my really awesome feature" -o'
+      - "[Result]"
+      - ' - git checkout -b "feature/my-really-awesome-feature"'
+      - ' - git push origin "feature/my-really-awesome-feature"'
 
-- name: cd
-  help: "Change the current working branch"
-  completions:
-  - $(git branch 2> /dev/null)
-  args:
-  - name: branch
-    help: "The branch to go to"
-    required: true
-  examples:
-  - "[Command]"
-  - " - sgit cd main"
-  - "[Result]"
-  - " - git checkout \"main\""
+  - name: cd
+    help: "Change the current working branch"
+    group: Branches
+    completions:
+      - $(git branch 2> /dev/null)
+    args:
+      - name: branch
+        help: "The branch to go to"
+        required: true
+    examples:
+      - "[Command]"
+      - " - sgit cd main"
+      - "[Result]"
+      - ' - git checkout "main"'
 
-- name: mv
-  help: "Rename some branch"
-  completions:
-  - $(git branch 2> /dev/null)
-  args:
-  - name: old_branch
-    help: "The current branch you want to rename"
-    required: true
-  - name: new_branch
-    help: "The new name for branch"
-    required: true
-  flags:
-  - long: --origin
-    short: -o
-    help: "Defines if the branch should also be renamed in the origin"
-  - long: --only-origin
-    short: -O
-    help: "Defines if the branch should be only renamed in the origin"
+  - name: mv
+    help: "Rename some branch"
+    group: Branches
+    completions:
+      - $(git branch 2> /dev/null)
+    args:
+      - name: old_branch
+        help: "The current branch you want to rename"
+        required: true
+      - name: new_branch
+        help: "The new name for branch"
+        required: true
+    flags:
+      - long: --origin
+        short: -o
+        help: "Defines if the branch should also be renamed in the origin"
+      - long: --only-origin
+        short: -O
+        help: "Defines if the branch should be only renamed in the origin"
 
-- name: rm
-  help: "Delete some branch"
-  completions:
-  - $(git branch 2> /dev/null)
-  args:
-  - name: branch
-    help: "Branch to delete; if none are informed, delete the current one"
-  flags:
-  - long: --origin
-    short: -o
-    help: "Defines if the branch should also be deleted in the origin"
-  - long: --only-origin
-    short: -O
-    help: "Defines if the branch should be only deleted in the origin"
+  - name: rm
+    help: "Delete some branch"
+    group: Branches
+    completions:
+      - $(git branch 2> /dev/null)
+    args:
+      - name: branch
+        help: "Branch to delete; if none are informed, delete the current one"
+    flags:
+      - long: --origin
+        short: -o
+        help: "Defines if the branch should also be deleted in the origin"
+      - long: --only-origin
+        short: -O
+        help: "Defines if the branch should be only deleted in the origin"
 
-- name: save
-  help: "Save credentials storage in git repository"
-  group: State
-  flags:
-  - long: --global
-    short: -g
-    help: "Enable credentials storage globally"
+  - name: save
+    help: "Save credentials storage in git repository"
+    group: State
+    flags:
+      - long: --global
+        short: -g
+        help: "Enable credentials storage globally"
 
-- name: wipe
-  help: "Wipe the working branch as per the remote branch"
-  completions:
-  - $(git branch 2> /dev/null)
-  args:
-  - name: branch
-    help: "Branch to wipe; if none are informed, wipe the current one"
-  flags:
-  - long: --yes
-    short: -y
-    help: "Skip confirmation"
+  - name: remote
+    help: "Show the current remote repository"
+    group: State
+    flags:
+      - long: --add
+        short: -a
+        arg: add
+        help: "Add or replace the current origin remote repository"
+      - long: --remove
+        short: -r
+        help: "Remove the current origin remote repository"
 
-- name: rollback
-  short: rb
-  help: "Back the commit history, but it preserves the file contents"
-  args:
-  - name: commit_id
-    help: "The commit ID; if none are informed, rollback to the last commit"
+  - name: wipe
+    help: "Wipe the working branch as per the remote branch"
+    group: State
+    completions:
+      - $(git branch 2> /dev/null)
+    args:
+      - name: branch
+        help: "Branch to wipe; if none are informed, wipe the current one"
+    flags:
+      - long: --yes
+        short: -y
+        help: "Skip confirmation"
 
-- name: edit
-  help: "Edit some commit message"
-  args:
-  - name: commit_id
-    help: "The commit ID; if none are informed, edit the last commit"
+  - name: rollback
+    alias: rb
+    help: "Back the commit history, but it preserves the file contents"
+    group: State
+    args:
+      - name: commit_id
+        help: "The commit ID; if none are informed, rollback to the last commit"
 
-- name: get
-  help: "Fetch and merge changes from remote branch to working branch (pull shortcut)"
-  completions:
-  - $(git branch 2> /dev/null)
-  args:
-  - name: branch
-    help: "Branch name to get"
-  flags:
-  - long: --force
-    short: -f
-    help: "Overwrite existing local commits in case conflicts"
+  - name: edit
+    help: "Edit some commit message"
+    group: State
+    args:
+      - name: commit_id
+        help: "The commit ID; if none are informed, edit the last commit"
 
-- name: put
-  completions:
-  - $(git branch 2> /dev/null)
-  help: "Send committed changes from working branch to the respective remote branch (push shortcut)"
-  args:
-  - name: branch
-    help: "Branch name to put"
-  flags:
-  - long: --force
-    short: -f
-    help: "Overwrite existing origin commits in case conflicts"
+  - name: get
+    help: "Fetch and merge changes from remote branch to working branch (pull shortcut)"
+    group: State
+    completions:
+      - $(git branch 2> /dev/null)
+    args:
+      - name: branch
+        help: "Branch name to get"
+    flags:
+      - long: --force
+        short: -f
+        help: "Overwrite existing local commits in case conflicts"
 
-- name: log
-  short: l
-  help: "Search in the history commit by applying some filters"
-  group: Consult
-  args:
-  - name: search_terms
-    help: "Type something to search, like \"feat\" to see all feature commits"
-  flags:
-  - long: --author
-    short: -a
-    arg: author
-    help: "Filter by author"
-  - long: --since
-    short: -s
-    arg: since
-    help: "Filter since of..."
-  - long: --until
-    short: -u
-    arg: until
-    help: "Filter until of..."
-  - long: --exclude
-    short: -e
-    help: "Filter excluding some term"
+  - name: put
+    completions:
+      - $(git branch 2> /dev/null)
+    help: "Send committed changes from working branch to the respective remote branch (push shortcut)"
+    group: State
+    args:
+      - name: branch
+        help: "Branch name to put"
+    flags:
+      - long: --force
+        short: -f
+        help: "Overwrite existing origin commits in case conflicts"
 
-- name: status
-  short: s
-  help: "Show the current state of git working directory and staging area"
+  - name: log
+    alias: l
+    help: "Search in the history commit by applying some filters"
+    group: Consult
+    args:
+      - name: search_terms
+        help: 'Type something to search, like "feat" to see all feature commits'
+    flags:
+      - long: --author
+        short: -a
+        arg: author
+        help: "Filter by author"
+      - long: --since
+        short: -s
+        arg: since
+        help: "Filter since of..."
+      - long: --until
+        short: -u
+        arg: until
+        help: "Filter until of..."
+      - long: --exclude
+        short: -e
+        help: "Filter excluding some term"
 
-- name: add
-  catch_all: string
-  completions:
-  - <directory>
-  - <file>
-  help: "Add files or directories to staging area"
-  group: Staging
+  - name: status
+    alias: s
+    help: "Show the current state of git working directory and staging area"
+    group: Consult
 
-- name: sub
-  catch_all: string
-  completions:
-  - <directory>
-  - <file>
-  help: "Remove files or directories from staging area"
-  flags:
-  - long: --all
-    short: -a
-    help: "Remove all files or directories from staging area"
+  - name: incoming
+    alias: in
+    help: "Show the incoming commits from remote branch that is not in the working branch"
+    group: Consult
 
-- name: amend
-  help: "Add all untracked, modified and deleted files to the last commit without edit the message"
+  - name: outgoing
+    alias: out
+    help: "Show the outgoing commits from working branch that is not in the remote branch"
+    group: Consult
 
-- name: tag
-  short: t
-  help: "Add an annotated tag with the description same as the message"
-  args:
-  - name: message
-    help: The annotated/message
+  - name: committers
+    alias: cm
+    help: "Show the committers of the current branch"
+    group: Consult
 
-- name: build
-  short: bd
-  help: "Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)"
-  group: Commit
-  completions:
-  - <directory>
-  - <file>
-  args:
-  - name: description
-    help: "The description is a short summary of the code changes"
-  flags:
-  - long: --scope
-    short: -s
-    arg: scope
-    help: "Provides a scope consisting of a noun to provide additional contextual information"
-  - long: --breaking-change
-    short: -b
-    help: "Draw attention to breaking change"
-  - long: --edit
-    short: -e
-    help: "Open default editor to complete commit description"
-  - long: --add
-    short: -a
-    arg: add
-    help: "Add specific untracked, modified and deleted file to this commit"
-  - long: --add-all
-    short: -A
-    help: "Add all untracked, modified and deleted files to this commit"
-  - long: --put
-    short: -p
-    help: "Put this commit directly on the remote branch"
-  - long: --force
-    short: -f
-    help: "If pushed, overwrite existing commits in case conflicts"
-  examples:
-  - "[Command]"
-  - " - sgit build \"add express types\" -a package.json"
-  - "[Result]"
-  - " - git add package.json"
-  - " - git commit -m \"build: add express types\""
+  - name: add
+    catch_all: string
+    completions:
+      - <directory>
+      - <file>
+    help: "Add files or directories to staging area"
+    group: Staging
 
-- name: chore
-  short: ch
-  help: "Code change that external user won't see (eg: change to .gitignore file or .prettierrc file)"
-  completions:
-  - <directory>
-  - <file>
-  args:
-  - name: description
-    help: "The description is a short summary of the code changes"
-  flags:
-  - long: --scope
-    short: -s
-    arg: scope
-    help: "Provides a scope consisting of a noun to provide additional contextual information"
-  - long: --breaking-change
-    short: -b
-    help: "Draw attention to breaking change"
-  - long: --edit
-    short: -e
-    help: "Open default editor to complete commit description"
-  - long: --add
-    short: -a
-    arg: add
-    help: "Add specific untracked, modified and deleted file to this commit"
-  - long: --add-all
-    short: -A
-    help: "Add all untracked, modified and deleted files to this commit"
-  - long: --put
-    short: -p
-    help: "Put this commit directly on the remote branch"
-  - long: --force
-    short: -f
-    help: "If pushed, overwrite existing commits in case conflicts"
-  examples:
-  - "[Command]"
-  - " - sgit chore -s \"router\" \"allow to extend other configs\" -A"
-  - "[Result]"
-  - " - git add ."
-  - " - git commit -m \"chore(router): update public api\""
+  - name: sub
+    catch_all: string
+    completions:
+      - <directory>
+      - <file>
+    help: "Remove files or directories from staging area"
+    group: Staging
+    flags:
+      - long: --all
+        short: -a
+        help: "Remove all files or directories from staging area"
 
-- name: ci
-  help: "Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)"
-  completions:
-  - <directory>
-  - <file>
-  args:
-  - name: description
-    help: "The description is a short summary of the code changes"
-  flags:
-  - long: --scope
-    short: -s
-    arg: scope
-    help: "Provides a scope consisting of a noun to provide additional contextual information"
-  - long: --breaking-change
-    short: -b
-    help: "Draw attention to breaking change"
-  - long: --edit
-    short: -e
-    help: "Open default editor to complete commit description"
-  - long: --add
-    short: -a
-    arg: add
-    help: "Add specific untracked, modified and deleted file to this commit"
-  - long: --add-all
-    short: -A
-    help: "Add all untracked, modified and deleted files to this commit"
-  - long: --put
-    short: -p
-    help: "Put this commit directly on the remote branch"
-  - long: --force
-    short: -f
-    help: "If pushed, overwrite existing commits in case conflicts"
-  examples:
-  - "[Command]"
-  - " - sgit ci"
-  - "[Result]"
-  - " - git commit -m \"ci: \" --edit"
-  - " - * Open default editor to complete the message *"
+  - name: amend
+    help: "Add all untracked, modified and deleted files to the last commit without edit the message"
+    group: Staging
+    flags:
+      - long: --add
+        short: -a
+        arg: add
+        help: "Add specific untracked, modified and deleted file to this commit"
+      - long: --add-all
+        short: -A
+        help: "Add all untracked, modified and deleted files to this commit"
+      - long: --put
+        short: -p
+        help: "Put this commit directly on the remote branch"
+      - long: --force
+        short: -f
+        help: "If pushed, overwrite existing commits in case conflicts"
 
-- name: docs
-  short: dc
-  help: "Documentation only changes"
-  completions:
-  - <directory>
-  - <file>
-  args:
-  - name: description
-    help: "The description is a short summary of the code changes"
-  flags:
-  - long: --scope
-    short: -s
-    arg: scope
-    help: "Provides a scope consisting of a noun to provide additional contextual information"
-  - long: --breaking-change
-    short: -b
-    help: "Draw attention to breaking change"
-  - long: --edit
-    short: -e
-    help: "Open default editor to complete commit description"
-  - long: --add
-    short: -a
-    arg: add
-    help: "Add specific untracked, modified and deleted file to this commit"
-  - long: --add-all
-    short: -A
-    help: "Add all untracked, modified and deleted files to this commit"
-  - long: --put
-    short: -p
-    help: "Put this commit directly on the remote branch"
-  - long: --force
-    short: -f
-    help: "If pushed, overwrite existing commits in case conflicts"
-  examples:
-  - "[Command]"
-  - " - sgit docs \"update per tech review\" -Apfe"
-  - "[Result]"
-  - " - git add ."
-  - " - git commit -m \"docs: update per tech review\" --edit"
-  - " - * Open default editor to complete the message *"
-  - " - git push --force"
+  - name: resolve
+    help: "Resolve conflicts in the working branch"
+    group: Staging
+    flags:
+      - long: --ours
+        short: -o
+        help: "Resolve conflicts using the working branch version"
+      - long: --theirs
+        short: -t
+        help: "Resolve conflicts using the remote branch version"
 
-- name: feat
-  short: ft
-  help: "New feature"
-  completions:
-  - <directory>
-  - <file>
-  args:
-  - name: description
-    help: "The description is a short summary of the code changes"
-  flags:
-  - long: --scope
-    short: -s
-    arg: scope
-    help: "Provides a scope consisting of a noun to provide additional contextual information"
-  - long: --breaking-change
-    short: -b
-    help: "Draw attention to breaking change"
-  - long: --edit
-    short: -e
-    help: "Open default editor to complete commit description"
-  - long: --add
-    short: -a
-    arg: add
-    help: "Add specific untracked, modified and deleted file to this commit"
-  - long: --add-all
-    short: -A
-    help: "Add all untracked, modified and deleted files to this commit"
-  - long: --put
-    short: -p
-    help: "Put this commit directly on the remote branch"
-  - long: --force
-    short: -f
-    help: "If pushed, overwrite existing commits in case conflicts"
-  examples:
-  - "[Command]"
-  - " - sgit feat -s \"service-worker\" \"expose more version update events\" -bea \"-p src/index.ts\""
-  - "[Result]"
-  - " - git add -p src/index.ts"
-  - " - git commit -m \"feat(service-worker)!: expose more version update events\" --edit"
-  - " - * Open default editor to complete the message *"
+  - name: tag
+    alias: t
+    help: "Add an annotated tag with the description same as the message"
+    group: Staging
+    args:
+      - name: message
+        help: The annotated/message
 
-- name: fix
-  help: "Bug fix"
-  completions:
-  - <directory>
-  - <file>
-  args:
-  - name: description
-    help: "The description is a short summary of the code changes"
-  flags:
-  - long: --scope
-    short: -s
-    arg: scope
-    help: "Provides a scope consisting of a noun to provide additional contextual information"
-  - long: --breaking-change
-    short: -b
-    help: "Draw attention to breaking change"
-  - long: --edit
-    short: -e
-    help: "Open default editor to complete commit description"
-  - long: --add
-    short: -a
-    arg: add
-    help: "Add specific untracked, modified and deleted file to this commit"
-  - long: --add-all
-    short: -A
-    help: "Add all untracked, modified and deleted files to this commit"
-  - long: --put
-    short: -p
-    help: "Put this commit directly on the remote branch"
-  - long: --force
-    short: -f
-    help: "If pushed, overwrite existing commits in case conflicts"
-  examples:
-  - "[Command]"
-  - " - sgit fix \"clear service worker cache in safety worker\" -Aps \"service-worker\""
-  - "[Result]"
-  - " - git add ."
-  - " - git commit -m \"fix(service-worker): clear service worker cache in safety worker\""
-  - " - git push"
+  - name: build
+    alias: bd
+    help: "Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)"
+    group: Commit
+    completions:
+      - <directory>
+      - <file>
+    args:
+      - name: description
+        help: "The description is a short summary of the code changes"
+    flags:
+      - long: --scope
+        short: -s
+        arg: scope
+        help: "Provides a scope consisting of a noun to provide additional contextual information"
+      - long: --breaking-change
+        short: -b
+        help: "Draw attention to breaking change"
+      - long: --edit
+        short: -e
+        help: "Open default editor to complete commit description"
+      - long: --add
+        short: -a
+        arg: add
+        help: "Add specific untracked, modified and deleted file to this commit"
+      - long: --add-all
+        short: -A
+        help: "Add all untracked, modified and deleted files to this commit"
+      - long: --put
+        short: -p
+        help: "Put this commit directly on the remote branch"
+      - long: --force
+        short: -f
+        help: "If pushed, overwrite existing commits in case conflicts"
+    examples:
+      - "[Command]"
+      - ' - sgit build "add express types" -a package.json'
+      - "[Result]"
+      - " - git add package.json"
+      - ' - git commit -m "build: add express types"'
 
-- name: localize
-  short: lc
-  help: "Translations update"
-  completions:
-  - <directory>
-  - <file>
-  args:
-  - name: description
-    help: "The description is a short summary of the code changes"
-  flags:
-  - long: --scope
-    short: -s
-    arg: scope
-    help: "Provides a scope consisting of a noun to provide additional contextual information"
-  - long: --breaking-change
-    short: -b
-    help: "Draw attention to breaking change"
-  - long: --edit
-    short: -e
-    help: "Open default editor to complete commit description"
-  - long: --add
-    short: -a
-    arg: add
-    help: "Add specific untracked, modified and deleted file to this commit"
-  - long: --add-all
-    short: -A
-    help: "Add all untracked, modified and deleted files to this commit"
-  - long: --put
-    short: -p
-    help: "Put this commit directly on the remote branch"
-  - long: --force
-    short: -f
-    help: "If pushed, overwrite existing commits in case conflicts"
-  examples:
-  - "[Command]"
-  - " - sgit localize \"add new en_US terms\" --add-all"
-  - "[Result]"
-  - " - git add ."
-  - " - git commit -m \"localize: add new us_en terms\""
+  - name: chore
+    alias: ch
+    help: "Code change that external user won't see (eg: change to .gitignore file or .prettierrc file)"
+    group: Commit
+    completions:
+      - <directory>
+      - <file>
+    args:
+      - name: description
+        help: "The description is a short summary of the code changes"
+    flags:
+      - long: --scope
+        short: -s
+        arg: scope
+        help: "Provides a scope consisting of a noun to provide additional contextual information"
+      - long: --breaking-change
+        short: -b
+        help: "Draw attention to breaking change"
+      - long: --edit
+        short: -e
+        help: "Open default editor to complete commit description"
+      - long: --add
+        short: -a
+        arg: add
+        help: "Add specific untracked, modified and deleted file to this commit"
+      - long: --add-all
+        short: -A
+        help: "Add all untracked, modified and deleted files to this commit"
+      - long: --put
+        short: -p
+        help: "Put this commit directly on the remote branch"
+      - long: --force
+        short: -f
+        help: "If pushed, overwrite existing commits in case conflicts"
+    examples:
+      - "[Command]"
+      - ' - sgit chore -s "router" "allow to extend other configs" -A'
+      - "[Result]"
+      - " - git add --all"
+      - ' - git commit -m "chore(router): update public api"'
 
-- name: perf
-  short: pf
-  help: "Code change that improves performance"
-  completions:
-  - <directory>
-  - <file>
-  args:
-  - name: description
-    help: "The description is a short summary of the code changes"
-  flags:
-  - long: --scope
-    short: -s
-    arg: scope
-    help: "Provides a scope consisting of a noun to provide additional contextual information"
-  - long: --breaking-change
-    short: -b
-    help: "Draw attention to breaking change"
-  - long: --edit
-    short: -e
-    help: "Open default editor to complete commit description"
-  - long: --add
-    short: -a
-    arg: add
-    help: "Add specific untracked, modified and deleted file to this commit"
-  - long: --add-all
-    short: -A
-    help: "Add all untracked, modified and deleted files to this commit"
-  - long: --put
-    short: -p
-    help: "Put this commit directly on the remote branch"
-  - long: --force
-    short: -f
-    help: "If pushed, overwrite existing commits in case conflicts"
-  examples:
-  - "[Command]"
-  - " - sgit perf \"add js-web-frameworks benchmark (#34034)\" -pa \"/benchmarks/BUILD.bazel /benchmarks/perf.spec.ts\""
-  - "[Result]"
-  - " - git add /benchmarks/BUILD.bazel /benchmarks/perf.spec.ts"
-  - " - git commit -m \"perf: add js-web-frameworks benchmark (#34034)\""
-  - " - git push"
+  - name: ci
+    help: "Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)"
+    group: Commit
+    completions:
+      - <directory>
+      - <file>
+    args:
+      - name: description
+        help: "The description is a short summary of the code changes"
+    flags:
+      - long: --scope
+        short: -s
+        arg: scope
+        help: "Provides a scope consisting of a noun to provide additional contextual information"
+      - long: --breaking-change
+        short: -b
+        help: "Draw attention to breaking change"
+      - long: --edit
+        short: -e
+        help: "Open default editor to complete commit description"
+      - long: --add
+        short: -a
+        arg: add
+        help: "Add specific untracked, modified and deleted file to this commit"
+      - long: --add-all
+        short: -A
+        help: "Add all untracked, modified and deleted files to this commit"
+      - long: --put
+        short: -p
+        help: "Put this commit directly on the remote branch"
+      - long: --force
+        short: -f
+        help: "If pushed, overwrite existing commits in case conflicts"
+    examples:
+      - "[Command]"
+      - " - sgit ci"
+      - "[Result]"
+      - ' - git commit -m "ci: " --edit'
+      - " - * Open default editor to complete the message *"
 
-- name: refactor
-  short: rf
-  help: "Code change that neither fixes a bug nor adds a feature; refactoring production code, eg. renaming a variable"
-  completions:
-  - <directory>
-  - <file>
-  args:
-  - name: description
-    help: "The description is a short summary of the code changes"
-  flags:
-  - long: --scope
-    short: -s
-    arg: scope
-    help: "Provides a scope consisting of a noun to provide additional contextual information"
-  - long: --breaking-change
-    short: -b
-    help: "Draw attention to breaking change"
-  - long: --edit
-    short: -e
-    help: "Open default editor to complete commit description"
-  - long: --add
-    short: -a
-    arg: add
-    help: "Add specific untracked, modified and deleted file to this commit"
-  - long: --add-all
-    short: -A
-    help: "Add all untracked, modified and deleted files to this commit"
-  - long: --put
-    short: -p
-    help: "Put this commit directly on the remote branch"
-  - long: --force
-    short: -f
-    help: "If pushed, overwrite existing commits in case conflicts"
-  examples:
-  - "[Command]"
-  - " - sgit refactor \"allow to extend other configs\" -A"
-  - "[Result]"
-  - " - git add ."
-  - " - git commit -m \"refactor: remove ɵloc and related code\""
+  - name: docs
+    alias: dc
+    help: "Documentation only changes"
+    group: Commit
+    completions:
+      - <directory>
+      - <file>
+    args:
+      - name: description
+        help: "The description is a short summary of the code changes"
+    flags:
+      - long: --scope
+        short: -s
+        arg: scope
+        help: "Provides a scope consisting of a noun to provide additional contextual information"
+      - long: --breaking-change
+        short: -b
+        help: "Draw attention to breaking change"
+      - long: --edit
+        short: -e
+        help: "Open default editor to complete commit description"
+      - long: --add
+        short: -a
+        arg: add
+        help: "Add specific untracked, modified and deleted file to this commit"
+      - long: --add-all
+        short: -A
+        help: "Add all untracked, modified and deleted files to this commit"
+      - long: --put
+        short: -p
+        help: "Put this commit directly on the remote branch"
+      - long: --force
+        short: -f
+        help: "If pushed, overwrite existing commits in case conflicts"
+    examples:
+      - "[Command]"
+      - ' - sgit docs "update per tech review" -Apfe'
+      - "[Result]"
+      - " - git add --all"
+      - ' - git commit -m "docs: update per tech review" --edit'
+      - " - * Open default editor to complete the message *"
+      - " - git push --force"
 
-- name: revert
-  short: rv
-  help: "Reverts a previous commit"
-  completions:
-  - <directory>
-  - <file>
-  args:
-  - name: description
-    help: "The description is a short summary of the code changes"
-  flags:
-  - long: --scope
-    short: -s
-    arg: scope
-    help: "Provides a scope consisting of a noun to provide additional contextual information"
-  - long: --breaking-change
-    short: -b
-    help: "Draw attention to breaking change"
-  - long: --edit
-    short: -e
-    help: "Open default editor to complete commit description"
-  - long: --add
-    short: -a
-    arg: add
-    help: "Add specific untracked, modified and deleted file to this commit"
-  - long: --add-all
-    short: -A
-    help: "Add all untracked, modified and deleted files to this commit"
-  - long: --put
-    short: -p
-    help: "Put this commit directly on the remote branch"
-  - long: --force
-    short: -f
-    help: "If pushed, overwrite existing commits in case conflicts"
-  examples:
-  - "[Command]"
-  - " - sgit revert \"`refactor(router): clean up internal hooks (#43804)` (#43845)\""
-  - "[Result]"
-  - " - git commit -m \"revert: `refactor(router): clean up internal hooks (#43804)` (#43845)\""
+  - name: feat
+    alias: ft
+    help: "New feature"
+    group: Commit
+    completions:
+      - <directory>
+      - <file>
+    args:
+      - name: description
+        help: "The description is a short summary of the code changes"
+    flags:
+      - long: --scope
+        short: -s
+        arg: scope
+        help: "Provides a scope consisting of a noun to provide additional contextual information"
+      - long: --breaking-change
+        short: -b
+        help: "Draw attention to breaking change"
+      - long: --edit
+        short: -e
+        help: "Open default editor to complete commit description"
+      - long: --add
+        short: -a
+        arg: add
+        help: "Add specific untracked, modified and deleted file to this commit"
+      - long: --add-all
+        short: -A
+        help: "Add all untracked, modified and deleted files to this commit"
+      - long: --put
+        short: -p
+        help: "Put this commit directly on the remote branch"
+      - long: --force
+        short: -f
+        help: "If pushed, overwrite existing commits in case conflicts"
+    examples:
+      - "[Command]"
+      - ' - sgit feat -s "service-worker" "expose more version update events" -bea "-p src/index.ts"'
+      - "[Result]"
+      - " - git add -p src/index.ts"
+      - ' - git commit -m "feat(service-worker)!: expose more version update events" --edit'
+      - " - * Open default editor to complete the message *"
 
-- name: style
-  short: st
-  help: "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)"
-  completions:
-  - <directory>
-  - <file>
-  args:
-  - name: description
-    help: "The description is a short summary of the code changes"
-  flags:
-  - long: --scope
-    short: -s
-    arg: scope
-    help: "Provides a scope consisting of a noun to provide additional contextual information"
-  - long: --breaking-change
-    short: -b
-    help: "Draw attention to breaking change"
-  - long: --edit
-    short: -e
-    help: "Open default editor to complete commit description"
-  - long: --add
-    short: -a
-    arg: add
-    help: "Add specific untracked, modified and deleted file to this commit"
-  - long: --add-all
-    short: -A
-    help: "Add all untracked, modified and deleted files to this commit"
-  - long: --put
-    short: -p
-    help: "Put this commit directly on the remote branch"
-  - long: --force
-    short: -f
-    help: "If pushed, overwrite existing commits in case conflicts"
-  examples:
-  - "[Command]"
-  - " - sgit style \"lint panel component\" -p"
-  - "[Result]"
-  - " - git commit -m \"style: lint panel component\""
-  - " - git push"
+  - name: fix
+    help: "Bug fix"
+    group: Commit
+    completions:
+      - <directory>
+      - <file>
+    args:
+      - name: description
+        help: "The description is a short summary of the code changes"
+    flags:
+      - long: --scope
+        short: -s
+        arg: scope
+        help: "Provides a scope consisting of a noun to provide additional contextual information"
+      - long: --breaking-change
+        short: -b
+        help: "Draw attention to breaking change"
+      - long: --edit
+        short: -e
+        help: "Open default editor to complete commit description"
+      - long: --add
+        short: -a
+        arg: add
+        help: "Add specific untracked, modified and deleted file to this commit"
+      - long: --add-all
+        short: -A
+        help: "Add all untracked, modified and deleted files to this commit"
+      - long: --put
+        short: -p
+        help: "Put this commit directly on the remote branch"
+      - long: --force
+        short: -f
+        help: "If pushed, overwrite existing commits in case conflicts"
+    examples:
+      - "[Command]"
+      - ' - sgit fix "clear service worker cache in safety worker" -Aps "service-worker"'
+      - "[Result]"
+      - " - git add --all"
+      - ' - git commit -m "fix(service-worker): clear service worker cache in safety worker"'
+      - " - git push"
 
-- name: test
-  short: ts
-  help: "Adding missing tests or correcting existing tests"
-  completions:
-  - <directory>
-  - <file>
-  args:
-  - name: description
-    help: "The description is a short summary of the code changes"
-  flags:
-  - long: --scope
-    short: -s
-    arg: scope
-    help: "Provides a scope consisting of a noun to provide additional contextual information"
-  - long: --breaking-change
-    short: -b
-    help: "Draw attention to breaking change"
-  - long: --edit
-    short: -e
-    help: "Open default editor to complete commit description"
-  - long: --add
-    short: -a
-    arg: add
-    help: "Add specific untracked, modified and deleted file to this commit"
-  - long: --add-all
-    short: -A
-    help: "Add all untracked, modified and deleted files to this commit"
-  - long: --put
-    short: -p
-    help: "Put this commit directly on the remote branch"
-  - long: --force
-    short: -f
-    help: "If pushed, overwrite existing commits in case conflicts"
-  examples:
-  - "[Command]"
-  - " - sgit test \"remove `document-register-element` from elements tests\" -Ap"
-  - "[Result]"
-  - " - git add ."
-  - " - git commit -m \"test: remove `document-register-element` from elements tests\""
-  - " - git push"
+  - name: localize
+    alias: lc
+    help: "Translations update"
+    group: Commit
+    completions:
+      - <directory>
+      - <file>
+    args:
+      - name: description
+        help: "The description is a short summary of the code changes"
+    flags:
+      - long: --scope
+        short: -s
+        arg: scope
+        help: "Provides a scope consisting of a noun to provide additional contextual information"
+      - long: --breaking-change
+        short: -b
+        help: "Draw attention to breaking change"
+      - long: --edit
+        short: -e
+        help: "Open default editor to complete commit description"
+      - long: --add
+        short: -a
+        arg: add
+        help: "Add specific untracked, modified and deleted file to this commit"
+      - long: --add-all
+        short: -A
+        help: "Add all untracked, modified and deleted files to this commit"
+      - long: --put
+        short: -p
+        help: "Put this commit directly on the remote branch"
+      - long: --force
+        short: -f
+        help: "If pushed, overwrite existing commits in case conflicts"
+    examples:
+      - "[Command]"
+      - ' - sgit localize "add new en_US terms" --add-all'
+      - "[Result]"
+      - " - git add --all"
+      - ' - git commit -m "localize: add new us_en terms"'
 
-- name: completions
-  group: Completions
-  help: |-
-    Generate bash completions
-    Usage: eval "\$(cli completions)"
+  - name: perf
+    alias: pf
+    help: "Code change that improves performance"
+    group: Commit
+    completions:
+      - <directory>
+      - <file>
+    args:
+      - name: description
+        help: "The description is a short summary of the code changes"
+    flags:
+      - long: --scope
+        short: -s
+        arg: scope
+        help: "Provides a scope consisting of a noun to provide additional contextual information"
+      - long: --breaking-change
+        short: -b
+        help: "Draw attention to breaking change"
+      - long: --edit
+        short: -e
+        help: "Open default editor to complete commit description"
+      - long: --add
+        short: -a
+        arg: add
+        help: "Add specific untracked, modified and deleted file to this commit"
+      - long: --add-all
+        short: -A
+        help: "Add all untracked, modified and deleted files to this commit"
+      - long: --put
+        short: -p
+        help: "Put this commit directly on the remote branch"
+      - long: --force
+        short: -f
+        help: "If pushed, overwrite existing commits in case conflicts"
+    examples:
+      - "[Command]"
+      - ' - sgit perf "add js-web-frameworks benchmark (#34034)" -pa "/benchmarks/BUILD.bazel /benchmarks/perf.spec.ts"'
+      - "[Result]"
+      - " - git add /benchmarks/BUILD.bazel /benchmarks/perf.spec.ts"
+      - ' - git commit -m "perf: add js-web-frameworks benchmark (#34034)"'
+      - " - git push"
+
+  - name: refactor
+    alias: rf
+    help: "Code change that neither fixes a bug nor adds a feature; refactoring production code, eg. renaming a variable"
+    group: Commit
+    completions:
+      - <directory>
+      - <file>
+    args:
+      - name: description
+        help: "The description is a short summary of the code changes"
+    flags:
+      - long: --scope
+        short: -s
+        arg: scope
+        help: "Provides a scope consisting of a noun to provide additional contextual information"
+      - long: --breaking-change
+        short: -b
+        help: "Draw attention to breaking change"
+      - long: --edit
+        short: -e
+        help: "Open default editor to complete commit description"
+      - long: --add
+        short: -a
+        arg: add
+        help: "Add specific untracked, modified and deleted file to this commit"
+      - long: --add-all
+        short: -A
+        help: "Add all untracked, modified and deleted files to this commit"
+      - long: --put
+        short: -p
+        help: "Put this commit directly on the remote branch"
+      - long: --force
+        short: -f
+        help: "If pushed, overwrite existing commits in case conflicts"
+    examples:
+      - "[Command]"
+      - ' - sgit refactor "allow to extend other configs" -A'
+      - "[Result]"
+      - " - git add --all"
+      - ' - git commit -m "refactor: remove ɵloc and related code"'
+
+  - name: revert
+    alias: rv
+    help: "Reverts a previous commit"
+    group: Commit
+    completions:
+      - <directory>
+      - <file>
+    args:
+      - name: description
+        help: "The description is a short summary of the code changes"
+    flags:
+      - long: --scope
+        short: -s
+        arg: scope
+        help: "Provides a scope consisting of a noun to provide additional contextual information"
+      - long: --breaking-change
+        short: -b
+        help: "Draw attention to breaking change"
+      - long: --edit
+        short: -e
+        help: "Open default editor to complete commit description"
+      - long: --add
+        short: -a
+        arg: add
+        help: "Add specific untracked, modified and deleted file to this commit"
+      - long: --add-all
+        short: -A
+        help: "Add all untracked, modified and deleted files to this commit"
+      - long: --put
+        short: -p
+        help: "Put this commit directly on the remote branch"
+      - long: --force
+        short: -f
+        help: "If pushed, overwrite existing commits in case conflicts"
+    examples:
+      - "[Command]"
+      - ' - sgit revert "`refactor(router): clean up internal hooks (#43804)` (#43845)"'
+      - "[Result]"
+      - ' - git commit -m "revert: `refactor(router): clean up internal hooks (#43804)` (#43845)"'
+
+  - name: style
+    alias: st
+    help: "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)"
+    group: Commit
+    completions:
+      - <directory>
+      - <file>
+    args:
+      - name: description
+        help: "The description is a short summary of the code changes"
+    flags:
+      - long: --scope
+        short: -s
+        arg: scope
+        help: "Provides a scope consisting of a noun to provide additional contextual information"
+      - long: --breaking-change
+        short: -b
+        help: "Draw attention to breaking change"
+      - long: --edit
+        short: -e
+        help: "Open default editor to complete commit description"
+      - long: --add
+        short: -a
+        arg: add
+        help: "Add specific untracked, modified and deleted file to this commit"
+      - long: --add-all
+        short: -A
+        help: "Add all untracked, modified and deleted files to this commit"
+      - long: --put
+        short: -p
+        help: "Put this commit directly on the remote branch"
+      - long: --force
+        short: -f
+        help: "If pushed, overwrite existing commits in case conflicts"
+    examples:
+      - "[Command]"
+      - ' - sgit style "lint panel component" -p'
+      - "[Result]"
+      - ' - git commit -m "style: lint panel component"'
+      - " - git push"
+
+  - name: test
+    alias: ts
+    help: "Adding missing tests or correcting existing tests"
+    group: Commit
+    completions:
+      - <directory>
+      - <file>
+    args:
+      - name: description
+        help: "The description is a short summary of the code changes"
+    flags:
+      - long: --scope
+        short: -s
+        arg: scope
+        help: "Provides a scope consisting of a noun to provide additional contextual information"
+      - long: --breaking-change
+        short: -b
+        help: "Draw attention to breaking change"
+      - long: --edit
+        short: -e
+        help: "Open default editor to complete commit description"
+      - long: --add
+        short: -a
+        arg: add
+        help: "Add specific untracked, modified and deleted file to this commit"
+      - long: --add-all
+        short: -A
+        help: "Add all untracked, modified and deleted files to this commit"
+      - long: --put
+        short: -p
+        help: "Put this commit directly on the remote branch"
+      - long: --force
+        short: -f
+        help: "If pushed, overwrite existing commits in case conflicts"
+    examples:
+      - "[Command]"
+      - ' - sgit test "remove `document-register-element` from elements tests" -Ap'
+      - "[Result]"
+      - " - git add --all"
+      - ' - git commit -m "test: remove `document-register-element` from elements tests"'
+      - " - git push"
+
+  - name: completions
+    group: Completions
+    help: |-
+      Generate bash completions
+      Usage: eval "\$(cli completions)"

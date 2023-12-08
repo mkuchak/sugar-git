@@ -6,7 +6,7 @@ edit=$([[ ( ! -z "${args[description]}") && ( -z "${args[--edit]}") ]] && echo "
 force=$([[ ! -z "${args[--force]}" ]] && echo "--force" || echo "")
 
 if [ ! -z ${args[--add-all]} ]; then
-  git add .
+  git add --all
 elif [ ! -z "${args[--add]}" ]; then
   git add ${args[--add]}
 fi
