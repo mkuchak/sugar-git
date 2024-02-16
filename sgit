@@ -64,6 +64,7 @@ sgit_usage() {
   printf "  %s   Add an annotated tag with the description same as the message\n" "tag        "
   echo
   printf "%s\n" "Commit Commands:"
+  printf "  %s   Use AI to generate a commit message according the description in any language\n" "commit     "
   printf "  %s   Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)\n" "build      "
   printf "  %s   Code change that external user won't see (eg: change to .gitignore file or .prettierrc file)\n" "chore      "
   printf "  %s   Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)\n" "ci         "
@@ -1056,6 +1057,86 @@ sgit_tag_usage() {
     # :argument.usage
     printf "  %s\n" "MESSAGE"
     printf "    The annotated/message\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+sgit_commit_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "sgit commit - Use AI to generate a commit message according the description in any language\n"
+    echo
+
+  else
+    printf "sgit commit - Use AI to generate a commit message according the description in any language\n"
+    echo
+
+  fi
+
+  printf "Alias: c\n"
+  echo
+
+  printf "%s\n" "Usage:"
+  printf "  sgit commit [DESCRIPTION] [OPTIONS]\n"
+  printf "  sgit commit --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "--edit, -e"
+    printf "    Open default editor to complete commit description\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "--add, -a ADD"
+    printf "    Add specific untracked, modified and deleted file to this commit\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "--add-all, -A"
+    printf "    Add all untracked, modified and deleted files to this commit\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "--put, -p"
+    printf "    Put this commit directly on the remote branch\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "--force, -f"
+    printf "    If pushed, overwrite existing commits in case conflicts\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    # :argument.usage
+    printf "  %s\n" "DESCRIPTION"
+    printf "    The description can be short or long depending on the changes made to the\n    project code\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "Examples:"
+    printf "  [Command]\n"
+    printf "  - sgit commit \"I refactored all the buttons to be aggregated into just a\n  single component that has a variant and size property\" -Ae\n"
+    printf "  [Result]\n"
+    printf "  - * Open selector to choose: *\n"
+    printf "     ( ) refactor: organize buttons into a single component with variant and\n  size properties\n"
+    printf "     ( ) refactor: restructure buttons into a single component with variant and\n  size options\n"
+    printf "     (x) refactor: consolidate all buttons into a single component with variant\n  and size properties\n"
+    printf "  - git add --all\n"
+    printf "  - git commit -m \"refactor: consolidate all buttons into a single component\n  with variant and size properties\" --edit\n"
+    printf "  - * Open default editor to complete the message *\n"
     echo
 
   fi
@@ -2514,6 +2595,91 @@ sgit_tag_command() {
 }
 
 # :command.function
+sgit_commit_command() {
+  # src/commit_command.sh
+  API_URL="https://ai.kuch.workers.dev/api/v1/generate-commit"
+
+  edit=$([[ (! -z "${args[description]}") && (-z "${args[--edit]}") ]] && echo "" || echo "--edit")
+  force=$([[ ! -z "${args[--force]}" ]] && echo "--force" || echo "")
+
+  # Check if the description is empty
+  if [ -z "${args[description]}" ]; then
+    echo "Error: The description is required."
+    exit 1
+  fi
+
+  while true; do
+    # Request the commit message
+    json_data='{"description": "'${args[description]}'"}'
+    response=$(curl -s -X POST -H "Content-Type: application/json" -d "$json_data" "$API_URL")
+
+    # Parse the json response and get the commits array without using external tools
+    commits=$(echo "$response" | sed -n 's/.*"commits":\[\(.*\)\].*/\1/p')
+
+    # Convert the commits string to an array
+    IFS='"' read -r -a commits <<<"$commits"
+
+    # Filter the commits array to remove empty elements
+    filtered_array=()
+    for value in "${commits[@]}"; do
+      if [ ${#value} -ge 10 ]; then
+        filtered_array+=("$value")
+      fi
+    done
+
+    # Show the commit messages options
+    echo "Select a commit message:"
+    echo ""
+    echo "----------"
+    echo ""
+    for ((i = 0; i < ${#filtered_array[@]}; i += 1)); do
+      echo "$((i + 1)). ${filtered_array[i]}" | awk '{gsub(/\\n\\n|\r\n\r\n/,"\n\n")}1'
+      echo ""
+      echo "----------"
+      echo ""
+    done
+
+    echo "4. Generate more commit messages"
+    echo ""
+    echo "----------"
+    echo ""
+
+    # Ask the user to enter the number of the commit message
+    read -p "Enter the number of the commit message (CTRL+C to exit): " commit_number
+
+    # Chech if the number is valid (between 1 and 4)
+    if [[ ! $commit_number =~ ^[1-4]$ ]]; then
+      echo "Error: The number is invalid."
+      exit 1
+    fi
+
+    # Verify if number is 4 to generate another commit message
+    if [ $commit_number -eq 4 ]; then
+      clear
+      continue
+    fi
+
+    # Get the selected commit message should awk to remove the new lines
+    selected_commit=$(echo "${filtered_array[$((commit_number - 1))]}" | awk '{gsub(/\\n\\n|\r\n\r\n/,"\n\n")}1')
+
+    break
+  done
+
+  if [ ! -z ${args[--add-all]} ]; then
+    git add --all
+  elif [ ! -z "${args[--add]}" ]; then
+    git add ${args[--add]}
+  fi
+
+  git commit -m "$selected_commit" $edit
+
+  if [ ! -z ${args[--put]} ]; then
+    git push $force origin $(git rev-parse --abbrev-ref HEAD)
+  fi
+
+}
+
+# :command.function
 sgit_build_command() {
   # src/build_command.sh
   type=build
@@ -2995,6 +3161,13 @@ parse_requirements() {
       action="tag"
       shift
       sgit_tag_parse_requirements "$@"
+      shift $#
+      ;;
+
+    commit | c)
+      action="commit"
+      shift
+      sgit_commit_parse_requirements "$@"
       shift $#
       ;;
 
@@ -4551,6 +4724,102 @@ sgit_tag_parse_requirements() {
 }
 
 # :command.parse_requirements
+sgit_commit_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        sgit_commit_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="commit"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --edit | -e)
+
+        # :flag.case_no_arg
+        args['--edit']=1
+        shift
+        ;;
+
+      # :flag.case
+      --add | -a)
+
+        # :flag.case_arg
+        if [[ -n ${2+x} ]]; then
+
+          args['--add']="$2"
+          shift
+          shift
+        else
+          printf "%s\n" "--add requires an argument: --add, -a ADD" >&2
+          exit 1
+        fi
+        ;;
+
+      # :flag.case
+      --add-all | -A)
+
+        # :flag.case_no_arg
+        args['--add-all']=1
+        shift
+        ;;
+
+      # :flag.case
+      --put | -p)
+
+        # :flag.case_no_arg
+        args['--put']=1
+        shift
+        ;;
+
+      # :flag.case
+      --force | -f)
+
+        # :flag.case_no_arg
+        args['--force']=1
+        shift
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        if [[ -z ${args['description']+x} ]]; then
+
+          args['description']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
 sgit_build_parse_requirements() {
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
@@ -6070,6 +6339,7 @@ run() {
     "amend") sgit_amend_command ;;
     "resolve") sgit_resolve_command ;;
     "tag") sgit_tag_command ;;
+    "commit") sgit_commit_command ;;
     "build") sgit_build_command ;;
     "chore") sgit_chore_command ;;
     "ci") sgit_ci_command ;;

@@ -154,6 +154,7 @@ Staging Commands:
   tag           Add an annotated tag with the description same as the message
 
 Commit Commands:
+  commit        Use AI to generate a commit message according the description in any language
   build         Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
   chore         Code change that external user won't see (eg: change to .gitignore file or .prettierrc file)
   ci            Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)

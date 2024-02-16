@@ -300,6 +300,45 @@ commands:
       - name: message
         help: The annotated/message
 
+  - name: commit
+    alias: c
+    help: "Use AI to generate a commit message according the description in any language"
+    group: Commit
+    completions:
+      - <directory>
+      - <file>
+    args:
+      - name: description
+        help: "The description can be short or long depending on the changes made to the project code"
+    flags:
+      - long: --edit
+        short: -e
+        help: "Open default editor to complete commit description"
+      - long: --add
+        short: -a
+        arg: add
+        help: "Add specific untracked, modified and deleted file to this commit"
+      - long: --add-all
+        short: -A
+        help: "Add all untracked, modified and deleted files to this commit"
+      - long: --put
+        short: -p
+        help: "Put this commit directly on the remote branch"
+      - long: --force
+        short: -f
+        help: "If pushed, overwrite existing commits in case conflicts"
+    examples:
+      - "[Command]"
+      - ' - sgit commit "I refactored all the buttons to be aggregated into just a single component that has a variant and size property" -Ae'
+      - "[Result]"
+      - " - * Open selector to choose: *"
+      - "   ( ) refactor: organize buttons into a single component with variant and size properties"
+      - "   ( ) refactor: restructure buttons into a single component with variant and size options"
+      - "   (x) refactor: consolidate all buttons into a single component with variant and size properties"
+      - " - git add --all"
+      - ' - git commit -m "refactor: consolidate all buttons into a single component with variant and size properties" --edit'
+      - " - * Open default editor to complete the message *"
+
   - name: build
     alias: bd
     help: "Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)"
