@@ -1,3 +1,6 @@
+# Handle custom date/time if provided
+handle_custom_date
+
 force=$([[ ! -z "${args[--force]}" ]] && echo "--force" || echo "")
 
 if [ ! -z ${args[--add-all]} ]; then

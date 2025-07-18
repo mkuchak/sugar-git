@@ -280,6 +280,14 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --date
+        short: -d
+        arg: date
+        help: "Set commit date in YYYY-MM-DD format (must be used with --time)"
+      - long: --time
+        short: -t
+        arg: time
+        help: "Set commit time in HH:MM:SS format (must be used with --date)"
 
   - name: resolve
     help: "Resolve conflicts in the working branch"
@@ -327,6 +335,14 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --date
+        short: -d
+        arg: date
+        help: "Set commit date in YYYY-MM-DD format (must be used with --time)"
+      - long: --time
+        short: -t
+        arg: time
+        help: "Set commit time in HH:MM:SS format (must be used with --date)"
     examples:
       - "[Command]"
       - ' - sgit commit "I refactored all the buttons to be aggregated into just a single component that has a variant and size property" -Ae'
@@ -373,6 +389,14 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --date
+        short: -d
+        arg: date
+        help: "Set commit date in YYYY-MM-DD format (must be used with --time)"
+      - long: --time
+        short: -t
+        arg: time
+        help: "Set commit time in HH:MM:SS format (must be used with --date)"
     examples:
       - "[Command]"
       - ' - sgit build "add express types" -a package.json'
@@ -414,6 +438,14 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --date
+        short: -d
+        arg: date
+        help: "Set commit date in YYYY-MM-DD format (must be used with --time)"
+      - long: --time
+        short: -t
+        arg: time
+        help: "Set commit time in HH:MM:SS format (must be used with --date)"
     examples:
       - "[Command]"
       - ' - sgit chore -s "router" "allow to extend other configs" -A'
@@ -454,6 +486,14 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --date
+        short: -d
+        arg: date
+        help: "Set commit date in YYYY-MM-DD format (must be used with --time)"
+      - long: --time
+        short: -t
+        arg: time
+        help: "Set commit time in HH:MM:SS format (must be used with --date)"
     examples:
       - "[Command]"
       - " - sgit ci"
@@ -495,6 +535,14 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --date
+        short: -d
+        arg: date
+        help: "Set commit date in YYYY-MM-DD format (must be used with --time)"
+      - long: --time
+        short: -t
+        arg: time
+        help: "Set commit time in HH:MM:SS format (must be used with --date)"
     examples:
       - "[Command]"
       - ' - sgit docs "update per tech review" -Apfe'
@@ -538,6 +586,14 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --date
+        short: -d
+        arg: date
+        help: "Set commit date in YYYY-MM-DD format (must be used with --time)"
+      - long: --time
+        short: -t
+        arg: time
+        help: "Set commit time in HH:MM:SS format (must be used with --date)"
     examples:
       - "[Command]"
       - ' - sgit feat -s "service-worker" "expose more version update events" -bea "-p src/index.ts"'
@@ -579,6 +635,14 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --date
+        short: -d
+        arg: date
+        help: "Set commit date in YYYY-MM-DD format (must be used with --time)"
+      - long: --time
+        short: -t
+        arg: time
+        help: "Set commit time in HH:MM:SS format (must be used with --date)"
     examples:
       - "[Command]"
       - ' - sgit fix "clear service worker cache in safety worker" -Aps "service-worker"'
@@ -621,6 +685,14 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --date
+        short: -d
+        arg: date
+        help: "Set commit date in YYYY-MM-DD format (must be used with --time)"
+      - long: --time
+        short: -t
+        arg: time
+        help: "Set commit time in HH:MM:SS format (must be used with --date)"
     examples:
       - "[Command]"
       - ' - sgit localize "add new en_US terms" --add-all'
@@ -662,6 +734,14 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --date
+        short: -d
+        arg: date
+        help: "Set commit date in YYYY-MM-DD format (must be used with --time)"
+      - long: --time
+        short: -t
+        arg: time
+        help: "Set commit time in HH:MM:SS format (must be used with --date)"
     examples:
       - "[Command]"
       - ' - sgit perf "add js-web-frameworks benchmark (#34034)" -pa "/benchmarks/BUILD.bazel /benchmarks/perf.spec.ts"'
@@ -704,6 +784,14 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --date
+        short: -d
+        arg: date
+        help: "Set commit date in YYYY-MM-DD format (must be used with --time)"
+      - long: --time
+        short: -t
+        arg: time
+        help: "Set commit time in HH:MM:SS format (must be used with --date)"
     examples:
       - "[Command]"
       - ' - sgit refactor "allow to extend other configs" -A'
@@ -745,6 +833,14 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --date
+        short: -d
+        arg: date
+        help: "Set commit date in YYYY-MM-DD format (must be used with --time)"
+      - long: --time
+        short: -t
+        arg: time
+        help: "Set commit time in HH:MM:SS format (must be used with --date)"
     examples:
       - "[Command]"
       - ' - sgit revert "`refactor(router): clean up internal hooks (#43804)` (#43845)"'
@@ -785,6 +881,14 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --date
+        short: -d
+        arg: date
+        help: "Set commit date in YYYY-MM-DD format (must be used with --time)"
+      - long: --time
+        short: -t
+        arg: time
+        help: "Set commit time in HH:MM:SS format (must be used with --date)"
     examples:
       - "[Command]"
       - ' - sgit style "lint panel component" -p'
@@ -826,6 +930,14 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --date
+        short: -d
+        arg: date
+        help: "Set commit date in YYYY-MM-DD format (must be used with --time)"
+      - long: --time
+        short: -t
+        arg: time
+        help: "Set commit time in HH:MM:SS format (must be used with --date)"
     examples:
       - "[Command]"
       - ' - sgit test "remove `document-register-element` from elements tests" -Ap'

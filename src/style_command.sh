@@ -1,3 +1,6 @@
+# Handle custom date/time if provided
+handle_custom_date
+
 type=style
 scope=$([[ ! -z "${args[--scope]}" ]] && echo "(${args[--scope]})" || echo "")
 breaking_change=$([[ ! -z "${args[--breaking-change]}" ]] && echo "!" || echo "")

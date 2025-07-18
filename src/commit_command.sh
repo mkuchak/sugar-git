@@ -1,5 +1,8 @@
 API_URL="https://ai.kuch.workers.dev/api/v1/generate-commit"
 
+# Handle custom date/time if provided
+handle_custom_date
+
 edit=$([[ (! -z "${args[description]}") && (-z "${args[--edit]}") ]] && echo "" || echo "--edit")
 force=$([[ ! -z "${args[--force]}" ]] && echo "--force" || echo "")
 
