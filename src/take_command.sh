@@ -1,3 +1,6 @@
+# Fetch latest refs
+git fetch origin --quiet 2>/dev/null
+
 if [ ! -z "${args['description']}" ]; then
   branch=${args['description']}
 elif [ ! -z "${args['--main']}" ]; then
@@ -25,12 +28,21 @@ elif [ ! -z "${args['--merge']}" ]; then
 fi
 
 branch=${branch// /-}
+from_branch="${args[--from]:-}"
 
 if [ ! -z ${args['--only-origin']} ]; then
   git push -u origin $branch
 elif [ ! -z ${args['--origin']} ]; then
-  git checkout -b $branch
+  if [[ -n "$from_branch" ]]; then
+    git checkout -b $branch $from_branch
+  else
+    git checkout -b $branch
+  fi
   git push -u origin $branch
 else
-  git checkout -b $branch
+  if [[ -n "$from_branch" ]]; then
+    git checkout -b $branch $from_branch
+  else
+    git checkout -b $branch
+  fi
 fi

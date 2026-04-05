@@ -3,6 +3,10 @@ branch=$([[ ! -z "${args[branch]}" ]] && echo ${args[branch]} || echo $(git rev-
 if [ ! -z ${args[--yes]} ]; then
   git reset --hard origin/$branch
 else
+  echo "Changes that will be lost:"
+  echo ""
+  git diff --stat origin/$branch 2>/dev/null
+  echo ""
   echo "Are you sure you want to wipe (hard reset) \"$branch\" branch? (y/N)"
   read REPLY
   if [[ "$REPLY" =~ ^[Yy]$ ]]; then
