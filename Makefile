@@ -1,7 +1,10 @@
-.PHONY: build install clean
+.PHONY: build test install clean
 
 build:
 	bashly generate
+
+test: build
+	./test/libs/bats-core/bin/bats test/
 
 install: build
 	cp sgit /usr/local/bin/sgit
