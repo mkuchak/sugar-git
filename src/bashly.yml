@@ -1,6 +1,6 @@
 name: sgit
 help: Syntactic sugar for Git, respecting semantics and modern conventions
-version: 0.2.0
+version: 1.0.0
 
 commands:
   - name: ls
@@ -67,6 +67,9 @@ commands:
         short: -m
         arg: description
         help: "Resolving merge conflicts, usually between the latest development and a feature or hotfix branch; also to merge two branches of one feature"
+      - long: --from
+        arg: branch
+        help: "Base branch to create the new branch from"
     examples:
       - "[Command]"
       - ' - sgit take -f "my really awesome feature" -o'
@@ -125,7 +128,66 @@ commands:
         short: -O
         help: "Defines if the branch should be only deleted in the origin"
 
-  - name: save
+  - name: clean
+    help: "Delete branches that have been merged into main"
+    group: Branches
+    flags:
+      - long: --origin
+        short: -o
+        help: "Also delete merged branches from origin"
+      - long: --yes
+        short: -y
+        help: "Skip confirmation"
+
+  - name: worktree
+    alias: wt
+    help: "Manage git worktrees with automatic setup"
+    group: Branches
+
+    commands:
+      - name: add
+        help: "Create a new worktree with automatic setup"
+        args:
+          - name: branch
+            help: "Branch name (auto-generates wt-<uuid> if omitted)"
+        flags:
+          - long: --symlink
+            short: -s
+            arg: path
+            help: "Path to symlink into the worktree (repeatable)"
+            repeatable: true
+          - long: --from
+            arg: branch
+            help: "Base branch to create the new branch from"
+          - long: --no-install
+            help: "Skip automatic dependency installation"
+          - long: --no-link
+            help: "Skip all symlinking"
+
+      - name: link
+        help: "Add symlinks to current worktree from main worktree"
+        flags:
+          - long: --symlink
+            short: -s
+            arg: path
+            help: "Path to symlink (repeatable)"
+            repeatable: true
+            required: true
+
+      - name: ls
+        help: "List all worktrees"
+
+      - name: rm
+        help: "Remove a worktree"
+        args:
+          - name: name
+            help: "Worktree folder name to remove"
+            required: true
+
+      - name: prune
+        help: "Clean up stale worktree references"
+
+  - name: auth
     help: "Save credentials storage in git repository"
     group: State
     flags:
@@ -158,13 +220,13 @@ commands:
         short: -y
         help: "Skip confirmation"
 
-  - name: rollback
+  - name: undo
     alias: rb
     help: "Back the commit history, but it preserves the file contents"
     group: State
     args:
       - name: commit_id
-        help: "The commit ID; if none are informed, rollback to the last commit"
+        help: "The commit ID; if none are informed, undo the last commit"
 
   - name: edit
     help: "Edit some commit message"
@@ -172,6 +234,24 @@ commands:
     args:
       - name: commit_id
         help: "The commit ID; if none are informed, edit the last commit"
+      - name: message
+        help: "New commit message; if provided, no editor opens"
+
+  - name: squash
+    help: "Squash the last N commits into one"
+    group: State
+    args:
+      - name: count
+        help: "Number of commits to squash"
+        required: true
+      - name: message
+        help: "Commit message for the squashed commit (opens editor if omitted)"
+    examples:
+      - "[Command]"
+      - ' - sgit squash 3 "feat: unified auth flow"'
+      - "[Result]"
+      - " - git reset --soft HEAD~3"
+      - ' - git commit -m "feat: unified auth flow"'
 
   - name: get
     help: "Fetch and merge changes from remote branch to working branch (pull shortcut)"
@@ -185,6 +265,9 @@ commands:
       - long: --force
         short: -f
         help: "Overwrite existing local commits in case conflicts"
+      - long: --rebase
+        short: -r
+        help: "Rebase instead of merge when pulling"
 
   - name: put
     completions:
@@ -198,6 +281,64 @@ commands:
       - long: --force
         short: -f
         help: "Overwrite existing origin commits in case conflicts"
+
+  - name: sync
+    help: "Fetch and rebase changes from remote branch to working branch"
+    group: State
+    completions:
+      - $(git branch 2> /dev/null)
+    args:
+      - name: branch
+        help: "Branch name to sync from (defaults to current branch)"
+    flags:
+      - long: --continue
+        short: -c
+        help: "Continue the rebase after resolving conflicts"
+      - long: --abort
+        short: -a
+        help: "Abort the current rebase and restore original branch state"
+      - long: --skip
+        short: -s
+        help: "Skip the current conflicting commit and continue rebase"
+    examples:
+      - "[Command]"
+      - " - sgit sync main"
+      - "[Result]"
+      - " - git fetch origin"
+      - " - git rebase origin/main"
+
+  - name: cherry
+    help: "Cherry-pick a commit into the current branch"
+    group: State
+    args:
+      - name: commit
+        help: "The commit hash to cherry-pick"
+        required: true
+
+  - name: merge
+    help: "Merge a branch into the current branch"
+    group: State
+    completions:
+      - $(git branch 2> /dev/null)
+    args:
+      - name: branch
+        help: "Branch to merge"
+        required: true
+    flags:
+      - long: --ff
+        help: "Fast-forward only merge"
+      - long: --no-ff
+        help: "Always create a merge commit"
+
+  - name: init
+    help: "Initialize a new git repository with recommended settings"
+    group: State
+    flags:
+      - long: --type
+        short: -t
+        arg: type
+        help: "Generate a .gitignore for the given project type (node, python, go, rust, java, general)"
+        allowed: [node, python, go, rust, java, general]
 
   - name: log
     alias: l
@@ -243,6 +384,17 @@ commands:
     help: "Show the committers of the current branch"
     group: Consult
 
+  - name: diff
+    help: "Show changes between commits, working tree, or staging area"
+    group: Consult
+    args:
+      - name: target
+        help: "Branch or commit to compare against"
+    flags:
+      - long: --staged
+        short: -s
+        help: "Show changes in the staging area"
+
   - name: add
     catch_all: string
     completions:
@@ -251,7 +403,8 @@ commands:
     help: "Add files or directories to staging area"
     group: Staging
 
-  - name: sub
+  - name: unstage
+    alias: sub
     catch_all: string
     completions:
       - <directory>
@@ -288,6 +441,10 @@ commands:
         short: -t
         arg: time
         help: "Set commit time in HH:MM:SS format (must be used with --date)"
+      - long: --message
+        short: -m
+        arg: message
+        help: "Change the commit message while amending"
 
   - name: resolve
     help: "Resolve conflicts in the working branch"
@@ -308,16 +465,85 @@ commands:
       - name: message
         help: The annotated/message
 
+  - name: stash
+    help: "Manage work-in-progress changes"
+    group: Staging
+
+    commands:
+      - name: put
+        help: "Save current changes to stash"
+        catch_all:
+          label: Files
+          help: "Specific files to stash"
+        flags:
+          - long: --message
+            short: -m
+            arg: message
+            help: "Add a message to the stash entry"
+          - long: --untracked
+            short: -u
+            help: "Include untracked files"
+
+      - name: get
+        help: "Restore stashed changes and remove from stash"
+        args:
+          - name: index
+            help: "Stash index to restore (default: 0)"
+
+      - name: ls
+        help: "List all stash entries"
+
+      - name: peek
+        help: "Preview stash contents without applying"
+        args:
+          - name: index
+            help: "Stash index to peek at (default: 0)"
+        flags:
+          - long: --stat
+            short: -s
+            help: "Show only a summary of changed files"
+
+      - name: keep
+        help: "Apply stashed changes without removing from stash"
+        args:
+          - name: index
+            help: "Stash index to apply (default: 0)"
+
+      - name: drop
+        help: "Remove a stash entry"
+        args:
+          - name: index
+            help: "Stash index to drop (default: 0)"
+        flags:
+          - long: --all
+            short: -a
+            help: "Remove all stash entries"
+          - long: --yes
+            short: -y
+            help: "Skip confirmation when dropping all"
+
+      - name: move
+        help: "Move current changes to another branch via stash"
+        args:
+          - name: branch
+            help: "Target branch to move changes to"
+            required: true
+        flags:
+          - long: --message
+            short: -m
+            arg: message
+            help: "Add a message to the stash entry"
+
   - name: commit
     alias: c
-    help: "Use AI to generate a commit message according the description in any language"
+    help: "Commit with a custom message"
     group: Commit
     completions:
       - <directory>
       - <file>
     args:
       - name: description
-        help: "The description can be short or long depending on the changes made to the project code"
+        help: "The commit message"
     flags:
       - long: --edit
         short: -e
@@ -344,16 +570,6 @@ commands:
         arg: time
         help: "Set commit time in HH:MM:SS format (must be used with --date)"
     examples:
-      - "[Command]"
-      - ' - sgit commit "I refactored all the buttons to be aggregated into just a single component that has a variant and size property" -Ae'
-      - "[Result]"
-      - " - * Open selector to choose: *"
-      - "   ( ) refactor: organize buttons into a single component with variant and size properties"
-      - "   ( ) refactor: restructure buttons into a single component with variant and size options"
-      - "   (x) refactor: consolidate all buttons into a single component with variant and size properties"
-      - " - git add --all"
-      - ' - git commit -m "refactor: consolidate all buttons into a single component with variant and size properties" --edit'
-      - " - * Open default editor to complete the message *"
 
   - name: build
     alias: bd
@@ -945,6 +1161,23 @@ commands:
       - " - git add --all"
       - ' - git commit -m "test: remove `document-register-element` from elements tests"'
       - " - git push"
+
+  - name: purge
+    help: "Delete build artifacts, caches, and optionally lock files"
+    group: Maintenance
+    flags:
+      - long: --dry-run
+        short: -n
+        help: "Show what would be deleted with sizes, delete nothing"
+      - long: --locks
+        short: -l
+        help: "Also delete lock files"
+      - long: --all
+        short: -a
+        help: "Delete artifacts, caches, and lock files"
+      - long: --yes
+        short: -y
+        help: "Skip confirmation prompt"
 
   - name: completions
     group: Completions
