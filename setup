@@ -7,8 +7,8 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Download script from Github
-echo "=== Saving executable to /usr/local/bin/op"
-curl_command="curl -s https://raw.githubusercontent.com/mkuchak/sugar-git/main/sgit > /usr/local/bin/sgit"
+echo "=== Saving executable to /usr/local/bin/sgit"
+curl_command="curl -sL https://github.com/mkuchak/sugar-git/releases/latest/download/sgit > /usr/local/bin/sgit"
 $sudo bash -c "$curl_command"
 $sudo chmod a+x /usr/local/bin/sgit
 
