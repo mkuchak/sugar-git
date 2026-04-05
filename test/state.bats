@@ -111,6 +111,11 @@ teardown() {
 @test "sgit init --type node creates .gitignore with node_modules" {
   local init_dir=$(mktemp -d)
   cd "$init_dir"
+  # Pre-configure git so init's commit works in CI (no global identity)
+  git init --initial-branch=main
+  git config user.email "test@test.com"
+  git config user.name "Test User"
+  # Now run sgit init (it calls git init again, which is fine, and then commits)
   run "$SGIT" init --type node
   assert_success
   run cat .gitignore

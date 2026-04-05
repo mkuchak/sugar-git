@@ -28,6 +28,12 @@ jobs:
           gem install bashly
           bashly generate
 
+      - name: Configure git for tests
+        run: |
+          git config --global user.email "test@test.com"
+          git config --global user.name "Test User"
+          git config --global init.defaultBranch main
+
       - name: Run tests
         run: ./test/libs/bats-core/bin/bats test/
 
