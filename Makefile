@@ -3,7 +3,7 @@
 build:
 	bashly generate
 
-test: build
+test:
 	./test/libs/bats-core/bin/bats test/
 
 install: build
