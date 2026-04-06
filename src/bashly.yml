@@ -68,6 +68,7 @@ commands:
         arg: description
         help: "Resolving merge conflicts, usually between the latest development and a feature or hotfix branch; also to merge two branches of one feature"
       - long: --from
+        short: -F
         arg: branch
         help: "Base branch to create the new branch from"
     examples:

@@ -25,6 +25,8 @@ elif [ ! -z "${args['--release']}" ]; then
   branch=release/${args['--release']}
 elif [ ! -z "${args['--merge']}" ]; then
   branch=merge/${args['--merge']}
+else
+  branch=$(uuidgen 2>/dev/null | tr '[:upper:]' '[:lower:]' | cut -c1-8 || cat /proc/sys/kernel/random/uuid 2>/dev/null | cut -c1-8 || date +%s | shasum | head -c 8)
 fi
 
 branch=${branch// /-}
