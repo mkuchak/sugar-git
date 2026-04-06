@@ -15,7 +15,7 @@ if [[ -n "${args[--skip]}" ]]; then
 fi
 
 # Determine target branch
-branch=$([[ -n "${args[branch]}" ]] && echo "${args[branch]}" || echo "$(git rev-parse --abbrev-ref HEAD)")
+branch=$([[ -n "${args[branch]}" ]] && echo "${args[branch]}" || echo "main")
 
 # Fetch and rebase
 git fetch origin
