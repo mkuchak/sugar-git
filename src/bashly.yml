@@ -283,13 +283,13 @@ commands:
         help: "Overwrite existing origin commits in case conflicts"
 
   - name: sync
-    help: "Fetch and rebase changes from remote branch to working branch"
+    help: "Sync current branch by fetching and rebasing on top of a remote branch (defaults to main)"
     group: State
     completions:
       - $(git branch 2> /dev/null)
     args:
       - name: branch
-        help: "Branch name to sync from (defaults to current branch)"
+        help: "Branch name to sync from (defaults to main)"
     flags:
       - long: --continue
         short: -c
@@ -301,11 +301,22 @@ commands:
         short: -s
         help: "Skip the current conflicting commit and continue rebase"
     examples:
-      - "[Command]"
-      - " - sgit sync main"
+      - "[Sync with main (default)]"
+      - " - sgit sync"
       - "[Result]"
       - " - git fetch origin"
       - " - git rebase origin/main"
+      - ""
+      - "[Sync with a specific branch]"
+      - " - sgit sync develop"
+      - "[Result]"
+      - " - git fetch origin"
+      - " - git rebase origin/develop"
+      - ""
+      - "[Resolve conflicts after sync]"
+      - " - sgit sync -c    # continue after fixing conflicts"
+      - " - sgit sync -s    # skip the conflicting commit"
+      - " - sgit sync -a    # abort and undo the rebase"
 
   - name: cherry
     help: "Cherry-pick a commit into the current branch"
