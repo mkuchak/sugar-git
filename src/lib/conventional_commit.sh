@@ -12,6 +12,7 @@ conventional_commit() {
   local message="$type$scope$breaking_change: ${args[description]}"
   local edit=$([[ -n "${args[description]}" && -z "${args[--edit]}" ]] && echo "" || echo "--edit")
   local force=$([[ -n "${args[--force]}" ]] && echo "--force" || echo "")
+  local no_verify=$([[ -n "${args[--no-verify]}" ]] && echo "--no-verify" || echo "")
 
   if [[ -n "${args[--add-all]}" ]]; then
     git add --all
@@ -19,9 +20,9 @@ conventional_commit() {
     git add ${args[--add]}
   fi
 
-  git commit -m "$message" $edit
+  git commit -m "$message" $edit $no_verify
 
   if [[ -n "${args[--put]}" ]]; then
-    git push $force "$(get_remote)" "$(git rev-parse --abbrev-ref HEAD)"
+    git push $force $no_verify "$(get_remote)" "$(git rev-parse --abbrev-ref HEAD)"
   fi
 }

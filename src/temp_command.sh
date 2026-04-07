@@ -39,18 +39,20 @@ else
   summary="$(file_summary)"
 fi
 
+no_verify=$([[ -n "${args[--no-verify]}" ]] && echo "--no-verify" || echo "")
+
 if [[ "$is_temp" == true ]]; then
   # Amend previous temp commit with bumped counter
-  git commit --amend -m "chore: WIP($count) $summary"
+  git commit --amend -m "chore: WIP($count) $summary" $no_verify
 
   if [[ -n "${args[--put]}" ]]; then
-    git push --force "$(get_remote)" "$(git rev-parse --abbrev-ref HEAD)"
+    git push --force $no_verify "$(get_remote)" "$(git rev-parse --abbrev-ref HEAD)"
   fi
 else
   # Fresh temp commit
-  git commit -m "chore: WIP $summary"
+  git commit -m "chore: WIP $summary" $no_verify
 
   if [[ -n "${args[--put]}" ]]; then
-    git push "$(get_remote)" "$(git rev-parse --abbrev-ref HEAD)"
+    git push $no_verify "$(get_remote)" "$(git rev-parse --abbrev-ref HEAD)"
   fi
 fi

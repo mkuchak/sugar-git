@@ -2,6 +2,7 @@
 handle_custom_date
 
 force=$([[ ! -z "${args[--force]}" ]] && echo "--force" || echo "")
+no_verify=$([[ -n "${args[--no-verify]}" ]] && echo "--no-verify" || echo "")
 
 if [ ! -z ${args[--add-all]} ]; then
   git add --all
@@ -10,11 +11,11 @@ elif [ ! -z "${args[--add]}" ]; then
 fi
 
 if [[ -n "${args[--message]}" ]]; then
-  git commit --amend -m "${args[--message]}"
+  git commit --amend -m "${args[--message]}" $no_verify
 else
-  git commit --amend --no-edit
+  git commit --amend --no-edit $no_verify
 fi
 
 if [ ! -z ${args[--put]} ]; then
-  git push $force "$(get_remote)" "$(git rev-parse --abbrev-ref HEAD)"
+  git push $force $no_verify "$(get_remote)" "$(git rev-parse --abbrev-ref HEAD)"
 fi

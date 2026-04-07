@@ -7,6 +7,9 @@ flags:
     short: -R
     arg: remote
     help: "Override the remote name (default: auto-detected or origin)"
+  - long: --no-verify
+    short: -B
+    help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
 
 commands:
   - name: ls
