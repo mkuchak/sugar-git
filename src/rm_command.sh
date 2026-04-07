@@ -1,5 +1,7 @@
+no_verify=$([[ -n "${args[--no-verify]}" ]] && echo "--no-verify" || echo "")
+
 if [[ -n "${args[--only-remote]}" ]]; then
-  git push "$(get_remote)" --delete "${args[branch]}"
+  git push $no_verify "$(get_remote)" --delete "${args[branch]}"
 else
   target_branch="${args[branch]}"
   current_branch="$(git branch --show-current)"
@@ -21,6 +23,6 @@ else
 
   git branch -D "$target_branch"
   if [[ -n "${args[--remote]}" ]]; then
-    git push "$(get_remote)" --delete "$target_branch"
+    git push $no_verify "$(get_remote)" --delete "$target_branch"
   fi
 fi

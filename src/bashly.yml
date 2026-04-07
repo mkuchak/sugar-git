@@ -133,6 +133,9 @@ commands:
       - long: --only-remote
         short: -O
         help: "Only delete the branch in the remote"
+      - long: --no-verify
+        short: -B
+        help: "Bypass git hooks (pre-push)"
 
   - name: clean
     help: "Delete branches that have been merged into main"
