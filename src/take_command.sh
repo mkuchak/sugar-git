@@ -1,5 +1,5 @@
 # Fetch latest refs
-git fetch origin --quiet 2>/dev/null
+git fetch "$(get_remote)" --quiet 2>/dev/null
 
 if [ ! -z "${args['description']}" ]; then
   branch=${args['description']}
@@ -32,15 +32,15 @@ fi
 branch=${branch// /-}
 from_branch="${args[--from]:-}"
 
-if [ ! -z ${args['--only-origin']} ]; then
-  git push -u origin $branch
-elif [ ! -z ${args['--origin']} ]; then
+if [ ! -z ${args['--only-remote']} ]; then
+  git push -u "$(get_remote)" $branch
+elif [ ! -z ${args['--remote']} ]; then
   if [[ -n "$from_branch" ]]; then
     git checkout -b $branch $from_branch
   else
     git checkout -b $branch
   fi
-  git push -u origin $branch
+  git push -u "$(get_remote)" $branch
 else
   if [[ -n "$from_branch" ]]; then
     git checkout -b $branch $from_branch

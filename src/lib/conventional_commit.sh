@@ -22,6 +22,6 @@ conventional_commit() {
   git commit -m "$message" $edit
 
   if [[ -n "${args[--put]}" ]]; then
-    git push $force origin "$(git rev-parse --abbrev-ref HEAD)"
+    git push $force "$(get_remote)" "$(git rev-parse --abbrev-ref HEAD)"
   fi
 }

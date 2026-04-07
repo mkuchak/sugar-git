@@ -1,5 +1,5 @@
-if [[ -n "${args[--only-origin]}" ]]; then
-  git push origin --delete "${args[branch]}"
+if [[ -n "${args[--only-remote]}" ]]; then
+  git push "$(get_remote)" --delete "${args[branch]}"
 else
   target_branch="${args[branch]}"
   current_branch="$(git branch --show-current)"
@@ -20,7 +20,7 @@ else
   fi
 
   git branch -D "$target_branch"
-  if [[ -n "${args[--origin]}" ]]; then
-    git push origin --delete "$target_branch"
+  if [[ -n "${args[--remote]}" ]]; then
+    git push "$(get_remote)" --delete "$target_branch"
   fi
 fi

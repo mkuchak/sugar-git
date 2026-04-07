@@ -16,5 +16,5 @@ else
 fi
 
 if [ ! -z ${args[--put]} ]; then
-  git push $force origin $(git rev-parse --abbrev-ref HEAD)
+  git push $force "$(get_remote)" "$(git rev-parse --abbrev-ref HEAD)"
 fi

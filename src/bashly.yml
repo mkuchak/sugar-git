@@ -2,6 +2,12 @@ name: sgit
 help: Syntactic sugar for Git, respecting semantics and modern conventions
 version: 1.0.0
 
+flags:
+  - long: --git-remote
+    short: -R
+    arg: remote
+    help: "Override the remote name (default: auto-detected or origin)"
+
 commands:
   - name: ls
     help: "List all branches, only remote or only local"
@@ -22,12 +28,11 @@ commands:
       - name: description
         help: "The description is a brief explanation about the branch purpose"
     flags:
-      - long: --origin
-        short: -o
-        help: "Defines if the branch should also be created in the origin"
-      - long: --only-origin
+      - long: --remote
+        help: "Also create the branch in the remote"
+      - long: --only-remote
         short: -O
-        help: "Defines if the branch should be only created in the origin"
+        help: "Only create the branch in the remote"
       - long: --main
         help: "The production branch"
       - long: --staging
@@ -106,12 +111,12 @@ commands:
         help: "The new name for branch"
         required: true
     flags:
-      - long: --origin
-        short: -o
-        help: "Defines if the branch should also be renamed in the origin"
-      - long: --only-origin
+      - long: --remote
+        short: -r
+        help: "Also rename the branch in the remote"
+      - long: --only-remote
         short: -O
-        help: "Defines if the branch should be only renamed in the origin"
+        help: "Only rename the branch in the remote"
 
   - name: rm
     help: "Delete some branch"
@@ -122,20 +127,20 @@ commands:
       - name: branch
         help: "Branch to delete; if none are informed, delete the current one"
     flags:
-      - long: --origin
-        short: -o
-        help: "Defines if the branch should also be deleted in the origin"
-      - long: --only-origin
+      - long: --remote
+        short: -r
+        help: "Also delete the branch in the remote"
+      - long: --only-remote
         short: -O
-        help: "Defines if the branch should be only deleted in the origin"
+        help: "Only delete the branch in the remote"
 
   - name: clean
     help: "Delete branches that have been merged into main"
     group: Branches
     flags:
-      - long: --origin
-        short: -o
-        help: "Also delete merged branches from origin"
+      - long: --remote
+        short: -r
+        help: "Also delete merged branches from the remote"
       - long: --yes
         short: -y
         help: "Skip confirmation"

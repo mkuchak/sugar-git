@@ -14,8 +14,8 @@ from_branch="${args[--from]:-}"
 # Check if branch exists locally or remotely
 if git show-ref --verify --quiet "refs/heads/$branch" 2>/dev/null; then
   git worktree add "$folder_name" "$branch"
-elif git show-ref --verify --quiet "refs/remotes/origin/$branch" 2>/dev/null; then
-  git worktree add --track -b "$branch" "$folder_name" "origin/$branch"
+elif git show-ref --verify --quiet "refs/remotes/$(get_remote)/$branch" 2>/dev/null; then
+  git worktree add --track -b "$branch" "$folder_name" "$(get_remote)/$branch"
 else
   if [[ -n "$from_branch" ]]; then
     git worktree add -b "$branch" "$folder_name" "$from_branch"

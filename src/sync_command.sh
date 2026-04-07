@@ -18,9 +18,9 @@ fi
 branch=$([[ -n "${args[branch]}" ]] && echo "${args[branch]}" || echo "main")
 
 # Fetch and rebase
-git fetch origin
+git fetch "$(get_remote)"
 
-if ! git rebase "origin/$branch"; then
+if ! git rebase "$(get_remote)/$branch"; then
   echo ""
   echo "==========================="
   echo ""

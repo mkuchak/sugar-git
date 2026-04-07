@@ -24,8 +24,8 @@ fi
 
 echo "$merged_branches" | while read branch; do
   git branch -d "$branch"
-  if [[ -n "${args[--origin]}" ]]; then
-    git push origin --delete "$branch" 2>/dev/null
+  if [[ -n "${args[--remote]}" ]]; then
+    git push "$(get_remote)" --delete "$branch" 2>/dev/null
   fi
 done
 

@@ -1,7 +1,7 @@
 target_branch="${args[branch]}"
 
 # Validate target branch exists
-if ! git rev-parse --verify "$target_branch" &>/dev/null && ! git rev-parse --verify "origin/$target_branch" &>/dev/null; then
+if ! git rev-parse --verify "$target_branch" &>/dev/null && ! git rev-parse --verify "$(get_remote)/$target_branch" &>/dev/null; then
   echo "Error: Branch \"$target_branch\" does not exist."
   exit 1
 fi
