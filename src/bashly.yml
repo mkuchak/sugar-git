@@ -133,11 +133,11 @@ commands:
       - long: --only-remote
         short: -O
         help: "Only delete the branch in the remote"
-      - long: --no-verify
+      - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-push)"
-      - long: --bypass
-        help: "Alias for --no-verify"
+      - long: --no-verify
+        help: "Alias for --bypass"
         private: true
 
   - name: clean
@@ -293,11 +293,11 @@ commands:
       - long: --force
         short: -f
         help: "Overwrite existing origin commits in case conflicts"
-      - long: --no-verify
+      - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-push)"
-      - long: --bypass
-        help: "Alias for --no-verify"
+      - long: --no-verify
+        help: "Alias for --bypass"
         private: true
 
   - name: sync
@@ -462,11 +462,11 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
-      - long: --no-verify
+      - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
-      - long: --bypass
-        help: "Alias for --no-verify"
+      - long: --no-verify
+        help: "Alias for --bypass"
         private: true
       - long: --date
         short: -d
@@ -596,11 +596,11 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
-      - long: --no-verify
+      - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
-      - long: --bypass
-        help: "Alias for --no-verify"
+      - long: --no-verify
+        help: "Alias for --bypass"
         private: true
       - long: --date
         short: -d
@@ -646,11 +646,11 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
-      - long: --no-verify
+      - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
-      - long: --bypass
-        help: "Alias for --no-verify"
+      - long: --no-verify
+        help: "Alias for --bypass"
         private: true
       - long: --date
         short: -d
@@ -701,11 +701,11 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
-      - long: --no-verify
+      - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
-      - long: --bypass
-        help: "Alias for --no-verify"
+      - long: --no-verify
+        help: "Alias for --bypass"
         private: true
       - long: --date
         short: -d
@@ -755,11 +755,11 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
-      - long: --no-verify
+      - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
-      - long: --bypass
-        help: "Alias for --no-verify"
+      - long: --no-verify
+        help: "Alias for --bypass"
         private: true
       - long: --date
         short: -d
@@ -810,11 +810,11 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
-      - long: --no-verify
+      - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
-      - long: --bypass
-        help: "Alias for --no-verify"
+      - long: --no-verify
+        help: "Alias for --bypass"
         private: true
       - long: --date
         short: -d
@@ -867,11 +867,11 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
-      - long: --no-verify
+      - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
-      - long: --bypass
-        help: "Alias for --no-verify"
+      - long: --no-verify
+        help: "Alias for --bypass"
         private: true
       - long: --date
         short: -d
@@ -922,11 +922,11 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
-      - long: --no-verify
+      - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
-      - long: --bypass
-        help: "Alias for --no-verify"
+      - long: --no-verify
+        help: "Alias for --bypass"
         private: true
       - long: --date
         short: -d
@@ -978,11 +978,11 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
-      - long: --no-verify
+      - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
-      - long: --bypass
-        help: "Alias for --no-verify"
+      - long: --no-verify
+        help: "Alias for --bypass"
         private: true
       - long: --date
         short: -d
@@ -1033,11 +1033,11 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
-      - long: --no-verify
+      - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
-      - long: --bypass
-        help: "Alias for --no-verify"
+      - long: --no-verify
+        help: "Alias for --bypass"
         private: true
       - long: --date
         short: -d
@@ -1089,11 +1089,11 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
-      - long: --no-verify
+      - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
-      - long: --bypass
-        help: "Alias for --no-verify"
+      - long: --no-verify
+        help: "Alias for --bypass"
         private: true
       - long: --date
         short: -d
@@ -1144,11 +1144,11 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
-      - long: --no-verify
+      - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
-      - long: --bypass
-        help: "Alias for --no-verify"
+      - long: --no-verify
+        help: "Alias for --bypass"
         private: true
       - long: --date
         short: -d
@@ -1198,11 +1198,11 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
-      - long: --no-verify
+      - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
-      - long: --bypass
-        help: "Alias for --no-verify"
+      - long: --no-verify
+        help: "Alias for --bypass"
         private: true
       - long: --date
         short: -d
@@ -1253,11 +1253,11 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
-      - long: --no-verify
+      - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
-      - long: --bypass
-        help: "Alias for --no-verify"
+      - long: --no-verify
+        help: "Alias for --bypass"
         private: true
       - long: --date
         short: -d
@@ -1288,11 +1288,11 @@ commands:
       - long: --force
         short: -f
         help: "Force push if --put is used"
-      - long: --no-verify
+      - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
-      - long: --bypass
-        help: "Alias for --no-verify"
+      - long: --no-verify
+        help: "Alias for --bypass"
         private: true
     examples:
       - "[Quick save]"
