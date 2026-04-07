@@ -7,9 +7,6 @@ flags:
     short: -R
     arg: remote
     help: "Override the remote name (default: auto-detected or origin)"
-  - long: --no-verify
-    short: -B
-    help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
 
 commands:
   - name: ls
@@ -290,6 +287,9 @@ commands:
       - long: --force
         short: -f
         help: "Overwrite existing origin commits in case conflicts"
+      - long: --no-verify
+        short: -B
+        help: "Bypass git hooks (pre-push)"
 
   - name: sync
     help: "Sync current branch by fetching and rebasing on top of a remote branch (defaults to main)"
@@ -453,6 +453,9 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --no-verify
+        short: -B
+        help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
       - long: --date
         short: -d
         arg: date
@@ -581,6 +584,9 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --no-verify
+        short: -B
+        help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
       - long: --date
         short: -d
         arg: date
@@ -625,6 +631,9 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --no-verify
+        short: -B
+        help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
       - long: --date
         short: -d
         arg: date
@@ -674,6 +683,9 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --no-verify
+        short: -B
+        help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
       - long: --date
         short: -d
         arg: date
@@ -722,6 +734,9 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --no-verify
+        short: -B
+        help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
       - long: --date
         short: -d
         arg: date
@@ -771,6 +786,9 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --no-verify
+        short: -B
+        help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
       - long: --date
         short: -d
         arg: date
@@ -822,6 +840,9 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --no-verify
+        short: -B
+        help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
       - long: --date
         short: -d
         arg: date
@@ -871,6 +892,9 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --no-verify
+        short: -B
+        help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
       - long: --date
         short: -d
         arg: date
@@ -921,6 +945,9 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --no-verify
+        short: -B
+        help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
       - long: --date
         short: -d
         arg: date
@@ -970,6 +997,9 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --no-verify
+        short: -B
+        help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
       - long: --date
         short: -d
         arg: date
@@ -1020,6 +1050,9 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --no-verify
+        short: -B
+        help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
       - long: --date
         short: -d
         arg: date
@@ -1069,6 +1102,9 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --no-verify
+        short: -B
+        help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
       - long: --date
         short: -d
         arg: date
@@ -1117,6 +1153,9 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --no-verify
+        short: -B
+        help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
       - long: --date
         short: -d
         arg: date
@@ -1166,6 +1205,9 @@ commands:
       - long: --force
         short: -f
         help: "If pushed, overwrite existing commits in case conflicts"
+      - long: --no-verify
+        short: -B
+        help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
       - long: --date
         short: -d
         arg: date
@@ -1192,6 +1234,9 @@ commands:
       - long: --put
         short: -p
         help: "Push to remote after committing (force pushes if amending)"
+      - long: --no-verify
+        short: -B
+        help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
     examples:
       - "[Quick save]"
       - " - sgit temp"
