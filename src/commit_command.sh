@@ -4,7 +4,7 @@ handle_custom_date
 message="${args[description]}"
 edit=$([[ -n "${args[description]}" && -z "${args[--edit]}" ]] && echo "" || echo "--edit")
 force=$([[ -n "${args[--force]}" ]] && echo "--force" || echo "")
-no_verify=$([[ -n "${args[--no-verify]}" ]] && echo "--no-verify" || echo "")
+no_verify=$(get_no_verify)
 
 if [[ -n "${args[--add-all]}" ]]; then
   git add --all

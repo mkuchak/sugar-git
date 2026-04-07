@@ -2,7 +2,7 @@
 handle_custom_date
 
 force=$([[ ! -z "${args[--force]}" ]] && echo "--force" || echo "")
-no_verify=$([[ -n "${args[--no-verify]}" ]] && echo "--no-verify" || echo "")
+no_verify=$(get_no_verify)
 
 if [ ! -z ${args[--add-all]} ]; then
   git add --all

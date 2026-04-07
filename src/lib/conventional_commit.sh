@@ -12,7 +12,7 @@ conventional_commit() {
   local message="$type$scope$breaking_change: ${args[description]}"
   local edit=$([[ -n "${args[description]}" && -z "${args[--edit]}" ]] && echo "" || echo "--edit")
   local force=$([[ -n "${args[--force]}" ]] && echo "--force" || echo "")
-  local no_verify=$([[ -n "${args[--no-verify]}" ]] && echo "--no-verify" || echo "")
+  local no_verify=$(get_no_verify)
 
   if [[ -n "${args[--add-all]}" ]]; then
     git add --all

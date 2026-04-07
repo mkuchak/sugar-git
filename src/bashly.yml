@@ -136,6 +136,9 @@ commands:
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-push)"
+      - long: --bypass
+        help: "Alias for --no-verify"
+        private: true
 
   - name: clean
     help: "Delete branches that have been merged into main"
@@ -293,6 +296,9 @@ commands:
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-push)"
+      - long: --bypass
+        help: "Alias for --no-verify"
+        private: true
 
   - name: sync
     help: "Sync current branch by fetching and rebasing on top of a remote branch (defaults to main)"
@@ -459,6 +465,9 @@ commands:
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
+      - long: --bypass
+        help: "Alias for --no-verify"
+        private: true
       - long: --date
         short: -d
         arg: date
@@ -590,6 +599,9 @@ commands:
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
+      - long: --bypass
+        help: "Alias for --no-verify"
+        private: true
       - long: --date
         short: -d
         arg: date
@@ -637,6 +649,9 @@ commands:
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
+      - long: --bypass
+        help: "Alias for --no-verify"
+        private: true
       - long: --date
         short: -d
         arg: date
@@ -689,6 +704,9 @@ commands:
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
+      - long: --bypass
+        help: "Alias for --no-verify"
+        private: true
       - long: --date
         short: -d
         arg: date
@@ -740,6 +758,9 @@ commands:
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
+      - long: --bypass
+        help: "Alias for --no-verify"
+        private: true
       - long: --date
         short: -d
         arg: date
@@ -792,6 +813,9 @@ commands:
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
+      - long: --bypass
+        help: "Alias for --no-verify"
+        private: true
       - long: --date
         short: -d
         arg: date
@@ -846,6 +870,9 @@ commands:
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
+      - long: --bypass
+        help: "Alias for --no-verify"
+        private: true
       - long: --date
         short: -d
         arg: date
@@ -898,6 +925,9 @@ commands:
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
+      - long: --bypass
+        help: "Alias for --no-verify"
+        private: true
       - long: --date
         short: -d
         arg: date
@@ -951,6 +981,9 @@ commands:
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
+      - long: --bypass
+        help: "Alias for --no-verify"
+        private: true
       - long: --date
         short: -d
         arg: date
@@ -1003,6 +1036,9 @@ commands:
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
+      - long: --bypass
+        help: "Alias for --no-verify"
+        private: true
       - long: --date
         short: -d
         arg: date
@@ -1056,6 +1092,9 @@ commands:
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
+      - long: --bypass
+        help: "Alias for --no-verify"
+        private: true
       - long: --date
         short: -d
         arg: date
@@ -1108,6 +1147,9 @@ commands:
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
+      - long: --bypass
+        help: "Alias for --no-verify"
+        private: true
       - long: --date
         short: -d
         arg: date
@@ -1159,6 +1201,9 @@ commands:
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
+      - long: --bypass
+        help: "Alias for --no-verify"
+        private: true
       - long: --date
         short: -d
         arg: date
@@ -1211,6 +1256,9 @@ commands:
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
+      - long: --bypass
+        help: "Alias for --no-verify"
+        private: true
       - long: --date
         short: -d
         arg: date
@@ -1243,6 +1291,9 @@ commands:
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"
+      - long: --bypass
+        help: "Alias for --no-verify"
+        private: true
     examples:
       - "[Quick save]"
       - " - sgit temp"

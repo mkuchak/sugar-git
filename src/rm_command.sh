@@ -1,4 +1,4 @@
-no_verify=$([[ -n "${args[--no-verify]}" ]] && echo "--no-verify" || echo "")
+no_verify=$(get_no_verify)
 
 if [[ -n "${args[--only-remote]}" ]]; then
   git push $no_verify "$(get_remote)" --delete "${args[branch]}"

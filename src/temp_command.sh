@@ -40,7 +40,7 @@ else
 fi
 
 force=$([[ -n "${args[--force]}" ]] && echo "--force" || echo "")
-no_verify=$([[ -n "${args[--no-verify]}" ]] && echo "--no-verify" || echo "")
+no_verify=$(get_no_verify)
 
 if [[ "$is_temp" == true ]]; then
   # Amend previous temp commit with bumped counter
