@@ -43,36 +43,36 @@ eval "$(sgit completions)"
 
 ```bash
 # Initialize a new repository
-$ sgit init --type node
+sgit init --type node
 
 # Create a feature branch from main
-$ sgit take -f "my awesome feature" -F main --remote
+sgit take -f "my awesome feature" --from origin/main --remote
 
 # Make changes, commit and push in one step
-$ sgit feat "initial commit" -Ap
+sgit feat "initial commit" -Ap
 
 # Free-form commit (no type prefix)
-$ sgit commit "add project configuration" -Ap
+sgit commit "add project configuration" -Ap
 
 # Sync with main (fetch + rebase)
-$ sgit sync
+sgit sync
 
 # Stash, switch, come back
-$ sgit stash put -m "half-done auth flow"
-$ sgit cd main
-$ sgit cd feature/my-awesome-feature
-$ sgit stash get
+sgit stash put -m "half-done auth flow"
+sgit cd main
+sgit cd feature/my-awesome-feature
+sgit stash get
 
 # Squash messy commits before PR
-$ sgit squash 3 "feat: implement auth flow"
+sgit squash 3 "feat: implement auth flow"
 
 # Amend last commit with new message
-$ sgit amend -Am "feat: complete auth flow"
+sgit amend -Am "feat: complete auth flow"
 
 # Push, tag, clean up
-$ sgit put
-$ sgit tag v1.0.0
-$ sgit clean
+sgit put
+sgit tag v1.0.0
+sgit clean
 ```
 
 ## Commands
@@ -139,12 +139,12 @@ Shared flags: `-s` scope, `-b` breaking change, `-e` open editor, `-a` add file,
 ### Worktrees
 
 ```bash
-$ sgit wt add feature/auth              # create worktree
-$ sgit wt add feature/auth -F develop   # from specific branch
-$ sgit wt add                           # auto-UUID branch name
-$ sgit wt add feature/auth -s tilt/data # symlink extra paths
-$ sgit wt add feature/auth --no-install # skip dep install
-$ sgit wt link -s .env -s tilt/data     # add symlinks to existing worktree
+sgit wt add feature/auth              # create worktree
+sgit wt add feature/auth -F develop   # from specific branch
+sgit wt add                           # auto-UUID branch name
+sgit wt add feature/auth -s tilt/data # symlink extra paths
+sgit wt add feature/auth --no-install # skip dep install
+sgit wt link -s .env -s tilt/data     # add symlinks to existing worktree
 ```
 
 Auto-symlinks are configured via `.sgitlinks` in the project root:
@@ -159,10 +159,10 @@ Auto-symlinks are configured via `.sgitlinks` in the project root:
 ### Purge
 
 ```bash
-$ sgit purge --dry-run    # preview what would be deleted
-$ sgit purge              # delete artifacts + caches
-$ sgit purge --locks      # also delete lock files
-$ sgit purge --all --yes  # everything, no confirmation
+sgit purge --dry-run    # preview what would be deleted
+sgit purge              # delete artifacts + caches
+sgit purge --locks      # also delete lock files
+sgit purge --all --yes  # everything, no confirmation
 ```
 
 Covers: Node.js, Rust, Python, Java, Go, .NET, Ruby, Dart/Flutter, iOS/Android, Terraform, and more.
@@ -188,14 +188,14 @@ By default, sgit uses `origin` as the remote. You can change this:
 
 ```bash
 # Per-repo
-$ git config sgit.remote upstream
+git config sgit.remote upstream
 
 # Global
-$ git config --global sgit.remote upstream
+git config --global sgit.remote upstream
 
 # Per-command override
-$ sgit put -R gitlab
-$ sgit sync main -R upstream
+sgit put -R gitlab
+sgit sync main -R upstream
 ```
 
 Resolution order: `-R` flag > `sgit.remote` config > branch tracking remote > `origin`.
@@ -205,9 +205,9 @@ Resolution order: `-R` flag > `sgit.remote` config > branch tracking remote > `o
 Requires [Bashly](https://bashly.dev) (`gem install bashly`) for building from source.
 
 ```bash
-$ make build    # compile sgit from src/
-$ make test     # run 64 bats-core tests
-$ make install  # install to /usr/local/bin/
+make build    # compile sgit from src/
+make test     # run 64 bats-core tests
+make install  # install to /usr/local/bin/
 ```
 
 ### Releases
