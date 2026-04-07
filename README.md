@@ -46,7 +46,7 @@ eval "$(sgit completions)"
 sgit init --type node
 
 # Create a feature branch from main
-sgit take -f "my awesome feature" --from origin/main --remote
+sgit take -f "my awesome feature" --from origin/main
 
 # Make changes, commit and push in one step
 sgit feat "initial commit" -Ap
