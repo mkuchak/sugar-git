@@ -1179,6 +1179,35 @@ commands:
       - ' - git commit -m "test: remove `document-register-element` from elements tests"'
       - " - git push"
 
+  - name: temp
+    help: "Quick temporary commit with auto-generated message (amends previous temp if exists)"
+    group: Commit
+    args:
+      - name: description
+        help: "Optional description for the temp commit"
+    flags:
+      - long: --put
+        short: -p
+        help: "Push to remote after committing (force pushes if amending)"
+    examples:
+      - "[Quick save]"
+      - " - sgit temp"
+      - "[Result]"
+      - ' - git add --all'
+      - ' - git commit -m "chore: WIP auth.ts, config.ts"'
+      - ""
+      - "[With description]"
+      - " - sgit temp \"halfway through auth\""
+      - "[Result]"
+      - ' - git add --all'
+      - ' - git commit -m "chore: WIP halfway through auth"'
+      - ""
+      - "[Bump previous temp]"
+      - " - sgit temp"
+      - "[Result]"
+      - ' - git add --all'
+      - ' - git commit --amend -m "chore: WIP(2) auth.ts, config.ts, routes.ts"'
+
   - name: purge
     help: "Delete build artifacts, caches, and optionally lock files"
     group: Maintenance
