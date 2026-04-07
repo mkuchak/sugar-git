@@ -1233,7 +1233,10 @@ commands:
     flags:
       - long: --put
         short: -p
-        help: "Push to remote after committing (force pushes if amending)"
+        help: "Push to remote after committing"
+      - long: --force
+        short: -f
+        help: "Force push if --put is used"
       - long: --no-verify
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"

@@ -39,6 +39,7 @@ else
   summary="$(file_summary)"
 fi
 
+force=$([[ -n "${args[--force]}" ]] && echo "--force" || echo "")
 no_verify=$([[ -n "${args[--no-verify]}" ]] && echo "--no-verify" || echo "")
 
 if [[ "$is_temp" == true ]]; then
@@ -53,6 +54,6 @@ else
   git commit -m "chore: WIP $summary" $no_verify
 
   if [[ -n "${args[--put]}" ]]; then
-    git push $no_verify "$(get_remote)" "$(git rev-parse --abbrev-ref HEAD)"
+    git push $force $no_verify "$(get_remote)" "$(git rev-parse --abbrev-ref HEAD)"
   fi
 fi
