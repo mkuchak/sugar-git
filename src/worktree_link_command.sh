@@ -11,6 +11,7 @@ for spath in "${symlinks[@]}"; do
   [[ -z "$spath" ]] && continue
   if [[ -e "$main_worktree/$spath" ]]; then
     mkdir -p "$(dirname "$spath")"
+    rm -rf "$spath"
     ln -sf "$main_worktree/$spath" "$spath"
     echo "Linked: $spath"
   else

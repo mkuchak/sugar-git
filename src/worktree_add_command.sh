@@ -53,6 +53,7 @@ if [[ -z "${args[--no-link]}" ]] && [[ -f "$main_worktree/.sgitlinks" ]]; then
     # Regular symlink path
     if [[ -e "$main_worktree/$line" ]]; then
       mkdir -p "$folder_name/$(dirname "$line")"
+      rm -rf "$folder_name/$line"
       ln -sf "$(cd "$main_worktree" && pwd)/$line" "$folder_name/$line"
       echo "  Linked $line"
     fi
@@ -80,6 +81,7 @@ if [[ -n "${args[--symlink]}" ]]; then
     [[ -z "$spath" ]] && continue
     if [[ -e "$main_worktree/$spath" ]]; then
       mkdir -p "$folder_name/$(dirname "$spath")"
+      rm -rf "$folder_name/$spath"
       ln -sf "$(cd "$main_worktree" && pwd)/$spath" "$folder_name/$spath"
       echo "  Linked $spath"
     else
