@@ -11,7 +11,7 @@ teardown() {
 
 @test "temp creates a WIP commit with file names" {
   echo "change" >> file.txt
-  run "$SGIT" temp
+  run "$SGIT" temp -A -A
   assert_success
   run git log -1 --format=%s
   assert_output --partial "chore: WIP"
@@ -20,7 +20,7 @@ teardown() {
 
 @test "temp with description uses custom message" {
   echo "change" >> file.txt
-  run "$SGIT" temp "halfway through auth"
+  run "$SGIT" temp -A "halfway through auth" -A
   assert_success
   run git log -1 --format=%s
   assert_output "chore: WIP halfway through auth"
@@ -28,11 +28,11 @@ teardown() {
 
 @test "temp bumps counter on second temp" {
   echo "change1" >> file.txt
-  run "$SGIT" temp
+  run "$SGIT" temp -A
   assert_success
 
   echo "change2" >> file2.txt
-  run "$SGIT" temp
+  run "$SGIT" temp -A
   assert_success
   run git log -1 --format=%s
   assert_output --partial "chore: WIP(2)"
@@ -40,15 +40,15 @@ teardown() {
 
 @test "temp bumps counter on third temp" {
   echo "change1" >> file.txt
-  run "$SGIT" temp
+  run "$SGIT" temp -A
   assert_success
 
   echo "change2" >> file2.txt
-  run "$SGIT" temp
+  run "$SGIT" temp -A
   assert_success
 
   echo "change3" >> file3.txt
-  run "$SGIT" temp
+  run "$SGIT" temp -A
   assert_success
   run git log -1 --format=%s
   assert_output --partial "chore: WIP(3)"
@@ -58,9 +58,9 @@ teardown() {
   local before=$(git rev-list --count HEAD)
 
   echo "change1" >> file.txt
-  run "$SGIT" temp
+  run "$SGIT" temp -A
   echo "change2" >> file2.txt
-  run "$SGIT" temp
+  run "$SGIT" temp -A
 
   local after=$(git rev-list --count HEAD)
   # Should only be 1 more commit than before (not 2)
@@ -73,7 +73,7 @@ teardown() {
   git commit -m "feat: real commit"
 
   echo "more changes" >> file.txt
-  run "$SGIT" temp
+  run "$SGIT" temp -A
   assert_success
   run git log -1 --format=%s
   assert_output --partial "chore: WIP"
