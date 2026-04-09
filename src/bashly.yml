@@ -1282,6 +1282,13 @@ commands:
       - name: description
         help: "Optional description for the temp commit"
     flags:
+      - long: --add
+        short: -a
+        arg: add
+        help: "Add specific file to this commit"
+      - long: --add-all
+        short: -A
+        help: "Add all untracked, modified and deleted files to this commit"
       - long: --put
         short: -p
         help: "Push to remote after committing"

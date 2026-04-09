@@ -29,8 +29,12 @@ elif [[ "$last_msg" =~ ^chore:\ WIP ]]; then
   count=2
 fi
 
-# Stage everything
-git add --all
+# Stage files
+if [[ -n "${args[--add-all]}" ]]; then
+  git add --all
+elif [[ -n "${args[--add]}" ]]; then
+  git add ${args[--add]}
+fi
 
 # Build message
 if [[ -n "${args[description]}" ]]; then
