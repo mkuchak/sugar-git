@@ -42,6 +42,26 @@ teardown() {
   assert_output "develop"
 }
 
+@test "sgit take --only-remote creates branch on remote only" {
+  run "$SGIT" take --only-remote "$(echo cool-on-remote)"
+  assert_success
+  # Branch should NOT exist locally
+  run git branch --list cool-on-remote
+  assert_output ""
+  # But it SHOULD exist on the remote
+  run git ls-remote --heads origin cool-on-remote
+  assert_output --partial "refs/heads/cool-on-remote"
+}
+
+@test "sgit take --only-remote -f feature-name pushes feature/name to remote only" {
+  run "$SGIT" take --only-remote -f "cool feature"
+  assert_success
+  run git branch --list feature/cool-feature
+  assert_output ""
+  run git ls-remote --heads origin feature/cool-feature
+  assert_output --partial "refs/heads/feature/cool-feature"
+}
+
 @test "sgit cd switches to branch" {
   git checkout -b feature/test-branch
   git checkout main
