@@ -60,3 +60,26 @@ teardown() {
   run git status --porcelain b.txt
   assert_output --partial "?? b.txt"
 }
+
+@test "feat with multi-word description" {
+  make_dirty
+  run "$SGIT" feat "add a whole new thing with spaces" -A
+  assert_success
+  [[ "$(git log -1 --format=%s)" == "feat: add a whole new thing with spaces" ]]
+}
+
+@test "commit freeform with multi-word description" {
+  make_dirty
+  run "$SGIT" commit "something with many words here" -A
+  assert_success
+  [[ "$(git log -1 --format=%s)" == "something with many words here" ]]
+}
+
+@test "feat -a with path containing a space" {
+  touch "spa ced.txt"
+  run "$SGIT" feat "add spaced file" -a "spa ced.txt"
+  assert_success
+  [[ "$(git log -1 --format=%s)" == "feat: add spaced file" ]]
+  run git log -1 --name-only
+  assert_output --partial "spa ced.txt"
+}

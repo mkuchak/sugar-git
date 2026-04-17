@@ -129,6 +129,24 @@ teardown() {
   [[ "$status" -ne 0 ]] || [[ "$output" == *"No such remote"* ]] || true
 }
 
+@test "sgit log --author with spaced name finds commits" {
+  git config user.name "Multi Word Author"
+  create_commits 2
+  run "$SGIT" log --author "Multi Word Author"
+  assert_success
+  assert_output --partial "commit number 1"
+}
+
+@test "sgit log with multi-word search term finds matches" {
+  create_commits 1
+  echo "x" >> file.txt
+  git add file.txt
+  git commit -m "feat: special marker phrase"
+  run "$SGIT" log "special marker phrase"
+  assert_success
+  assert_output --partial "special marker phrase"
+}
+
 @test "sgit init --type node creates .gitignore with node_modules" {
   local init_dir=$(mktemp -d)
   cd "$init_dir"

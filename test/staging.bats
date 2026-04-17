@@ -74,3 +74,19 @@ teardown() {
   run git tag -n1 v2.0.0
   assert_output --partial "v2.0.0"
 }
+
+@test "amend --message with multi-word message" {
+  create_commits 1
+  run "$SGIT" amend --message "this is a multi-word message"
+  assert_success
+  run git log -1 --format=%s
+  assert_output "this is a multi-word message"
+}
+
+@test "amend -A --add-specific with spaced file path" {
+  touch "my file.txt"
+  run "$SGIT" amend -a "my file.txt"
+  assert_success
+  run git log -1 --name-only
+  assert_output --partial "my file.txt"
+}
