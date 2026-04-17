@@ -18,7 +18,7 @@ else
     IFS=$'\n'
     branches=($branches)
     jump_branch=$([[ "*$current_branch" == "${branches[0]// /}" ]] && echo "${branches[1]// /}" || echo "${branches[0]// /}")
-    git checkout $jump_branch
+    git checkout "$jump_branch"
   fi
 
   git branch -D "$target_branch"

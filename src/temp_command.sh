@@ -33,7 +33,7 @@ fi
 if [[ -n "${args[--add-all]}" ]]; then
   git add --all
 elif [[ -n "${args[--add]}" ]]; then
-  git add ${args[--add]}
+  git add "${args[--add]}"
 fi
 
 # Build message

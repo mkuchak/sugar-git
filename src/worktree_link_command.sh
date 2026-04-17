@@ -6,6 +6,9 @@ if [[ -z "${args[--symlink]}" ]]; then
   exit 1
 fi
 
+# bashly stores repeatable flags as a shell-quoted space-separated string.
+# `eval` is the idiomatic way to parse it into an array. Input is the user's
+# own shell args, so no untrusted-input concern.
 eval "symlinks=(${args[--symlink]})"
 for spath in "${symlinks[@]}"; do
   [[ -z "$spath" ]] && continue

@@ -1,7 +1,7 @@
-if [ ! -z "${args[--ours]}" ]; then # Resolve conflicts using the working branch version"
+if [[ -n "${args[--ours]}" ]]; then
   git checkout --ours .
 fi
 
-if [ ! -z "${args[--theirs]}" ]; then # Resolve conflicts using the remote branch version"
+if [[ -n "${args[--theirs]}" ]]; then
   git checkout --theirs .
 fi

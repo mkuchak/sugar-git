@@ -1,1 +1,1 @@
-git add ${other_args[*]}
+git add "${other_args[@]}"
