@@ -1,1 +1,1 @@
-git checkout ${args[branch]}
+git checkout "${args[branch]}"

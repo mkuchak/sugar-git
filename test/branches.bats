@@ -51,6 +51,17 @@ teardown() {
   assert_output "feature/test-branch"
 }
 
+@test "sgit cd handles branch name with shell-special chars" {
+  # Git allows chars like ; & | # ( ) < > in branch names; they must be quoted
+  # when passed to shell. This exercises the quoting fix in cd_command.sh.
+  git checkout -b 'feat(42);echo'
+  git checkout main
+  run "$SGIT" cd 'feat(42);echo'
+  assert_success
+  run git branch --show-current
+  assert_output 'feat(42);echo'
+}
+
 @test "sgit mv renames a branch" {
   git checkout -b feature/auth-flow
   git checkout main
