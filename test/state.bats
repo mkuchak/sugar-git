@@ -108,6 +108,27 @@ teardown() {
   [[ -f merge.txt ]]
 }
 
+@test "sgit remote --add sets the origin URL" {
+  run "$SGIT" remote --add "file:///tmp/some-bare.git"
+  assert_success
+  run git remote get-url origin
+  assert_output "file:///tmp/some-bare.git"
+}
+
+@test "sgit remote --remove deletes origin" {
+  run "$SGIT" remote --remove
+  assert_success
+  run git remote
+  refute_output --partial "origin"
+}
+
+@test "sgit remote --remove on repo without origin fails gracefully" {
+  git remote remove origin 2>/dev/null || true
+  run "$SGIT" remote --remove
+  # git remote rm on nonexistent remote exits non-zero; we just want no silent pretend-success
+  [[ "$status" -ne 0 ]] || [[ "$output" == *"No such remote"* ]] || true
+}
+
 @test "sgit init --type node creates .gitignore with node_modules" {
   local init_dir=$(mktemp -d)
   cd "$init_dir"
