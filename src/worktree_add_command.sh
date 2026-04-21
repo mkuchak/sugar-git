@@ -65,10 +65,13 @@ if [[ -z "${args[--no-link]}" ]] && [[ -f "$main_worktree/.sgitlinks" ]]; then
       find "$main_worktree/$envdir" -maxdepth 2 -name '.env*' -not -name '*.example' -not -name '*.sample' -type f 2>/dev/null | while read envfile; do
         relative="${envfile#$main_worktree/}"
         target_dir="$folder_name/$(dirname "$relative")"
-        if [[ -d "$target_dir" ]]; then
-          ln -sf "$envfile" "$folder_name/$relative"
-          echo "  Linked $relative"
-        fi
+        # Ensure the target directory exists. Subdirs that contain only
+        # gitignored files (typical for .env-only dirs) are NOT checked out
+        # by `git worktree add`, so the symlink target's parent would be
+        # missing without this.
+        mkdir -p "$target_dir"
+        ln -sf "$envfile" "$folder_name/$relative"
+        echo "  Linked $relative"
       done
     fi
   done

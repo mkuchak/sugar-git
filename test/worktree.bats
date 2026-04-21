@@ -7,10 +7,12 @@ setup() {
 
 teardown() {
   # Remove worktree before teardown to avoid git complaints
-  if [[ -d "../test-branch" ]]; then
-    git worktree remove --force "../test-branch" 2>/dev/null || true
-    rm -rf "../test-branch"
-  fi
+  for wt in test-branch test-envs; do
+    if [[ -d "../$wt" ]]; then
+      git worktree remove --force "../$wt" 2>/dev/null || true
+      rm -rf "../$wt"
+    fi
+  done
   teardown_git_repo
 }
 
@@ -50,4 +52,34 @@ teardown() {
   run "$SGIT" worktree prune
   assert_success
   assert_output --partial "Stale worktree references cleaned"
+}
+
+# --- .sgitlinks @envs ---
+
+@test "worktree add: @envs links .env files even when subdirs are gitignored-only" {
+  # The subdirectories apps/api and workers/w1 exist only because of their
+  # gitignored .env files. `git worktree add` won't check them out, so the
+  # @envs logic must create the parent dirs before symlinking.
+  echo ".env" > .gitignore
+  mkdir -p apps/api workers/w1
+  echo "API_KEY=main" > apps/api/.env
+  echo "Q=main" > workers/w1/.env
+  cat > .sgitlinks <<'SGITLINKS'
+@envs apps workers
+SGITLINKS
+  git add .gitignore .sgitlinks
+  git commit -m "chore: setup"
+
+  run "$SGIT" worktree add test-envs --no-install
+  assert_success
+  assert_output --partial "Linked apps/api/.env"
+  assert_output --partial "Linked workers/w1/.env"
+
+  # The symlinks must exist and be readable
+  [[ -L "../test-envs/apps/api/.env" ]]
+  [[ -L "../test-envs/workers/w1/.env" ]]
+  run cat "../test-envs/apps/api/.env"
+  assert_output "API_KEY=main"
+  run cat "../test-envs/workers/w1/.env"
+  assert_output "Q=main"
 }
