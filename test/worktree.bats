@@ -7,7 +7,7 @@ setup() {
 
 teardown() {
   # Remove worktree before teardown to avoid git complaints
-  for wt in test-branch test-envs test-default; do
+  for wt in test-branch test-envs test-default custom-dir; do
     if [[ -d "../$wt" ]]; then
       git worktree remove --force "../$wt" 2>/dev/null || true
       rm -rf "../$wt"
@@ -23,6 +23,16 @@ teardown() {
   assert_success
   assert_output --partial "Worktree ready!"
   [[ -d "../test-branch" ]]
+}
+
+@test "worktree add: --name uses custom folder, branch unchanged" {
+  run "$SGIT" worktree add feature/auth --name custom-dir --no-install
+  assert_success
+  assert_output --partial "Worktree ready!"
+  [[ -d "../custom-dir" ]]
+  [[ ! -d "../feature-auth" ]]
+  run git -C "../custom-dir" branch --show-current
+  assert_output "feature/auth"
 }
 
 # --- worktree ls ---

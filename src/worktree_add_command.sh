@@ -5,8 +5,12 @@ else
   branch="${args[branch]}"
 fi
 
-# Convert slashes to dashes for folder name
-folder_name="../$(echo "$branch" | tr '/' '-')"
+# Folder name: --name override, or derive from branch (slashes → dashes)
+if [[ -n "${args[--name]}" ]]; then
+  folder_name="../${args[--name]}"
+else
+  folder_name="../$(echo "$branch" | tr '/' '-')"
+fi
 
 # Determine base branch
 from_branch="${args[--from]:-}"

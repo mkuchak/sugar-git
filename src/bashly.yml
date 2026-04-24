@@ -163,6 +163,10 @@ commands:
           - name: branch
             help: "Branch name (auto-generates wt-<uuid> if omitted)"
         flags:
+          - long: --name
+            short: -n
+            arg: dirname
+            help: "Custom folder name for the worktree (defaults to branch name with / replaced by -)"
           - long: --symlink
             short: -s
             arg: path
