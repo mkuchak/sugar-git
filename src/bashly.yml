@@ -573,6 +573,33 @@ commands:
             arg: message
             help: "Add a message to the stash entry"
 
+  - name: shelf
+    help: "Stash entire commits (preserved as refs, not flattened diffs)"
+    group: Staging
+
+    commands:
+      - name: put
+        help: "Shelf the last N commits (default 1) and reset HEAD"
+        args:
+          - name: count
+            help: "Number of commits to shelf"
+            default: "1"
+
+      - name: ls
+        help: "List shelved commit chains"
+
+      - name: get
+        help: "Restore (cherry-pick) a shelf entry and drop it"
+        args:
+          - name: id
+            help: "Shelf ID or index (default: 0, most recent)"
+
+      - name: drop
+        help: "Discard a shelf entry without applying"
+        args:
+          - name: id
+            help: "Shelf ID or index (default: 0, most recent)"
+
   - name: commit
     alias: c
     help: "Commit with a custom message"
