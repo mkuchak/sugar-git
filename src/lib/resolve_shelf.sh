@@ -42,6 +42,15 @@ parse_count_from_shelf_id() {
   echo "${last_seg%c}"
 }
 
+# Path to the sidecar metadata directory used for shelf labels.
+# Stored under the git common dir so it's shared across worktrees and never
+# pushed to a remote (shelf is a local concept).
+shelf_meta_dir() {
+  local common_dir
+  common_dir=$(git rev-parse --git-common-dir 2>/dev/null) || return 1
+  echo "$common_dir/sgit-shelf-meta"
+}
+
 # Verify the working tree is clean and no other git operation is in progress.
 # Prints an error and returns non-zero if the repo is not in a stable state.
 require_clean_repo_for_shelf() {

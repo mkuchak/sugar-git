@@ -8,12 +8,14 @@ require_clean_repo_for_shelf || exit 1
 start="$(git rev-parse "$ref~$count")"
 if ! git cherry-pick "$start..$ref"; then
   echo "" >&2
-  echo "Cherry-pick conflict. Resolve and continue:" >&2
-  echo "  sgit resolve --ours       # or --theirs" >&2
+  echo "Cherry-pick conflict." >&2
+  echo "  sgit resolve --ours          # or --theirs" >&2
   echo "  git cherry-pick --continue" >&2
-  echo "Or abort: git cherry-pick --abort   (the shelf is preserved)" >&2
+  echo "  sgit shelf drop $short       # the now-applied shelf" >&2
+  echo "Or: git cherry-pick --abort    (shelf preserved)" >&2
   exit 1
 fi
 
 git update-ref -d "refs/$ref"
+rm -f "$(shelf_meta_dir)/$short.txt"
 echo "Restored $count commit(s) and dropped $short"

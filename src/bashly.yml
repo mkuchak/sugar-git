@@ -584,9 +584,24 @@ commands:
           - name: count
             help: "Number of commits to shelf"
             default: "1"
+        flags:
+          - long: --message
+            short: -m
+            arg: message
+            help: "Add a label so you can recognize the shelf later"
 
       - name: ls
         help: "List shelved commit chains"
+
+      - name: peek
+        help: "Show the diff or summary of a shelved chain"
+        args:
+          - name: id
+            help: "Shelf ID or index (default: 0, most recent)"
+        flags:
+          - long: --stat
+            short: -s
+            help: "Show a summary of changed files instead of the full diff"
 
       - name: get
         help: "Restore (cherry-pick) a shelf entry and drop it"

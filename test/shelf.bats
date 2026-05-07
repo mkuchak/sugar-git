@@ -204,3 +204,99 @@ teardown() {
   [[ -f a.txt ]]
   [[ -f b.txt ]]
 }
+
+# --- shelf put -m / labels ---
+
+@test "shelf put -m: stores a label visible in ls" {
+  create_commits 1
+  "$SGIT" shelf put -m "trying alternative API"
+  run "$SGIT" shelf ls
+  assert_success
+  assert_output --partial "Label: trying alternative API"
+}
+
+@test "shelf ls: no Label line when no message was given" {
+  create_commits 1
+  "$SGIT" shelf put
+  run "$SGIT" shelf ls
+  assert_success
+  refute_output --partial "Label:"
+}
+
+@test "shelf get: removes the label sidecar file" {
+  create_commits 1
+  "$SGIT" shelf put -m "ephemeral"
+  "$SGIT" shelf get
+  local meta_dir
+  meta_dir="$(git rev-parse --git-common-dir)/sgit-shelf-meta"
+  if [[ -d "$meta_dir" ]]; then
+    local n
+    n=$(find "$meta_dir" -type f | wc -l | tr -d ' ')
+    [[ "$n" -eq 0 ]]
+  fi
+}
+
+@test "shelf drop: removes the label sidecar file" {
+  create_commits 1
+  "$SGIT" shelf put -m "trash"
+  "$SGIT" shelf drop
+  local meta_dir
+  meta_dir="$(git rev-parse --git-common-dir)/sgit-shelf-meta"
+  if [[ -d "$meta_dir" ]]; then
+    local n
+    n=$(find "$meta_dir" -type f | wc -l | tr -d ' ')
+    [[ "$n" -eq 0 ]]
+  fi
+}
+
+# --- shelf peek ---
+
+@test "shelf peek: shows commit subjects and full diff" {
+  create_commits 2
+  "$SGIT" shelf put 2
+  run "$SGIT" shelf peek
+  assert_success
+  assert_output --partial "commit number 1"
+  assert_output --partial "commit number 2"
+  # Full diff should include added line markers
+  [[ "$output" == *"+change "* ]]
+}
+
+@test "shelf peek --stat: shows summary, not full diff content" {
+  create_commits 2
+  "$SGIT" shelf put 2
+  run "$SGIT" shelf peek --stat
+  assert_success
+  # Stat output mentions the file
+  assert_output --partial "file.txt"
+  # Full diff content (per-line additions) should NOT be present
+  [[ "$output" != *"+change 2"* ]]
+}
+
+@test "shelf peek: errors when no shelves exist" {
+  run "$SGIT" shelf peek
+  assert_failure
+  assert_output --partial "no shelved"
+}
+
+# --- conflict hint ---
+
+@test "shelf get conflict: hint includes manual shelf drop" {
+  # Create a base commit, then a commit that adds a file with content A.
+  create_commits 1
+  echo "shelved content" > clash.txt
+  git add clash.txt
+  git commit -m "feat: shelved version"
+  "$SGIT" shelf put 1
+  # Now create a different commit that adds the same file with different content.
+  echo "alternate content" > clash.txt
+  git add clash.txt
+  git commit -m "feat: alternate version"
+  run "$SGIT" shelf get
+  assert_failure
+  assert_output --partial "shelf drop"
+  # And shelf must be preserved
+  local n
+  n=$(git for-each-ref refs/sgit/shelf/ | wc -l | tr -d ' ')
+  [[ "$n" -eq 1 ]]
+}

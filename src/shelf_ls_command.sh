@@ -8,6 +8,8 @@ if [[ ${#entries[@]} -eq 0 ]]; then
   exit 0
 fi
 
+meta_dir=$(shelf_meta_dir)
+
 i=0
 for entry in "${entries[@]}"; do
   ref="${entry%%|*}"
@@ -15,6 +17,9 @@ for entry in "${entries[@]}"; do
   short="${ref#sgit/shelf/}"
   count=$(parse_count_from_shelf_id "$short")
   echo "[$i] $short  ($date, $count commit(s))"
+  if [[ -f "$meta_dir/$short.txt" ]]; then
+    echo "    Label: $(head -n 1 "$meta_dir/$short.txt")"
+  fi
   git log --oneline -n "$count" "$ref" | sed 's/^/    /'
   echo ""
   i=$((i + 1))

@@ -43,8 +43,17 @@ if [[ $attempt -ge 5 ]]; then
   exit 1
 fi
 
-# Save the chain, then pop the commits off HEAD.
+# Save the chain.
 git update-ref "$ref" HEAD
+
+# Save the optional label alongside the ref.
+if [[ -n "${args[--message]}" ]]; then
+  meta_dir=$(shelf_meta_dir)
+  mkdir -p "$meta_dir"
+  printf '%s\n' "${args[--message]}" > "$meta_dir/$id.txt"
+fi
+
+# Pop the commits off HEAD.
 git reset --hard "HEAD~$count"
 
 echo "Shelved $count commit(s) as $id"
