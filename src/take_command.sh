@@ -1,5 +1,5 @@
-# Fetch latest refs
-git fetch "$(get_remote)" --quiet 2>/dev/null
+# Fetch latest refs (best-effort; offline use should still allow take)
+fetch_with_recovery "$(get_remote)" --quiet 2>/dev/null || true
 
 if [[ -n "${args[description]}" ]]; then
   branch="${args[description]}"

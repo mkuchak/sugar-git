@@ -17,10 +17,17 @@ fi
 # Determine target branch
 branch=$([[ -n "${args[branch]}" ]] && echo "${args[branch]}" || echo "main")
 
-# Fetch and rebase
-git fetch "$(get_remote)"
+# Fetch (with auto-recovery, prune, and force). Halt on non-recoverable
+# failure — refusing to rebase on stale data is safer than pretending success.
+if ! fetch_with_recovery "$(get_remote)"; then
+  echo "" >&2
+  echo "Error: fetch failed; refusing to rebase on stale data." >&2
+  exit 1
+fi
 
-if ! git rebase "$(get_remote)/$branch"; then
+# Rebase, dropping commits whose diff is already present upstream
+# (typical after the user's PR landed via squash/merge with extra fixups).
+if ! git rebase --empty=drop "$(get_remote)/$branch"; then
   echo ""
   echo "==========================="
   echo ""

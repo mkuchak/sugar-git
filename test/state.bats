@@ -84,6 +84,79 @@ teardown() {
   assert_failure
 }
 
+@test "sgit sync: --prune drops local refs for upstream-deleted branches" {
+  # Create a branch on origin, fetch it, then delete it on origin.
+  git push origin main:refs/heads/ephemeral
+  git fetch origin
+  git rev-parse --verify refs/remotes/origin/ephemeral >/dev/null
+  git push origin --delete ephemeral
+  # sgit sync's fetch must prune the now-absent ref
+  run "$SGIT" sync
+  assert_success
+  ! git rev-parse --verify refs/remotes/origin/ephemeral 2>/dev/null
+}
+
+@test "sgit sync: drops commits already merged into upstream (--empty=drop)" {
+  # Branch makes a change to a file
+  git checkout -b feature/x
+  echo "shared change" >> file.txt
+  git add file.txt
+  git commit -m "feat: shared change on branch"
+  # Same change lands on main (different SHA, same patch-id)
+  git checkout main
+  echo "shared change" >> file.txt
+  git add file.txt
+  git commit -m "feat: shared change on main"
+  git push origin main
+  git checkout feature/x
+  # Sync against main: feature/x's commit is now redundant; --empty=drop drops it
+  run "$SGIT" sync main
+  assert_success
+  # No conflicts surface, no rebase-in-progress state
+  [[ ! -d .git/rebase-merge ]]
+  [[ ! -d .git/rebase-apply ]]
+  # Branch ends with main's tip (no extra commits)
+  local ahead
+  ahead=$(git rev-list --count "origin/main..HEAD")
+  [[ "$ahead" -eq 0 ]]
+}
+
+@test "sgit sync: halts when fetch fails (no silent rebase on stale data)" {
+  # Repoint origin to a path that doesn't exist
+  local bogus="/tmp/sgit-bogus-$$-$(date +%s)"
+  rm -rf "$bogus"
+  git remote set-url origin "$bogus"
+  run "$SGIT" sync
+  assert_failure
+  assert_output --partial "fetch failed"
+  # The post-fetch rebase must NOT have run; no rebase state on disk
+  [[ ! -d .git/rebase-merge ]]
+  [[ ! -d .git/rebase-apply ]]
+}
+
+@test "sgit sync: auto-recovers from corrupt remote-tracking ref" {
+  # Set up a stale loose ref under refs/remotes/origin/<x> that points
+  # at a SHA git no longer has knowledge of for that ref. The next
+  # fetch will attempt to update it and (depending on git's bookkeeping)
+  # may emit "cannot lock ref" — fetch_with_recovery should clean up.
+  git push origin main:refs/heads/will-be-stale
+  git fetch origin
+  # Force-rewrite the upstream branch to a different SHA
+  local clone
+  clone=$(mktemp -d)
+  git clone --quiet "$REMOTE_REPO" "$clone"
+  (
+    cd "$clone"
+    git checkout -q will-be-stale
+    git commit --allow-empty -m "force-pushed change"
+    git push --force --quiet origin will-be-stale
+  )
+  rm -rf "$clone"
+  # Now sgit sync — must NOT fail on the divergent ref (--force handles it)
+  run "$SGIT" sync
+  assert_success
+}
+
 @test "sgit cherry picks a commit from another branch" {
   git checkout -b feature/source
   echo "cherry content" > cherry.txt
