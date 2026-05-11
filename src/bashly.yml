@@ -244,6 +244,36 @@ commands:
       - name: commit_id
         help: "The commit ID; if none are informed, undo the last commit"
 
+  - name: history
+    help: "Browse and restore from the reflog (HEAD's action history)"
+    group: State
+
+    commands:
+      - name: ls
+        default: true
+        help: "List recent reflog entries with index, age, action, and subject"
+        flags:
+          - long: --limit
+            short: -n
+            arg: count
+            help: "Maximum number of entries to show (default: 20)"
+
+      - name: show
+        help: "Show the commit at a reflog entry"
+        args:
+          - name: index
+            help: "Reflog index (default: 0, most recent)"
+
+      - name: restore
+        help: "Reset HEAD to a reflog entry (destructive — requires confirmation)"
+        args:
+          - name: index
+            help: "Reflog index (default: 0, most recent)"
+        flags:
+          - long: --yes
+            short: -y
+            help: "Skip the confirmation prompt"
+
   - name: edit
     help: "Edit some commit message"
     group: State
