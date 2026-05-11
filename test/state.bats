@@ -85,6 +85,25 @@ teardown() {
   [[ "$count" -eq 2 ]]
 }
 
+@test "sgit get: --prune drops local refs for upstream-deleted branches" {
+  git push origin main:refs/heads/ephemeral
+  git fetch origin
+  git rev-parse --verify refs/remotes/origin/ephemeral >/dev/null
+  git push origin --delete ephemeral
+  run "$SGIT" get
+  assert_success
+  ! git rev-parse --verify refs/remotes/origin/ephemeral 2>/dev/null
+}
+
+@test "sgit get: halts when fetch fails (no silent merge on stale data)" {
+  local bogus="/tmp/sgit-get-bogus-$$-$(date +%s)"
+  rm -rf "$bogus"
+  git remote set-url origin "$bogus"
+  run "$SGIT" get
+  assert_failure
+  assert_output --partial "fetch failed"
+}
+
 @test "sgit sync fetches and rebases" {
   create_commits 1
   git push origin main
