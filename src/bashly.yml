@@ -455,6 +455,18 @@ commands:
     help: "Show the committers of the current branch"
     group: Consult
 
+  - name: who
+    help: "Friendly git blame — accepts file or file:line for full commit context"
+    group: Consult
+    args:
+      - name: target
+        help: "file, file:line, or file:start-end"
+        required: true
+    flags:
+      - long: --diff
+        short: -d
+        help: "Also show the full diff of each commit referenced"
+
   - name: diff
     help: "Show changes between commits, working tree, or staging area"
     group: Consult
