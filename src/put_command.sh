@@ -1,4 +1,4 @@
-force=$([[ -n "${args[--force]}" ]] && echo "--force" || echo "")
+force=$([[ -n "${args[--force]}" ]] && echo "--force-with-lease" || echo "")
 no_verify=$(get_no_verify)
 branch="${args[branch]:-$(git rev-parse --abbrev-ref HEAD)}"
 

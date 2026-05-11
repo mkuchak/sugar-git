@@ -54,6 +54,27 @@ teardown() {
   [[ "$local_hash" == "$remote_hash" ]]
 }
 
+@test "sgit put -f uses --force-with-lease (refuses if remote moved)" {
+  create_commits 2
+  git push origin main
+  # Simulate another contributor pushing in the meantime.
+  local clone
+  clone=$(mktemp -d)
+  git clone --quiet "$REMOTE_REPO" "$clone"
+  (
+    cd "$clone"
+    git commit --allow-empty -m "feat: someone else's commit"
+    git push --quiet origin main
+  )
+  rm -rf "$clone"
+  # Make our own local change to push.
+  git commit --allow-empty -m "feat: our rewrite"
+  # --force-with-lease must refuse because the remote moved since our last fetch.
+  run "$SGIT" put -f
+  assert_failure
+  assert_output --partial "stale info"
+}
+
 @test "sgit get pulls from remote" {
   create_commits 1
   git push origin main

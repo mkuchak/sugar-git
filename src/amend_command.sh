@@ -1,7 +1,7 @@
 # Handle custom date/time if provided
 handle_custom_date
 
-force=$([[ -n "${args[--force]}" ]] && echo "--force" || echo "")
+force=$([[ -n "${args[--force]}" ]] && echo "--force-with-lease" || echo "")
 no_verify=$(get_no_verify)
 
 if [[ -n "${args[--add-all]}" ]]; then
