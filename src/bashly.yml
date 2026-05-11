@@ -19,6 +19,9 @@ commands:
       - long: --local
         short: -l
         help: List only local branches
+      - long: --verbose
+        short: -v
+        help: "Show ahead/behind upstream and last-activity dashboard"
 
   - name: take
     alias: mkdir

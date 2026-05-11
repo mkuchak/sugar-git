@@ -15,6 +15,28 @@ teardown() {
   assert_output --partial "main"
 }
 
+@test "sgit ls -v shows synced status for branches matching upstream" {
+  run "$SGIT" ls -v
+  assert_success
+  assert_output --partial "main"
+  # The setup repo has main set to track origin/main, no divergence → "synced"
+  assert_output --partial "synced"
+}
+
+@test "sgit ls -v shows ahead/behind for diverged branch" {
+  create_commits 2
+  run "$SGIT" ls -v
+  assert_success
+  assert_output --partial "ahead 2"
+}
+
+@test "sgit ls -v marks branches without upstream as no upstream" {
+  git checkout -b feature/unpushed
+  run "$SGIT" ls -v
+  assert_success
+  assert_output --partial "no upstream"
+}
+
 @test "sgit ls -l shows local branches" {
   run "$SGIT" ls -l
   assert_success

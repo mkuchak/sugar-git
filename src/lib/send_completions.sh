@@ -447,7 +447,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    *\'ls\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_sgit_completions_filter "--help --local --remote -h -l -r")" -- "$cur")'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_sgit_completions_filter "--help --local --remote --verbose -h -l -r -v")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    *\'c\'*)'
