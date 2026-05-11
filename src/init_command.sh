@@ -1,6 +1,26 @@
 git init
 git branch -M main
+
+# Modern git defaults that every team eventually sets by hand.
+# Local-only — never overwrites pre-existing global preferences.
 git config push.followTags true
+git config pull.rebase true
+git config push.autoSetupRemote always
+git config push.default current
+git config rerere.enabled true
+git config diff.algorithm histogram
+git config branch.sort -committerdate
+git config column.ui auto
+git config fetch.prune true
+git config fetch.pruneTags true
+
+# zdiff3 conflict markers require git 2.35+; gracefully degrade for older git.
+git_version=$(git --version | awk '{print $3}')
+if [[ "$(printf '%s\n' "2.35.0" "$git_version" | sort -V | head -n1)" == "2.35.0" ]]; then
+  git config merge.conflictStyle zdiff3
+else
+  git config merge.conflictStyle diff3
+fi
 
 project_type="${args[--type]:-}"
 

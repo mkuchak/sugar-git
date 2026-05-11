@@ -274,3 +274,26 @@ teardown() {
   assert_output --partial "node_modules"
   rm -rf "$init_dir"
 }
+
+@test "sgit init sets modern git config defaults" {
+  local init_dir=$(mktemp -d)
+  cd "$init_dir"
+  git init --initial-branch=main
+  git config user.email "test@test.com"
+  git config user.name "Test User"
+  "$SGIT" init --type general
+  # Each of these defaults must be set
+  [[ "$(git config --get pull.rebase)" == "true" ]]
+  [[ "$(git config --get push.autoSetupRemote)" == "always" ]]
+  [[ "$(git config --get push.default)" == "current" ]]
+  [[ "$(git config --get rerere.enabled)" == "true" ]]
+  [[ "$(git config --get diff.algorithm)" == "histogram" ]]
+  [[ "$(git config --get fetch.prune)" == "true" ]]
+  [[ "$(git config --get fetch.pruneTags)" == "true" ]]
+  [[ "$(git config --get branch.sort)" == "-committerdate" ]]
+  # conflictStyle should be one of zdiff3 (git 2.35+) or diff3 (older)
+  local cs
+  cs=$(git config --get merge.conflictStyle)
+  [[ "$cs" == "zdiff3" || "$cs" == "diff3" ]]
+  rm -rf "$init_dir"
+}
