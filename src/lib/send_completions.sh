@@ -198,7 +198,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    *\'squash\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_sgit_completions_filter "--help -h")" -- "$cur")'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_sgit_completions_filter "--help --since -S -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    *\'remote\'*)'

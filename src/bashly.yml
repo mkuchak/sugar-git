@@ -258,13 +258,18 @@ commands:
     group: State
     args:
       - name: count
-        help: "Number of commits to squash"
-        required: true
+        help: "Number of commits to squash (omit when using --since)"
       - name: message
         help: "Commit message for the squashed commit (opens editor if omitted)"
+    flags:
+      - long: --since
+        short: -S
+        arg: ref
+        help: "Squash every commit since this ref (e.g. --since main)"
     examples:
       - "[Command]"
       - ' - sgit squash 3 "feat: unified auth flow"'
+      - ' - sgit squash --since main "feat: unified auth flow"'
       - "[Result]"
       - " - git reset --soft HEAD~3"
       - ' - git commit -m "feat: unified auth flow"'

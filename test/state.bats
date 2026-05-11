@@ -45,6 +45,41 @@ teardown() {
   assert_output --partial "Error"
 }
 
+@test "sgit squash --since <ref> squashes commits since that ref" {
+  # Setup: initial commit on main, then 3 more on feature/x
+  git checkout -b feature/x
+  create_commits 3
+  run "$SGIT" squash --since main "feat: combined feature/x work"
+  assert_success
+  # Should now be 1 commit ahead of main on feature/x
+  local ahead
+  ahead=$(git rev-list --count main..HEAD)
+  [[ "$ahead" -eq 1 ]]
+  run git log -1 --format=%s
+  assert_output "feat: combined feature/x work"
+}
+
+@test "sgit squash --since with invalid ref fails clearly" {
+  create_commits 2
+  run "$SGIT" squash --since totally-not-a-ref "msg"
+  assert_failure
+  assert_output --partial "not a valid ref"
+}
+
+@test "sgit squash --since HEAD fails (nothing to squash)" {
+  create_commits 2
+  run "$SGIT" squash --since HEAD "msg"
+  assert_failure
+  assert_output --partial "nothing to squash"
+}
+
+@test "sgit squash with both count and --since fails" {
+  create_commits 2
+  run "$SGIT" squash 2 --since main "msg"
+  assert_failure
+  assert_output --partial "not both"
+}
+
 @test "sgit put pushes to remote" {
   create_commits 1
   run "$SGIT" put
