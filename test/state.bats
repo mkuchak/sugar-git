@@ -120,6 +120,37 @@ teardown() {
   [[ "$count" -eq 2 ]]
 }
 
+@test "sgit get: falls back when configured upstream no longer exists" {
+  # main currently tracks origin/main. Break it to point at a non-existent ref.
+  git config branch.main.merge refs/heads/totally-gone-pr-branch
+  # Push a real commit to origin/main so the fallback has something to fetch.
+  local clone
+  clone=$(mktemp -d)
+  git clone --quiet "$REMOTE_REPO" "$clone"
+  (
+    cd "$clone"
+    git commit --allow-empty -m "feat: real main update"
+    git push --quiet origin main
+  )
+  rm -rf "$clone"
+  # sgit get with broken @{u} must fall back to origin/main and report it.
+  run "$SGIT" get
+  assert_success
+  assert_output --partial "no longer exists"
+  assert_output --partial "origin/main"
+  run git log -1 --format=%s
+  assert_output --partial "real main update"
+}
+
+@test "sgit get: clear error when nothing resolves" {
+  # Create a local branch with no upstream and no remote counterpart.
+  git checkout -b feature/orphan-branch
+  run "$SGIT" get
+  assert_failure
+  assert_output --partial "no remote ref to pull from"
+  assert_output --partial "Specify a branch"
+}
+
 @test "sgit get: respects upstream tracking (branch tracks a differently-named upstream)" {
   # Create a local branch that tracks origin/main (not origin/<same-name>).
   git checkout -b feature/local-only
