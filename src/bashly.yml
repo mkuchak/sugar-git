@@ -334,7 +334,9 @@ commands:
     flags:
       - long: --force
         short: -f
-        help: "Overwrite existing origin commits in case conflicts"
+        help: "Force push with lease (refuses if remote moved since last fetch)"
+      - long: --no-lease
+        help: "With --force, bypass the lease check and overwrite unconditionally"
       - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-push)"
@@ -515,7 +517,9 @@ commands:
         help: "Put this commit directly on the remote branch"
       - long: --force
         short: -f
-        help: "If pushed, overwrite existing commits in case conflicts"
+        help: "If pushed, force with lease (refuses if remote moved since last fetch)"
+      - long: --no-lease
+        help: "With --force, bypass the lease check and overwrite unconditionally"
       - long: --bypass
         short: -B
         help: "Bypass git hooks (pre-commit, commit-msg, pre-push)"

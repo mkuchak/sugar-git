@@ -110,6 +110,32 @@ teardown() {
   assert_output --partial "stale info"
 }
 
+@test "sgit put -f --no-lease overrides the lease and pushes anyway" {
+  create_commits 2
+  git push origin main
+  # Simulate another contributor pushing in the meantime.
+  local clone
+  clone=$(mktemp -d)
+  git clone --quiet "$REMOTE_REPO" "$clone"
+  (
+    cd "$clone"
+    git commit --allow-empty -m "feat: someone else's commit"
+    git push --quiet origin main
+  )
+  rm -rf "$clone"
+  # Make our own local change to push.
+  git commit --allow-empty -m "feat: our rewrite"
+  # --no-lease must succeed even though the remote moved since our last fetch.
+  run "$SGIT" put -f --no-lease
+  assert_success
+  # And the remote should now point at our local HEAD (their commit is gone).
+  local remote_hash
+  remote_hash=$(git ls-remote origin main | awk '{print $1}')
+  local local_hash
+  local_hash=$(git rev-parse HEAD)
+  [[ "$remote_hash" == "$local_hash" ]]
+}
+
 @test "sgit get pulls from remote" {
   create_commits 1
   git push origin main
