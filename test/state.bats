@@ -120,6 +120,28 @@ teardown() {
   [[ "$count" -eq 2 ]]
 }
 
+@test "sgit get: respects upstream tracking (branch tracks a differently-named upstream)" {
+  # Create a local branch that tracks origin/main (not origin/<same-name>).
+  git checkout -b feature/local-only
+  git branch --set-upstream-to=origin/main feature/local-only
+  # Push a new commit to origin/main via a separate clone.
+  local clone
+  clone=$(mktemp -d)
+  git clone --quiet "$REMOTE_REPO" "$clone"
+  (
+    cd "$clone"
+    git commit --allow-empty -m "feat: upstream-only commit"
+    git push --quiet origin main
+  )
+  rm -rf "$clone"
+  # sgit get with no args must follow the configured upstream (origin/main),
+  # NOT origin/feature/local-only (which doesn't exist).
+  run "$SGIT" get
+  assert_success
+  run git log -1 --format=%s
+  assert_output --partial "upstream-only commit"
+}
+
 @test "sgit get: --prune drops local refs for upstream-deleted branches" {
   git push origin main:refs/heads/ephemeral
   git fetch origin
