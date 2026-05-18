@@ -7,7 +7,7 @@ setup() {
 
 teardown() {
   # Remove worktree before teardown to avoid git complaints
-  for wt in test-branch test-envs test-default custom-dir; do
+  for wt in test-branch test-envs test-default custom-dir something-here; do
     if [[ -d "../$wt" ]]; then
       git worktree remove --force "../$wt" 2>/dev/null || true
       rm -rf "../$wt"
@@ -32,6 +32,17 @@ teardown() {
   [[ -d "../custom-dir" ]]
   [[ ! -d "../feature-auth" ]]
   run git -C "../custom-dir" branch --show-current
+  assert_output "feature/auth"
+}
+
+@test "worktree add: --name with spaces is slugified to dashes" {
+  run "$SGIT" worktree add feature/auth --name "something here" --no-install
+  assert_success
+  assert_output --partial "Worktree ready!"
+  # Spaces become dashes — consistent with how `take` names branches.
+  [[ -d "../something-here" ]]
+  [[ ! -d "../something here" ]]
+  run git -C "../something-here" branch --show-current
   assert_output "feature/auth"
 }
 

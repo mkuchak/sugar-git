@@ -5,12 +5,17 @@ else
   branch="${args[branch]}"
 fi
 
-# Folder name: --name override, or derive from branch (slashes → dashes)
+# Folder name: --name override, or derive from branch.
+# Slugify either way — slashes and spaces become dashes — so the folder name
+# is always filesystem-friendly (consistent with how `take` names branches).
 if [[ -n "${args[--name]}" ]]; then
-  folder_name="../${args[--name]}"
+  folder_slug="${args[--name]}"
 else
-  folder_name="../$(echo "$branch" | tr '/' '-')"
+  folder_slug="$branch"
 fi
+folder_slug="${folder_slug//\// }"
+folder_slug="${folder_slug// /-}"
+folder_name="../$folder_slug"
 
 # Determine base branch
 from_branch="${args[--from]:-}"
