@@ -59,6 +59,26 @@ teardown() {
 
 # --- worktree rm ---
 
+@test "worktree rm: refuses with no arg from main worktree" {
+  run "$SGIT" worktree rm
+  assert_failure
+  assert_output --partial "no worktree name given"
+}
+
+@test "worktree rm: no-arg from inside the worktree removes it" {
+  "$SGIT" worktree add test-branch --no-install
+  # Save where TEST_REPO is so teardown still works after the cd.
+  local saved_repo="$TEST_REPO"
+  cd "../test-branch"
+  run "$SGIT" worktree rm
+  assert_success
+  assert_output --partial "test-branch"
+  assert_output --partial "Run: cd"
+  # Return to a valid path so teardown can find TEST_REPO.
+  cd "$saved_repo"
+  [[ ! -d "../test-branch" ]]
+}
+
 @test "worktree rm: removes the worktree" {
   "$SGIT" worktree add test-branch --no-install
   run "$SGIT" worktree rm test-branch

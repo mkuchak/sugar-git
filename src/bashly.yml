@@ -197,11 +197,10 @@ commands:
         help: "List all worktrees"
 
       - name: rm
-        help: "Remove a worktree"
+        help: "Remove a worktree (auto-detects current worktree when run with no arg from inside it)"
         args:
           - name: name
-            help: "Worktree folder name to remove"
-            required: true
+            help: "Worktree folder name to remove (omit when running from inside the target worktree)"
 
       - name: prune
         help: "Clean up stale worktree references"
