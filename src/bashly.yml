@@ -234,6 +234,9 @@ commands:
       - name: branch
         help: "Branch to wipe; if none are informed, wipe the current one"
     flags:
+      - long: --all
+        short: -a
+        help: "Also blow away untracked and gitignored files (git clean -fdx)"
       - long: --yes
         short: -y
         help: "Skip confirmation"

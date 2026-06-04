@@ -290,7 +290,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    *\'wipe\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_sgit_completions_filter "$(git branch 2> /dev/null) --help --yes -h -y")" -- "$cur")'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_sgit_completions_filter "$(git branch 2> /dev/null) --all --help --yes -a -h -y")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    *\'auth\'*)'

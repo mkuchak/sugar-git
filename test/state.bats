@@ -374,6 +374,59 @@ teardown() {
   assert_output --partial "special marker phrase"
 }
 
+@test "sgit wipe -y: fetches first, then resets to current origin tip" {
+  # Push a commit to origin/main from a separate clone so origin is ahead of local.
+  local clone
+  clone=$(mktemp -d)
+  git clone --quiet "$REMOTE_REPO" "$clone"
+  (
+    cd "$clone"
+    git commit --allow-empty -m "feat: fresh upstream"
+    git push --quiet origin main
+  )
+  rm -rf "$clone"
+  # Local also has uncommitted changes that should be wiped.
+  echo "scrap" > scrap.txt
+  echo "trash" >> file.txt
+  run "$SGIT" wipe -y
+  assert_success
+  # HEAD now matches origin/main (the freshly-fetched tip).
+  local local_hash
+  local_hash=$(git rev-parse HEAD)
+  local remote_hash
+  remote_hash=$(git ls-remote origin main | awk '{print $1}')
+  [[ "$local_hash" == "$remote_hash" ]]
+  # Tracked file was reset; untracked file SURVIVES without --all.
+  ! grep -q "trash" file.txt
+  [[ -f scrap.txt ]]
+}
+
+@test "sgit wipe -y --all: also clears untracked and gitignored files" {
+  echo "untracked" > random.txt
+  echo "ignored.log" > .gitignore
+  echo "ignored content" > ignored.log
+  run "$SGIT" wipe -y --all
+  assert_success
+  [[ ! -f random.txt ]]
+  [[ ! -f ignored.log ]]
+}
+
+@test "sgit wipe: halts when fetch fails (no silent wipe on stale data)" {
+  local bogus="/tmp/sgit-wipe-bogus-$$-$(date +%s)"
+  rm -rf "$bogus"
+  git remote set-url origin "$bogus"
+  run "$SGIT" wipe -y
+  assert_failure
+  assert_output --partial "fetch failed"
+}
+
+@test "sgit wipe: errors when remote ref doesn't exist" {
+  git checkout -b feature/orphan
+  run "$SGIT" wipe -y
+  assert_failure
+  assert_output --partial "does not exist"
+}
+
 @test "sgit init --type node creates .gitignore with node_modules" {
   local init_dir=$(mktemp -d)
   cd "$init_dir"
