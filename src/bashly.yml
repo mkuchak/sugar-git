@@ -10,6 +10,10 @@ flags:
 
 commands:
   - name: ls
+    help: "Show the current branch"
+    group: Branches
+
+  - name: ll
     help: "List all branches, only remote or only local"
     group: Branches
     flags:

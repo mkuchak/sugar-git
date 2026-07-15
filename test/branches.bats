@@ -9,36 +9,49 @@ teardown() {
   teardown_git_repo
 }
 
-@test "sgit ls shows current branch" {
+@test "sgit ls shows the current branch name only" {
   run "$SGIT" ls
+  assert_success
+  assert_output "main"
+}
+
+@test "sgit ls reflects branch switches" {
+  git checkout -b feature/current-branch-check
+  run "$SGIT" ls
+  assert_success
+  assert_output "feature/current-branch-check"
+}
+
+@test "sgit ll shows current branch" {
+  run "$SGIT" ll
   assert_success
   assert_output --partial "main"
 }
 
-@test "sgit ls -v shows synced status for branches matching upstream" {
-  run "$SGIT" ls -v
+@test "sgit ll -v shows synced status for branches matching upstream" {
+  run "$SGIT" ll -v
   assert_success
   assert_output --partial "main"
   # The setup repo has main set to track origin/main, no divergence → "synced"
   assert_output --partial "synced"
 }
 
-@test "sgit ls -v shows ahead/behind for diverged branch" {
+@test "sgit ll -v shows ahead/behind for diverged branch" {
   create_commits 2
-  run "$SGIT" ls -v
+  run "$SGIT" ll -v
   assert_success
   assert_output --partial "ahead 2"
 }
 
-@test "sgit ls -v marks branches without upstream as no upstream" {
+@test "sgit ll -v marks branches without upstream as no upstream" {
   git checkout -b feature/unpushed
-  run "$SGIT" ls -v
+  run "$SGIT" ll -v
   assert_success
   assert_output --partial "no upstream"
 }
 
-@test "sgit ls -l shows local branches" {
-  run "$SGIT" ls -l
+@test "sgit ll -l shows local branches" {
+  run "$SGIT" ll -l
   assert_success
   assert_output --partial "main"
 }

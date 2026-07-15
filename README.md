@@ -83,7 +83,8 @@ Run `sgit -h` for the full list, or `sgit <command> -h` for help on any command.
 
 | Command | Description |
 |---------|-------------|
-| `sgit ls` | List branches (`-l` local, `-r` remote) |
+| `sgit ls` | Show the current branch |
+| `sgit ll` | List branches (`-l` local, `-r` remote) |
 | `sgit take -f "name"` | Create branch with convention prefix (feature/, bugfix/, hotfix/, etc.) |
 | `sgit take` | Create branch with auto-generated UUID name |
 | `sgit take -F main` | Create branch based off main |
