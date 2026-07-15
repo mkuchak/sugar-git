@@ -28,6 +28,12 @@ curl -Ls raw.githubusercontent.com/mkuchak/sugar-git/main/setup | bash
 ### Updating
 
 ```bash
+sgit update
+```
+
+Or manually:
+
+```bash
 curl -sL https://github.com/mkuchak/sugar-git/releases/latest/download/sgit | sudo tee /usr/local/bin/sgit > /dev/null && sudo chmod +x /usr/local/bin/sgit
 ```
 
@@ -178,6 +184,7 @@ Covers: Node.js, Rust, Python, Java, Go, .NET, Ruby, Dart/Flutter, iOS/Android, 
 | `sgit incoming` | Commits on remote not yet in local |
 | `sgit outgoing` | Commits in local not yet pushed |
 | `sgit cherry <hash>` | Cherry-pick a commit |
+| `sgit update` | Update sgit to the latest release |
 | `sgit merge <branch>` | Merge (`--ff`, `--no-ff`) |
 | `sgit init --type node` | Init repo with .gitignore template |
 | `sgit tag v1.0.0` | Create annotated tag |

@@ -1443,6 +1443,10 @@ commands:
         short: -y
         help: "Skip confirmation prompt"
 
+  - name: update
+    help: "Update sgit to the latest release"
+    group: Maintenance
+
   - name: completions
     group: Completions
     help: |-
